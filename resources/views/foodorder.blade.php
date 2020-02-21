@@ -20,7 +20,7 @@ Food
                             
                         </div>
                         <div class="recyclerviewhead2">
-                            <span class="filterbtn"><i class="fa fa-sort" aria-hidden="true"></i> Sort/Filter</span>
+                            <span class="filterbtn" style="display: none;"><i class="fa fa-sort" aria-hidden="true"></i> Sort/Filter</span>
                            
                         </div>      
                     </div>
@@ -102,6 +102,8 @@ background-size: contain;
     padding: 10px;
     border-top: solid 1px #ccc;
     display: none;
+    z-index: 999;
+    overflow-y: auto;
 }
 .featureimage {
    width: 107px;
@@ -150,6 +152,13 @@ background-size: contain;
     <div class="col-12">
         <h5>Filter</h5>
     </div>
+    <?php foreach($categories as $key => $value): ?>
+        <div class="col-4">
+            <label><input type="checkbox" name="filter[]"> <?= $value->category_name ?></label>
+        
+    </div>
+<?php endforeach; ?>
+    
       
   </div>  
 </div>

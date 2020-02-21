@@ -40,7 +40,8 @@ class WebController extends Controller
     }
     function foodorder() {
       $foodorder = DB::table('units')->where('order_food','yes')->where('suspended','no')->inRandomOrder()->get();
-      return view('foodorder', compact('foodorder'));
+      $categories = DB::table('food_categories')->get();
+      return view('foodorder', compact('foodorder','categories'));
     }
     function getaddonfields($item_id) {
      $db = DB::table('unit_menu_items_add_ons')->where('item_id', $item_id)->get();
