@@ -1,0 +1,1 @@
+<?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/vendor/multiauth/bookings.blade.php ENDPATH**/ ?>

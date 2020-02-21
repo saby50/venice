@@ -20,7 +20,7 @@ Food
                             
                         </div>
                         <div class="recyclerviewhead2">
-                            <a href=""><i class="fa fa-sort" aria-hidden="true"></i> Sort/Filter</a>
+                            <span class="filterbtn"><i class="fa fa-sort" aria-hidden="true"></i> Sort/Filter</span>
                            
                         </div>      
                     </div>
@@ -89,6 +89,20 @@ Food
 background-size: contain;
 
 }
+.filterbtn {
+    font-size: 12px;
+    color: #EE0000;
+}
+.filters {
+    height: 250px;
+    width: 100%;
+    background-color: #fff;
+    position: fixed;
+    bottom: 0px;
+    padding: 10px;
+    border-top: solid 1px #ccc;
+    display: none;
+}
 .featureimage {
    width: 107px;
     height: 90px;
@@ -131,9 +145,20 @@ background-size: contain;
 
 }
 </style>
+<div class="filters">
+  <div class="row">
+    <div class="col-12">
+        <h5>Filter</h5>
+    </div>
+      
+  </div>  
+</div>
 @include('include/subfooter')
 <script type="text/javascript">
   $(document).ready(function() {
+         $(".filterbtn").click(function() {
+              $(".filters").slideToggle("slow");
+         });
        $(".search").keyup(function() {
         var data = $(this).val();
         var url = "<?= URL::to('api/search_restaurants') ?>";

@@ -1,0 +1,143 @@
+@media only screen and (min-width: 1024px) and (max-width: 2500px) {	
+.recyclerview {
+        display: block;
+    width: 800px;
+    margin: 0 auto;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.gv-balance {
+	text-align: center;
+}
+.ripple {
+    position: relative;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+}
+.orangeborder {
+    border: solid 1px #EF9E11;
+    background: #fdf5e8;
+}
+.gv-box {
+    margin-top: 20px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 5px;
+}	
+.gv-box .col-5:nth-child(2) {
+    text-align: right;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.orangeborder h5, .orangeborder a, .orangeborder strong, .orangeborder i {
+    color: #EF9E11;
+}
+.gv-price {
+    color: #09d653;
+    text-align: right;
+}
+.gv-price {
+    font-weight: 500;
+}
+.gv-history {
+    padding: 10px;
+    border: solid 1px #ccc;
+    margin-top: 20px;
+    line-height: 15px;
+    font-family: arial;
+}
+.gv-title {
+    font-weight: 500;
+    color: #000;
+    font-size: 13px;
+}
+.gv-subtitle {
+    color: #a9a9a9;
+    font-size: 11px;
+}
+.gv-added {
+    color: #000;
+    font-size: 12px;
+}
+.gvwebbal {
+	margin-left: 0px !important;
+}
+.orangeborder .gv-box-footer {
+    font-size: 11px;
+    background: #FFF;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 5px;
+    border-top: solid 1px #EF9E11;
+    padding-left: 10px;
+}
+.gv-price {
+    color: #09d653;
+    font-weight: 500;
+    text-align: right;
+}
+.gv-price2 {
+    color: red;
+    text-align: right;
+}
+.gv-box span {
+    font-size: 11px;
+}
+.gv-box .col-7:nth-child(1) {
+    text-align: left;
+    font-size: 13px;
+    color: #000;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+ul.recharge-denomination {
+    list-style: none;
+    margin-top: 20px;
+    padding: 0px;
+}
+ul.recharge-denomination li.selected {
+    color: #EF9E11;
+    border: solid 1px #EF9E11;
+}
+ul.recharge-denomination li {
+    font-size: 16px;
+    border: solid 1px #999;
+    border-radius: 5px;
+    color: #999;
+    float: left;
+    width: 85px;
+    height: 35px;
+    text-align: center;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.pricing-display {
+    padding: 15px;
+    border: dotted 3px #EF9E11;
+    width: 150px;
+    height: 70px;
+    margin: 0 auto;
+    background: #fdf5e8;
+}
+.pricing-split {
+    width: 20%;
+    font-size: 11px;
+    margin: 0 auto;
+}
+input.ramount {
+    border: none;
+    border-bottom: solid 1px #ccc;
+    border-radius: 0px;
+    text-align: center;
+}
+.gv-expiry {
+  color: red;
+  font-size: 12px;
+}
+}

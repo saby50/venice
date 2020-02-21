@@ -1,0 +1,162 @@
+@font-face {
+    font-family: 'arabic';
+    src: url('../fonts/arabic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'opensans';
+    src: url('../fonts/opensans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+body {
+	background: url(../images/bg.jpg);
+	font-family: 'opensans' !important;
+}
+header {
+	width: 100%;
+	height: auto;
+	min-height: 300px;
+	font-size: 16px;
+}
+.lefthead {
+    width: 40%;
+    height: 100px;
+    text-align: center;
+    float: left;
+    margin-top: 80px;
+
+}
+.categorycircle {
+	width: 120px;
+	height: 120px;
+	border-radius: 60px;
+	padding: 20px;
+	padding-top: 26px;
+	background: #f1f6fa;
+	text-align: center;
+	margin: 0 auto;
+}
+.primarycolor { 
+  color: #c49b0b;
+ }
+.righthead {
+  width: 40%;
+  height: 100px;
+  text-align: center;
+  float: left;
+  margin-top: 80px;
+  font-size: 16px;
+}
+.logo {
+   width: 20%;
+   text-align: center;
+   float: left;
+   margin-top: 40px;
+}
+.maincontainer {
+	width: 1024px;
+	margin: 0 auto;
+	padding: 10px;
+	text-align: center;
+	font-family: 'opensans' !important;
+}
+h1, h2, h3, h4, h5, h6 {
+	text-transform: uppercase;
+	font-family: 'arabic' !important;
+}
+.backtowebsite {
+	margin-top: 40px;
+	font-size: 17px;
+	text-transform: uppercase;
+	text-decoration: underline;
+}
+.cattxt {
+	text-transform: uppercase;
+	text-decoration: underline;
+	font-size: 16px;
+	color: #000;
+}
+.cattxt a {
+	color: #000;
+}
+.login-head {
+	padding: 20px;
+	text-transform: uppercase;
+	font-size: 31px;
+	background: url(../images/loginbanner.png);
+	text-align: center;
+	color: #FFF;
+	font-family: 'arabic' !important;
+}
+.login-box {
+	width: 703px;
+	text-align: center;
+	margin: 0 auto;
+}
+a {
+	color: #000 !important;
+}
+.login-content {
+    width: 93%;
+    margin-left: 5px;
+    margin-right: 5px;
+    background: #FFF;
+    font-size: 16px;
+    padding: 20px;
+    -webkit-box-shadow: 2px 6px 21px 1px rgba(0,0,0,0.83);
+    -moz-box-shadow: 2px 6px 21px 1px rgba(0,0,0,0.83);
+    box-shadow: 2px 6px 21px 1px rgba(0,0,0,0.83);
+    margin: 0 auto;
+    margin-top: -6px;    
+    height: auto;
+    min-height: 300px;
+}
+input[type=text], input[type=email] {
+	
+}
+.mobile {
+	width: 50%;
+	padding-bottom: 10px;
+	font-size: 18px;
+	color: #005676;
+	border: none;
+	border-bottom: solid 1px #005171;
+}
+.mobile2 {
+	width: 100%;
+	padding-bottom: 10px;
+	font-size: 18px;
+	color: #005676;
+	border: none;
+	border-bottom: solid 1px #005171;
+}
+.verify {
+	text-transform: uppercase;
+	padding-top: 40px;
+}
+.verify a:hover {
+	text-decoration: none;
+	color: #000;
+}
+.inputpin {
+	width: 30px;
+	height: 30px;
+	text-align: center;
+}
+.verification {
+	min-height: 450px !important;
+}
+
+.mpin {
+	width: 70%;
+	margin: 0 auto;
+	float: none;
+	clear: both;
+}
+.topmargin {
+    margin-top: 20px;
+}
