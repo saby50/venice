@@ -1,0 +1,30 @@
+@media only screen and (max-width: 600px) {
+body {
+	background:none;
+}
+.maincontainer {
+    width: 100%;
+    margin-top: -60px;
+}
+.lefthead {
+	display: none;
+}
+.righthead {
+	display: none;
+}
+.logo {
+	width: 100%;
+	text-align: center;
+}
+.logo img {
+	width: 180px;
+}
+.login-box {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+.verification {
+    height: 500px !important;
+}
+}

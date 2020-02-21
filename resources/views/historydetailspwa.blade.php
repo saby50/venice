@@ -1,0 +1,122 @@
+@extends('layouts.main2')
+
+@section('title')
+Order Details
+@endsection
+
+@section('content')
+<?php 
+ $service = Helper::get_service_details($getid);
+ $packs = Helper::get_pack_details($getid);
+ $nprice = 0;
+ $ntax = 0;
+ $nquantity = 0;
+ if (count($packs)==0) {
+    $created_at = "";
+    $amount = 0;
+ foreach ($service as $key => $value) {
+   $created_at = $value->created_at;
+   $payment_method = $value->payment_method;
+   $amount = $value->amount;
+ }
+ }else {
+   $created_at = "";
+ foreach ($packs as $key => $value) {
+   $created_at = $value->created_at;
+   $payment_method = $value->payment_method;
+   $amount = $value->amount;
+ }
+ }
+
+?>
+<div class="recyclerview firstbox" style="padding: 40px;margin-top: 40px;">
+<div class="row">
+    <div class="col-12 recent">
+      Order Details<br />
+    </div>
+    <div class="details ">
+      <div class="row">
+        
+      
+      <div class="col-6 left">
+       <div class="cirlce pink"></div> Order No.
+      </div>
+      <div class="col-6 right">
+        <?= $getid ?>
+      </div>
+      <div class="col-6 left">
+      <div class="cirlce green"></div> Payment
+      </div>
+      <div class="col-6 right">
+        <?= ucfirst($payment_method) ?>
+      </div>
+       <div class="col-6 left">
+      <div class="cirlce skyblue"></div>  Time
+      </div>
+      <div class="col-6 right">
+        <?= date('M d, h:i A', strtotime($created_at)) ?>
+      </div>
+    </div>
+    </div>
+    <div class="details">
+      <div class="row">
+      <div class="col-12 left">
+    <div style="display: inline-block;margin-right: 20px;margin-bottom: 20px;"><img src="{{ asset('public/images/profile.jpg') }}" width="40px" style="margin-top: -30px;"></div><div style="display: inline-block;padding-top: 10px;margin-bottom: 20px;">Order Total<br />
+      <h5 style="color: #ef9e17;display: inline;"><i class="fa fa-rupee"></i> <?= $amount ?></h5></div>
+      </div>
+    
+     <?php foreach($service as $key => $value): ?>
+       <div class="col-6 left">
+        <?= $value->service_name ?><br />
+       <?= $value->quantity ?> x <?php 
+       $price = $value->price;
+       echo $price/$value->quantity;
+         $nprice += $price;
+         $ntax += $value->tax;   
+         $nquantity += $value->quantity;         
+        ?>
+      </div>
+      <div class="col-6 right">
+        <i class="fa fa-rupee"></i>  <?= $value->price ?>
+      </div>
+       <div class="col-11" style="height: 1px;border-bottom: dashed 1px #ccc;margin: 0 auto;margin-bottom: 10px;"></div>
+    <?php endforeach; ?>
+    <?php foreach($packs as $key => $value): ?>
+       <div class="col-6 left">
+       <?= $value->pack_name ?><br />
+       <?= $value->quantity ?> x <?php 
+       $price = $value->price;
+       echo $price/$value->quantity;
+         $nquantity += $value->quantity; 
+         $nprice += $price;
+         $ntax += $value->tax;     
+        ?>
+      </div>
+      <div class="col-6 right">
+       <i class="fa fa-rupee"></i>  <?= $value->price ?>
+      </div>
+      <div class="col-11" style="height: 1px;border-bottom: dashed 1px #ccc;margin: 0 auto;margin-bottom: 10px;"></div>
+    <?php endforeach; ?>
+    <div class="col-6 left">
+      Total Items
+    </div>
+     <div class="col-6 right">
+      <?= $nquantity ?>
+    </div>
+    <div class="col-6 left">
+      Sub-Total
+    </div>
+     <div class="col-6 right">
+     <i class="fa fa-rupee"></i> <?= $nprice ?>
+    </div>
+    <div class="col-6 left">
+     GST(14%)
+    </div>
+     <div class="col-6 right">
+     <i class="fa fa-rupee"></i> <?= $ntax ?>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>
+@endsection
