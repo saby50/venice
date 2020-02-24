@@ -2722,7 +2722,8 @@ public static function wallet_process($name,$email,$phone,$purpose,$amount,$paym
                 "title" => $title,
                 "icon" => "myicon",
                 "subject" => $subject,
-                "sound"  => "mySound"
+                "sound"  => "ordernoti",
+                "channel_id" => 'fcm_default_channel'
         )
       );
        $fields = json_encode ( $fields );
