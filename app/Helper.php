@@ -2721,7 +2721,8 @@ public static function wallet_process($name,$email,$phone,$purpose,$amount,$paym
                 "body" => $message,
                 "title" => $title,
                 "icon" => "myicon",
-                "subject" => $subject
+                "subject" => $subject,
+                "sound" : "mySound"
         )
       );
        $fields = json_encode ( $fields );
