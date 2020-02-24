@@ -83,6 +83,7 @@ Services
 	<?php else: ?>
 	No Shops Found
 	<?php endif; ?>
+	
 	</div>
 	</div>
 	</div>

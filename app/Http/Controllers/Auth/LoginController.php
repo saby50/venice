@@ -129,7 +129,11 @@ class LoginController extends Controller
       if ($finduser) {
         $pin = Helper::generatePIN();
         $update = DB::table('users')->where('phone',$phone)->update(['password' => bcrypt($pin)]);
-         $content = "You have successfully reset your PIN. The new PIN is ".$pin.". Please login with your number ".$phone." and PIN and book services online at www.veniceindia.com";
+        $mobile = $phone;
+          if (strlen($mobile) == 13 && substr($mobile, 0, 3) == "+91") {
+            $mobile = substr($mobile, 3, 10);
+          }
+         $content = "Your new PIN is ".$pin." and login is ".$mobile.". Install the iPhone/Android App: https://l.ead.me/29Ev";
          Helper::send_otp($phone,$content);
          return redirect('forgot')->withInput()->with('status','Pin sent to your registered number, please check!');
       }else {

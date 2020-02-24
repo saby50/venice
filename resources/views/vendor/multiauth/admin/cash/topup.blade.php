@@ -15,68 +15,68 @@ Topup
 </div>
 
 <div class="heading-sec">
-	<div class="row">
-		<div class="col-md-12 column">
-			<div class="heading-profile">
-				<h2>Topup</h2>
+  <div class="row">
+    <div class="col-md-12 column">
+      <div class="heading-profile">
+        <h2>Topup</h2>
 
-			</div>
-		</div>
-		<div class="col-md-8 column">
-			<div class="top-bar-chart">
-				<div class="quick-report">
-					<div class="quick-report-infos">
+      </div>
+    </div>
+    <div class="col-md-8 column">
+      <div class="top-bar-chart">
+        <div class="quick-report">
+          <div class="quick-report-infos">
 
-					</div>
-					
-				</div>
+          </div>
+          
+        </div>
 
-			</div><!-- Top Bar Chart -->
-		</div>
-	</div>
+      </div><!-- Top Bar Chart -->
+    </div>
+  </div>
 </div><!-- Top Bar Chart -->
 
 <div class="panel-content">
-	<div class="row">
-	@if (session('status'))
-				<div class="widget no-color">
-						<div class="alert alert-success">
-								<div class="notify-content">
-									 {{ session('status') }}!
+  <div class="row">
+  @if (session('status'))
+        <div class="widget no-color">
+            <div class="alert alert-success">
+                <div class="notify-content">
+                   {{ session('status') }}!
 
-								</div>
-						</div>
-						</div>
-				</div>
-			@endif
-			</div>
-	<div class="row">
-		<form action="{{ URL::to('admin/topup/add') }}" method="post">
-			@csrf
-		
+                </div>
+            </div>
+            </div>
+        </div>
+      @endif
+      </div>
+  <div class="row">
+    <form action="{{ URL::to('admin/topup/add') }}" method="post">
+      @csrf
+    
 
-		<div class="col-md-12">
-			<div class="widget">
-				<div class="product-filter">
+    <div class="col-md-12">
+      <div class="widget">
+        <div class="product-filter">
 
-					<div class="row">
+          <div class="row">
             <div class="col-md-12" style="margin-left: 20px;margin-bottom: 20px;">
               <h4>Please enter the customer details!</h4>
             </div>
-						
-						<div class="col-md-12">
-							  <div class="col-md-6" >
-							  	 <div class="form-group">
+            
+            <div class="col-md-12">
+                <div class="col-md-6" >
+                   <div class="form-group">
                     <label>Mobile No<span style="color: red;">*</span></label>
-                   	<input type="text" class="form-control phone" name="phone" placeholder="" required="required">
-                   	<input type="hidden" name="finalamount" value="0" class="finalamount">
-                   	<input type="hidden" name="extraamount" value="0" class="extraamount">
+                    <input type="text" class="form-control phone" name="phone" placeholder="" required="required">
+                    <input type="hidden" name="finalamount" value="0" class="finalamount">
+                    <input type="hidden" name="extraamount" value="0" class="extraamount">
                    </div>
                    
 
                    <div class="form-group">
-                   	<label>Amount<span style="color: red;">*</span></label>
-                   	<input type="text" class="form-control amount mainam" name="amount" placeholder="Amount" required="required">
+                    <label>Amount<span style="color: red;">*</span></label>
+                    <input type="text" class="form-control amount mainam" name="amount" placeholder="Amount" required="required">
                    <span class="finalam"></span>
                    </div>
                      <div class="form-group">
@@ -93,13 +93,13 @@ Topup
                    
                     </div>
                     <div class="col-md-6">
-                    	 <div class="form-group">
+                       <div class="form-group">
                         <label>Name<span style="color: red;">*</span></label>
-                   	<input type="text" class="form-control name" name="name" required="required" placeholder="Name">
+                    <input type="text" class="form-control name" name="name" required="required" placeholder="Name">
                    </div>
                       <div class="form-group">
                    <label>Email</label>
-                   	<input type="text" class="form-control email" name="email" placeholder="Email">
+                    <input type="text" class="form-control email" name="email" placeholder="Email">
                    </div>
                       <div class="form-group">
                    
@@ -112,38 +112,38 @@ Topup
                    </div>
                       
                     </div>
-							  
-						</div>
-				
-					
-				
-					</div>
+                
+            </div>
+        
+          
+        
+          </div>
            <hr />
  
-					
-				</div>
+          
+        </div>
         <div class="col-md-4" style="text-align: center;padding-bottom: 20px;">
-         <a href="<?= URL::to('admin/recharge/all/cash') ?>" target="_blank"> <h3>Total POS Sale</h3>
+         <a href="<?= URL::to('admin/recharge/all/cash') ?>" target="_blank"> <h3>Total Wallet Sale</h3>
           <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_recharg_history('all') ?></span></h3></a>
         </div>
          <div class="col-md-4" style="text-align: center;padding-bottom: 20px;">
-         <a href="<?= URL::to('admin/recharge/monthly/cash') ?>" target="_blank">  <h3>POS Sale This Month</h3>
+         <a href="<?= URL::to('admin/recharge/monthly/cash') ?>" target="_blank">  <h3>POS Wallet This Month</h3>
           <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_recharg_history('monthly') ?></span></h3></a>
         </div>
          <div class="col-md-4" style="text-align: center;padding-bottom: 20px;">
-         <a href="<?= URL::to('admin/recharge/todays/cash') ?>" target="_blank">  <h3>POS Sale Today</h3>
+         <a href="<?= URL::to('admin/recharge/todays/cash') ?>" target="_blank">  <h3>POS Wallet Today</h3>
            <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_recharg_history('todays') ?></span></h3></a>
         </div>
         
-			</div>
-		</div>
-		</form>
-	</div>
+      </div>
+    </div>
+    </form>
+  </div>
 </div><!-- Panel Content -->
 </div>
 
 <script type="text/javascript">
-	$(document).ready(function() {
+  $(document).ready(function() {
 
     $(".phone").on('keyup', function() {
          var phone = $(this).val();
@@ -165,113 +165,113 @@ Topup
          }
          
     });
-		
+    
        $('.amount').keyup(function() {
-       	var data = $(this).val();
+        var data = $(this).val();
        
         if ($(this).val()=="") {
-        	var data = 0;
+          var data = 0;
         }
 
         var url = "<?= URL::to('api/get_denom_percent/"+data+"') ?>";
-		var percent = 0;
-		$.get(url, function( result ) {
+    var percent = 0;
+    $.get(url, function( result ) {
             percent = result;
             var extra = Math.round(data * percent/100);
-		var finalamount = Math.round(parseFloat(data) + parseFloat(extra));
-		
-		 $('.finalamount').attr('value',finalamount);
-		 $('.extraamount').attr('value',extra);
-		 $('.finalam').html('Final Amount: '+finalamount+" ("+percent+"% Extra)");
+    var finalamount = Math.round(parseFloat(data) + parseFloat(extra));
+    
+     $('.finalamount').attr('value',finalamount);
+     $('.extraamount').attr('value',extra);
+     $('.finalam').html('Final Amount: '+finalamount+" ("+percent+"% Extra)");
 
         });
         
       });
        $(".checkoutbtn").click(function() {
            if ($('.amount').val() < 100) {
-           	 alert("A minimum recharge of INR 500 need to be done");
-           	 return false;
-           }else if ($('.amount').val() > 9000) {
-           	  alert("A maximum recharge limit is INR 9000");
-           	 return false;
+             alert("A minimum recharge of INR 500 need to be done");
+             return false;
+           }else if ($('.amount').val() > 10000) {
+              alert("A maximum recharge limit is INR 10000");
+             return false;
            }else {
-           	return true;
+            return true;
            }
            return false;
        });
-	});
+  });
 </script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		var data = $('ul.recharge-denomination li.selected').attr('data');
-		var url = "<?= URL::to('api/get_denom_percent/"+data+"') ?>";
-		var percent = 0;
-		$.get(url, function( result ) {
+  $(document).ready(function() {
+    var data = $('ul.recharge-denomination li.selected').attr('data');
+    var url = "<?= URL::to('api/get_denom_percent/"+data+"') ?>";
+    var percent = 0;
+    $.get(url, function( result ) {
             percent = result;
         $('.percent').html(percent);
-		$('.ramount').attr('value', data);
-		var extra = Math.round(data * percent/100);
-		var finalamount = Math.round(parseFloat(data) + parseFloat(extra));
-	   $('.mainam').attr('value',data);
-		 $('.finalamount').attr('value',finalamount);
-		 $('.extraamount').attr('value',extra);
-		 $('.finalam').html('Final Amount: '+finalamount+" ("+percent+"% Extra)");
+    $('.ramount').attr('value', data);
+    var extra = Math.round(data * percent/100);
+    var finalamount = Math.round(parseFloat(data) + parseFloat(extra));
+     $('.mainam').attr('value',data);
+     $('.finalamount').attr('value',finalamount);
+     $('.extraamount').attr('value',extra);
+     $('.finalam').html('Final Amount: '+finalamount+" ("+percent+"% Extra)");
         });
         
       $('ul.recharge-denomination li').click(function() {
-      	var data = $(this).attr('data');
+        var data = $(this).attr('data');
         $('ul.recharge-denomination li').removeClass('selected');
         $(this).addClass('selected');
         var url = "<?= URL::to('api/get_denom_percent/"+data+"') ?>";
-		var percent = 0;
-		$.get(url, function( result ) {
+    var percent = 0;
+    $.get(url, function( result ) {
             percent = result;
         $('.percent').html(percent);
         $('.ramount').attr('value', data);
         var extra = Math.round(data * percent/100);
-		var finalamount = Math.round(parseFloat(data) + parseFloat(extra));
-		 $('.finalamount').attr('value',finalamount);
-		$('.extraamount').attr('value',extra);
+    var finalamount = Math.round(parseFloat(data) + parseFloat(extra));
+     $('.finalamount').attr('value',finalamount);
+    $('.extraamount').attr('value',extra);
     $('.mainam').attr('value',data);
-		 $('.finalam').html('Final Amount: '+finalamount+" ("+percent+"% Extra)");
-		 });
+     $('.finalam').html('Final Amount: '+finalamount+" ("+percent+"% Extra)");
+     });
       });
        $('.ramount').keyup(function() {
-       	var data = $(this).val();
+        var data = $(this).val();
         if ($(this).val()=="") {
-        	var data = 0;
+          var data = 0;
         }
         var url = "<?= URL::to('api/get_denom_percent/"+data+"') ?>";
          var percent = 0;
     $.get(url, function( result ) {
       percent = result;
         var extra = data * percent/100;
-		var finalamount = parseFloat(data) + parseFloat(extra);
-		 $('.finalamount').html(finalamount);
-		 $('.mainamount').html(data);
-		 $('.extraamount').html(extra);
-		 $('.mainam').attr('value',data);
-		 $('.extram').attr('value',extra);
+    var finalamount = parseFloat(data) + parseFloat(extra);
+     $('.finalamount').html(finalamount);
+     $('.mainamount').html(data);
+     $('.extraamount').html(extra);
+     $('.mainam').attr('value',data);
+     $('.extram').attr('value',extra);
     });
       });
        $(".checkoutbtn").click(function() {
            if ($('.ramount').val() < 100) {
-           	 $('#snackbar').stop().fadeIn(400).delay(3000).fadeOut(400);
-           	 $("#snackbar").html("A minimum recharge of INR 500 need to be done");
-           	 return false;
-           }else if ($('.ramount').val() > 9000) {
-           	 $('#snackbar').stop().fadeIn(400).delay(3000).fadeOut(400);
-           	 $("#snackbar").html("A maximum recharge limit is INR 9000");
-           	 return false;
+             $('#snackbar').stop().fadeIn(400).delay(3000).fadeOut(400);
+             $("#snackbar").html("A minimum recharge of INR 500 need to be done");
+             return false;
+           }else if ($('.ramount').val() > 10000) {
+             $('#snackbar').stop().fadeIn(400).delay(3000).fadeOut(400);
+             $("#snackbar").html("A maximum recharge limit is INR 10000");
+             return false;
            }else {
-           	return true;
+            return true;
            }
            return false;
        });
-	});
+  });
 </script>
 <style type="text/css">
-	ul.recharge-denomination {
+  ul.recharge-denomination {
     list-style: none;
     margin-top: 20px;
     padding: 0px;

@@ -73,8 +73,14 @@ class Helper
           $user->platform = Helper::get_device_platform();
           $user->otp = $pin;
           $user->type = 'user';
-          $user->save();
-          $content = "Your account with The Grand Venice Mall is successfully registered. Please login with your phone number ".$phone." and PIN: ".$pin." and book services online at www.veniceindia.com";
+          $user->save();  
+          $mobile = $phone;
+          if (strlen($mobile) == 13 && substr($mobile, 0, 3) == "+91") {
+            $mobile = substr($mobile, 3, 10);
+          }
+    
+
+          $content = "You are now registered with The Grand Venice Mall. Your login is ".$mobile." and PIN is ".$pin.". Install the iPhone/Android App: https://l.ead.me/29Ev";
               Helper::send_otp($phone,$content);
               $user_id = $user->id;
       }else {
@@ -2197,7 +2203,11 @@ class Helper
               $user->otp = $pin;
               $user->type = 'user';
               $user->save();
-              $content = "Your account with The Grand Venice Mall is successfully registered. Please login with your phone number ".$phone." and PIN: ".$pin." and book services online at www.veniceindia.com";
+              $mobile = $phone;
+              if (strlen($mobile) == 13 && substr($mobile, 0, 3) == "+91") {
+               $mobile = substr($mobile, 3, 10);
+              }
+              $content = "You are now registered with The Grand Venice Mall. Your login is ".$mobile." and PIN: ".$pin.".  Install the iPhone/Android App: https://l.ead.me/29Ev";
               Helper::send_otp($phone,$content);
               $user_id = $user->id;
             }else {
@@ -2638,6 +2648,9 @@ public static function wallet_process($name,$email,$phone,$purpose,$amount,$paym
 
              $insert = DB::table('wall_history')->insert(['final_amount' => $final_amount,'mainamount' =>$main_amount,'extra' => $extra_amount,'user_id' => $user_id,'order_id' => $order_id,'expiry' => $expiry,'identifier' => 'topup','trans_id' => $payment_id,'payment_method' => $payment_method,'created_at' => $date, 'updated_at' => $date]);
             $updatebalance = DB::table('users')->where('id',$user_id)->update(['wall_am'=> Crypt::encrypt($updated_amount)]);
+
+             $content = "Your GV Pay is recharged with Rs. ".$final_amount.", GV Pay Balance is Rs. ".$updated_amount.". Install the iPhone/Android App: https://l.ead.me/29Ev";
+         Helper::send_otp($phone,$content);
 
 
          

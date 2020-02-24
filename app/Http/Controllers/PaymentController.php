@@ -144,7 +144,11 @@ class PaymentController extends Controller
               $user->otp = $pin;
               $user->type = 'user';
               $user->save();
-              $content = "Your account with The Grand Venice Mall is successfully registered. Please login with your phone number ".$phone." and PIN: ".$pin." and book services online at www.veniceindia.com";
+              $mobile = $phone;
+              if (strlen($mobile) == 13 && substr($mobile, 0, 3) == "+91") {
+               $mobile = substr($mobile, 3, 10);
+              }
+              $content = "You are now registered with The Grand Venice Mall. Your login is ".$mobile." and PIN: ".$pin.".  Install the iPhone/Android App: https://l.ead.me/29Ev";
               Helper::send_otp($phone,$content);
               $user_id = $user->id;
             }else {
