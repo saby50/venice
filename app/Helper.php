@@ -2722,7 +2722,7 @@ public static function wallet_process($name,$email,$phone,$purpose,$amount,$paym
                 "title" => $title,
                 "icon" => "myicon",
                 "subject" => $subject,
-                "sound" : "mySound"
+                "sound"  => "mySound"
         )
       );
        $fields = json_encode ( $fields );
