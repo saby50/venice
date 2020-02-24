@@ -18,7 +18,7 @@ Food
                             
                         </div>
                         <div class="recyclerviewhead2">
-                            <span class="filterbtn"><i class="fa fa-sort" aria-hidden="true"></i> Sort/Filter</span>
+                            <span class="filterbtn" style="display: none;"><i class="fa fa-sort" aria-hidden="true"></i> Sort/Filter</span>
                            
                         </div>      
                     </div>

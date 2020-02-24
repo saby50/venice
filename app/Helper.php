@@ -120,7 +120,7 @@ class Helper
       }
 
        $message = "You have recieved 1 new order";
-       Helper::send_push_to_units($message,$token,"Order Recieved");
+       Helper::send_push_to_units($message,$token,"Order Recieved","food_order");
 
 
        if ($payment_method=="wallet") {
@@ -2687,7 +2687,7 @@ public static function wallet_process($name,$email,$phone,$purpose,$amount,$paym
              $token = $value->token;
            }
             $message = "You have recieved payment of Rs. ".$amount;
-           Helper::send_push_to_units($message,$token,"GV Pay: Payment Alert");
+           Helper::send_push_to_units($message,$token,"GV Pay: Payment Alert","gv_pay");
 
           }
           $units = Helper::get_unit($unit_id);
@@ -2711,7 +2711,7 @@ public static function wallet_process($name,$email,$phone,$purpose,$amount,$paym
      
      return $db;
     }
-    public static function send_push_to_units($message,$tokenid,$title) {
+    public static function send_push_to_units($message,$tokenid,$title,$subject) {
 
       $url = 'https://fcm.googleapis.com/fcm/send';
       $fields = array (
@@ -2720,7 +2720,8 @@ public static function wallet_process($name,$email,$phone,$purpose,$amount,$paym
         'notification' => array (
                 "body" => $message,
                 "title" => $title,
-                "icon" => "myicon"
+                "icon" => "myicon",
+                "subject" => $subject
         )
       );
        $fields = json_encode ( $fields );
