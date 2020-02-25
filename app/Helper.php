@@ -55,10 +55,10 @@ class Helper
   }
     public static function get_item_array($itemids) {
     $itemsarray = array();   
-    $itemids = explode(",", $value->item_ids);
-    foreach ($itemids as $k => $v) {
+    $item_ids = explode(",", $itemids);
+    foreach ($item_ids as $k => $v) {
       $item_name = Helper::get_menu_item_name($v); 
-      $itemsarray[] = array('item_id' => $value->item_id,'item_name' => $item_name,'price' => $value->price, 'quantity' => $value->quantity);
+      $itemsarray[] = array('item_id' => $v,'item_name' => $item_name,'price' => "100", 'quantity' => "1");
     }
     return $itemsarray;
   }
