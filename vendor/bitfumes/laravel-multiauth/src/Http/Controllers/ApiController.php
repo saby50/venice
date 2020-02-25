@@ -229,92 +229,85 @@ class ApiController extends Controller
       }elseif($parameter=="monthly") {
         $now = Carbon::now();
                 $month = $now->month;
-           $data = DB::table('wall_history')
-            ->join('units','units.id','=','wall_history.unit_id')
-            ->join('users','users.id','=','wall_history.user_id')
-            ->select(DB::raw('wall_history.*'),
+        $data = DB::table('food_orders')
+            ->join('units','units.id','=','food_orders.unit_id')
+            ->join('users','users.email','=','food_orders.email')
+            ->select(DB::raw('food_orders.*'),
               DB::raw('users.name as name'),
               DB::raw('users.phone as phone'),
               DB::raw('users.email as email'),
               DB::raw('units.unit_name as unit_name'))
-            ->where('wall_history.identifier','payment')
             ->where('units.unit_email',$unit_email)
-            ->orderBy('wall_history.id','desc')
+            ->orderBy('food_orders.id','desc')
             ->whereMonth('wall_history.created_at', $month)
             ->get();
       }elseif($parameter=="all") {
         
-           $data = DB::table('wall_history')
-            ->join('units','units.id','=','wall_history.unit_id')
-            ->join('users','users.id','=','wall_history.user_id')
-            ->select(DB::raw('wall_history.*'),
+          $data = DB::table('food_orders')
+            ->join('units','units.id','=','food_orders.unit_id')
+            ->join('users','users.email','=','food_orders.email')
+            ->select(DB::raw('food_orders.*'),
               DB::raw('users.name as name'),
               DB::raw('users.phone as phone'),
               DB::raw('users.email as email'),
               DB::raw('units.unit_name as unit_name'))
-            ->where('wall_history.identifier','payment')
             ->where('units.unit_email',$unit_email)
-            ->orderBy('wall_history.id','desc')
-            
+            ->orderBy('food_orders.id','desc')
             ->get();
       }elseif($parameter=="yesterday") {
         $month = new Carbon('yesterday');
-           $data = DB::table('wall_history')
-            ->join('units','units.id','=','wall_history.unit_id')
-            ->join('users','users.id','=','wall_history.user_id')
-            ->select(DB::raw('wall_history.*'),
+           $data = DB::table('food_orders')
+            ->join('units','units.id','=','food_orders.unit_id')
+            ->join('users','users.email','=','food_orders.email')
+            ->select(DB::raw('food_orders.*'),
               DB::raw('users.name as name'),
               DB::raw('users.phone as phone'),
               DB::raw('users.email as email'),
               DB::raw('units.unit_name as unit_name'))
-            ->where('wall_history.identifier','payment')
             ->where('units.unit_email',$unit_email)
-            ->orderBy('wall_history.id','desc')
+            ->orderBy('food_orders.id','desc')
             ->whereDate('wall_history.created_at', $month)
             ->get();
       }elseif($parameter=="lastmonth") {
         $month = new Carbon('last month');
-           $data = DB::table('wall_history')
-            ->join('units','units.id','=','wall_history.unit_id')
-            ->join('users','users.id','=','wall_history.user_id')
-            ->select(DB::raw('wall_history.*'),
+          $data = DB::table('food_orders')
+            ->join('units','units.id','=','food_orders.unit_id')
+            ->join('users','users.email','=','food_orders.email')
+            ->select(DB::raw('food_orders.*'),
               DB::raw('users.name as name'),
               DB::raw('users.phone as phone'),
               DB::raw('users.email as email'),
               DB::raw('units.unit_name as unit_name'))
-            ->where('wall_history.identifier','payment')
             ->where('units.unit_email',$unit_email)
-            ->orderBy('wall_history.id','desc')
+            ->orderBy('food_orders.id','desc')
             ->whereMonth('wall_history.created_at', $month)
             ->get();
       }elseif($parameter=="custom") {
         $month = new Carbon('last month');
-           $data = DB::table('wall_history')
-            ->join('units','units.id','=','wall_history.unit_id')
-            ->join('users','users.id','=','wall_history.user_id')
-            ->select(DB::raw('wall_history.*'),
+           $data = DB::table('food_orders')
+            ->join('units','units.id','=','food_orders.unit_id')
+            ->join('users','users.email','=','food_orders.email')
+            ->select(DB::raw('food_orders.*'),
               DB::raw('users.name as name'),
               DB::raw('users.phone as phone'),
               DB::raw('users.email as email'),
               DB::raw('units.unit_name as unit_name'))
-            ->where('wall_history.identifier','payment')
             ->where('units.unit_email',$unit_email)
-            ->orderBy('wall_history.id','desc')
+            ->orderBy('food_orders.id','desc')
             
             ->get();
       }else {
         list($from, $to,$custom) = explode("_", $parameter);
-           $data = DB::table('wall_history')
-            ->join('units','units.id','=','wall_history.unit_id')
-            ->join('users','users.id','=','wall_history.user_id')
-           ->select(DB::raw('wall_history.*'),
+          $data = DB::table('food_orders')
+            ->join('units','units.id','=','food_orders.unit_id')
+            ->join('users','users.email','=','food_orders.email')
+            ->select(DB::raw('food_orders.*'),
               DB::raw('users.name as name'),
               DB::raw('users.phone as phone'),
               DB::raw('users.email as email'),
               DB::raw('units.unit_name as unit_name'))
-            ->where('wall_history.identifier','payment')
             ->where('units.unit_email',$unit_email)
-            ->orderBy('wall_history.id','desc');
+            ->orderBy('food_orders.id','desc');
             if ($from==$to) {
             $data = $data->whereDate('wall_history.created_at', $from)
                       ->whereDate('wall_history.created_at', $to);
