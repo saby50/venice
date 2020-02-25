@@ -340,7 +340,7 @@ class ApiController extends Controller
         $itemsarray = array();
         foreach ($data as $key => $value) { 
           $itemids = explode(",", $value->item_ids);
-          foreach ($item_ids as $k => $v) {
+          foreach ($itemids as $k => $v) {
              $item_name = Helper::get_menu_item_name($v); 
             $itemsarray[] = array('item_id' => $value->item_id,'item_name' => $item_name,'price' => $value->price, 'quantity' => $value->quantity);
           }
