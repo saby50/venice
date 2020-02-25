@@ -340,7 +340,7 @@ class ApiController extends Controller
         $itemsarray = array();
         foreach ($db as $key => $value) {  
             $item_name = Helper::get_menu_item_name($value->item_id); 
-            $itemsarray[] = array('item_id' => $value->item_id,'item_name' => $item_name, 'quantity' => $value->quantity);
+            $itemsarray[] = array('item_id' => $value->item_id,'item_name' => $item_name,'price' => $value->price, 'quantity' => $value->quantity);
         }
         foreach ($data as $key => $value) {   
           $net_amount+= $value->amount;
