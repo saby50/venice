@@ -208,6 +208,148 @@ class ApiController extends Controller
         $finaldata = array('unit_id' => $units[0]['unit_id'],'unit_name' => $units[0]['unit_name'],'amount' => $amount,'net_amount' => $net_amount,'refund_amount' => $refund_amount, 'data' => $data,'refund_status' => $refund_status,'suspended' => $suspend);
         return array('result' => $finaldata);
 	}
+  function get_food_data(Request $request) {
+     $unit_email = $request['email'];
+     $filter_name = $request['parameter'];
+     $data = array();
+     $parameter = Helper::get_filter_types($filter_name);
+    if ($parameter=="todays") {
+         $data = DB::table('food_orders')
+            ->join('units','units.id','=','food_orders.unit_id')
+            ->join('users','users.email','=','food_orders.email')
+            ->select(DB::raw('food_orders.*'),
+              DB::raw('users.name as name'),
+              DB::raw('users.phone as phone'),
+              DB::raw('users.email as email'),
+              DB::raw('units.unit_name as unit_name'))
+            ->where('units.unit_email',$unit_email)
+            ->orderBy('food_orders.id','desc')
+            ->whereDate('food_orders.created_at', Carbon::today())
+            ->get();
+      }elseif($parameter=="monthly") {
+        $now = Carbon::now();
+                $month = $now->month;
+           $data = DB::table('wall_history')
+            ->join('units','units.id','=','wall_history.unit_id')
+            ->join('users','users.id','=','wall_history.user_id')
+            ->select(DB::raw('wall_history.*'),
+              DB::raw('users.name as name'),
+              DB::raw('users.phone as phone'),
+              DB::raw('users.email as email'),
+              DB::raw('units.unit_name as unit_name'))
+            ->where('wall_history.identifier','payment')
+            ->where('units.unit_email',$unit_email)
+            ->orderBy('wall_history.id','desc')
+            ->whereMonth('wall_history.created_at', $month)
+            ->get();
+      }elseif($parameter=="all") {
+        
+           $data = DB::table('wall_history')
+            ->join('units','units.id','=','wall_history.unit_id')
+            ->join('users','users.id','=','wall_history.user_id')
+            ->select(DB::raw('wall_history.*'),
+              DB::raw('users.name as name'),
+              DB::raw('users.phone as phone'),
+              DB::raw('users.email as email'),
+              DB::raw('units.unit_name as unit_name'))
+            ->where('wall_history.identifier','payment')
+            ->where('units.unit_email',$unit_email)
+            ->orderBy('wall_history.id','desc')
+            
+            ->get();
+      }elseif($parameter=="yesterday") {
+        $month = new Carbon('yesterday');
+           $data = DB::table('wall_history')
+            ->join('units','units.id','=','wall_history.unit_id')
+            ->join('users','users.id','=','wall_history.user_id')
+            ->select(DB::raw('wall_history.*'),
+              DB::raw('users.name as name'),
+              DB::raw('users.phone as phone'),
+              DB::raw('users.email as email'),
+              DB::raw('units.unit_name as unit_name'))
+            ->where('wall_history.identifier','payment')
+            ->where('units.unit_email',$unit_email)
+            ->orderBy('wall_history.id','desc')
+            ->whereDate('wall_history.created_at', $month)
+            ->get();
+      }elseif($parameter=="lastmonth") {
+        $month = new Carbon('last month');
+           $data = DB::table('wall_history')
+            ->join('units','units.id','=','wall_history.unit_id')
+            ->join('users','users.id','=','wall_history.user_id')
+            ->select(DB::raw('wall_history.*'),
+              DB::raw('users.name as name'),
+              DB::raw('users.phone as phone'),
+              DB::raw('users.email as email'),
+              DB::raw('units.unit_name as unit_name'))
+            ->where('wall_history.identifier','payment')
+            ->where('units.unit_email',$unit_email)
+            ->orderBy('wall_history.id','desc')
+            ->whereMonth('wall_history.created_at', $month)
+            ->get();
+      }elseif($parameter=="custom") {
+        $month = new Carbon('last month');
+           $data = DB::table('wall_history')
+            ->join('units','units.id','=','wall_history.unit_id')
+            ->join('users','users.id','=','wall_history.user_id')
+            ->select(DB::raw('wall_history.*'),
+              DB::raw('users.name as name'),
+              DB::raw('users.phone as phone'),
+              DB::raw('users.email as email'),
+              DB::raw('units.unit_name as unit_name'))
+            ->where('wall_history.identifier','payment')
+            ->where('units.unit_email',$unit_email)
+            ->orderBy('wall_history.id','desc')
+            
+            ->get();
+      }else {
+        list($from, $to,$custom) = explode("_", $parameter);
+           $data = DB::table('wall_history')
+            ->join('units','units.id','=','wall_history.unit_id')
+            ->join('users','users.id','=','wall_history.user_id')
+           ->select(DB::raw('wall_history.*'),
+              DB::raw('users.name as name'),
+              DB::raw('users.phone as phone'),
+              DB::raw('users.email as email'),
+              DB::raw('units.unit_name as unit_name'))
+            ->where('wall_history.identifier','payment')
+            ->where('units.unit_email',$unit_email)
+            ->orderBy('wall_history.id','desc');
+            if ($from==$to) {
+            $data = $data->whereDate('wall_history.created_at', $from)
+                      ->whereDate('wall_history.created_at', $to);
+          }else {
+              $data = $data->whereBetween('wall_history.created_at', [$from, $to]);
+          }
+           
+            $data = $data->get();
+        }
+        $units = Helper::get_unit_by_email($unit_email);
+      
+        $amount = 0;
+        $net_amount = 0;
+        $refund_status = "no";
+        $refund_amount = 0;
+        foreach ($data as $key => $value) {   
+          $net_amount+= $value->amount;
+          $refund_status = $value->refund;
+          $refund_amount+= $value->refund_amount;
+        }
+
+        $amount = $net_amount + $refund_amount;
+
+        $checkunit = DB::table('units')->where('unit_email',$unit_email)->get();
+        $suspend = "no";
+        foreach ($checkunit as $key => $value) {
+          $suspend = $value->suspended;
+        }
+        if ($suspend=="yes") {
+          $data = array();
+        }
+
+        $finaldata = array('unit_id' => $units[0]['unit_id'],'unit_name' => $units[0]['unit_name'],'amount' => $amount,'net_amount' => $net_amount,'refund_amount' => $refund_amount, 'data' => $data,'refund_status' => $refund_status,'suspended' => $suspend);
+        return array('result' => $finaldata);
+  }
 	 function unit_refund(Request $request) {
          $amount = $request['amount'];
          $order_id = $request['order_id'];
