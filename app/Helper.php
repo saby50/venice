@@ -2730,7 +2730,7 @@ public static function wallet_process($name,$email,$phone,$purpose,$amount,$paym
       $fields = array (
         'to' => $tokenid,
         'priority' => 'high',
-        'notification' => array (
+        'data' => array (
                 "body" => $message,
                 "title" => $title,
                 "icon" => "myicon",
