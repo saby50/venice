@@ -227,6 +227,18 @@ class ApiController extends Controller
             ->groupBy('food_orders.order_id')
             ->whereDate('food_orders.created_at', Carbon::today())
             ->get();
+         $db = DB::table('food_orders')
+            ->join('units','units.id','=','food_orders.unit_id')
+            ->join('users','users.email','=','food_orders.email')
+            ->select(DB::raw('food_orders.*'),
+              DB::raw('users.name as name'),
+              DB::raw('users.phone as phone'),
+              DB::raw('users.email as email'),
+              DB::raw('units.unit_name as unit_name'))
+            ->where('units.unit_email',$unit_email)
+            ->orderBy('food_orders.id','desc')
+            ->whereDate('food_orders.created_at', Carbon::today())
+            ->get();
       }elseif($parameter=="monthly") {
         $now = Carbon::now();
                 $month = $now->month;
@@ -326,11 +338,14 @@ class ApiController extends Controller
         $refund_amount = 0;
         $dataarr = array();
         $itemsarray = array();
+        foreach ($db as $key => $value) {   
+            $itemsarray[] = array('item_id' => $value->item_id, 'quantity' => $value->quantity);
+        }
         foreach ($data as $key => $value) {   
           $net_amount+= $value->amount;
           $refund_status = $value->refund;
           $refund_amount+= $value->refund_amount;
-          $itemsarray[] = array('item_id' => $value->item_id, 'quantity' => $value->quantity);
+          
           $dataarr[] = array("id" => $value->id, 'name' => $value->name,'email' => $value->email,'phone' => $value->phone,'unit_id' => $value->unit_id,'item_id' => $value->item_id,'quantity' => $value->quantity, 'price' => $value->price, 'amount' => $value->amount,'tax' => $value->tax,'payment_id' => $value->payment_id,'order_id' => $value->order_id,'payment_method' => $value->payment_method,'refund' => $value->refund,'refund_amount' => $value->refund_amount, 'status' => $value->status,'items' => $itemsarray,'created_at' => $value->created_at,'updated_at' => $value->updated_at,'unit_name' => $value->unit_name);
         }
 
