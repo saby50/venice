@@ -222,9 +222,9 @@ class ApiController extends Controller
               DB::raw('users.phone as phone'),
               DB::raw('users.email as email'),
               DB::raw('units.unit_name as unit_name'))
+             ->groupBy('food_orders.order_id')
             ->where('units.unit_email',$unit_email)
             ->orderBy('food_orders.id','desc')
-            ->groupBy('food_orders.order_id')
             ->whereDate('food_orders.created_at', Carbon::today())
             ->get();
       }elseif($parameter=="monthly") {
