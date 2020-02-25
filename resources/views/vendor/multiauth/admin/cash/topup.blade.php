@@ -229,11 +229,11 @@ Topup
         $('.percent').html(percent);
         $('.ramount').attr('value', data);
         var extra = Math.round(data * percent/100);
-    var finalamount = Math.round(parseFloat(data) + parseFloat(extra));
-     $('.finalamount').attr('value',finalamount);
-    $('.extraamount').attr('value',extra);
-    $('.mainam').attr('value',data);
-     $('.finalam').html('Final Amount: '+finalamount+" ("+percent+"% Extra)");
+        var finalamount = Math.round(parseFloat(data) + parseFloat(extra));
+        $('.finalamount').attr('value',finalamount);
+        $('.extraamount').attr('value',extra);
+        $('.mainam').val(data);
+        $('.finalam').html('Final Amount: '+finalamount+" ("+percent+"% Extra)");
      });
       });
        $('.ramount').keyup(function() {

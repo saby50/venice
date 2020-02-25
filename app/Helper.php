@@ -126,7 +126,7 @@ class Helper
       }
 
        $message = "You have recieved 1 new order";
-       Helper::send_push_to_units($message,$token,"Order Recieved","food_order");
+       Helper::send_push_to_units($message,$token,"food_order","food_order");
 
 
        if ($payment_method=="wallet") {
@@ -2690,7 +2690,7 @@ public static function wallet_process($name,$email,$phone,$purpose,$amount,$paym
              $updated_bal = $current_bal - $amount;
            $query2 = DB::table('users')->where('id',$user_id)->update(['wall_am' => Crypt::encrypt($updated_bal)]);
            $units = Helper::get_unit($unit_id);
-           $content = "You have paid Rs. ".$amount." to ".$units['unit_name'].", ".$units['floor_level'].", Order ID: ".$order_id.", Now current balance is Rs. ".$updated_bal.".";
+           $content = "You paid Rs. ".$amount." to ".$units['unit_name'].", ".$units['floor_level'].", Order ID: ".$order_id.", GV Pay balance is Rs. ".$updated_bal.". Install the iPhone/Android App: https://l.ead.me/29Ev";
            Helper::send_otp($phone,$content);
            $content2 = "You have recieved Rs. ".$amount." from ".$name.", Order ID: ".$order_id.".";
            Helper::send_otp($units['unit_phone'],$content2);
