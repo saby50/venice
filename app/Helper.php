@@ -53,6 +53,15 @@ class Helper
     $data = DB::table('unit_menu_items_add_ons_list')->where('item_addon_id', $item_addon_id)->get();
     return $data;
   }
+    public static function get_item_array($itemids) {
+    $itemsarray = array();   
+    $itemids = explode(",", $value->item_ids);
+    foreach ($itemids as $k => $v) {
+      $item_name = Helper::get_menu_item_name($v); 
+      $itemsarray[] = array('item_id' => $value->item_id,'item_name' => $item_name,'price' => $value->price, 'quantity' => $value->quantity);
+    }
+    return $itemsarray;
+  }
   public static function booking_food_process($name, $email,$phone,$purpose, $amount,$payment_method,$payment_id,$currency,$type,$status,$foccheckbox,$authorised,$foc_reason,$percent) {
 
     if (Session::get('food_cart')) {

@@ -337,20 +337,16 @@ class ApiController extends Controller
         $refund_status = "no";
         $refund_amount = 0;
         $dataarr = array();
-        $itemsarray = array();
+      
      
        
         foreach ($data as $key => $value) {   
             $net_amount+= $value->amount;
           $refund_status = $value->refund;
           $refund_amount+= $value->refund_amount;
-           $itemids = explode(",", $value->item_ids);
-          foreach ($itemids as $k => $v) {
-             $item_name = Helper::get_menu_item_name($v); 
-            $itemsarray = array('item_id' => $value->item_id,'item_name' => $item_name,'price' => $value->price, 'quantity' => $value->quantity);
-          }
+           
          
-          $dataarr[] = array("id" => $value->id, 'name' => $value->name,'email' => $value->email,'phone' => $value->phone,'unit_id' => $value->unit_id,'item_id' => $value->item_id,'quantity' => $value->quantity, 'price' => $value->price, 'amount' => $value->amount,'tax' => $value->tax,'payment_id' => $value->payment_id,'order_id' => $value->order_id,'payment_method' => $value->payment_method,'refund' => $value->refund,'refund_amount' => $value->refund_amount, 'status' => $value->status,'items' => $itemsarray,'created_at' => $value->created_at,'updated_at' => $value->updated_at,'unit_name' => $value->unit_name);
+          $dataarr[] = array("id" => $value->id, 'name' => $value->name,'email' => $value->email,'phone' => $value->phone,'unit_id' => $value->unit_id,'item_id' => $value->item_id,'quantity' => $value->quantity, 'price' => $value->price, 'amount' => $value->amount,'tax' => $value->tax,'payment_id' => $value->payment_id,'order_id' => $value->order_id,'payment_method' => $value->payment_method,'refund' => $value->refund,'refund_amount' => $value->refund_amount, 'status' => $value->status,'items' => Helper::get_item_array($value->item_ids),'created_at' => $value->created_at,'updated_at' => $value->updated_at,'unit_name' => $value->unit_name);
           
         }
 
