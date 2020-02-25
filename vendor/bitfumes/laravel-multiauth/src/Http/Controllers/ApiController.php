@@ -338,8 +338,9 @@ class ApiController extends Controller
         $refund_amount = 0;
         $dataarr = array();
         $itemsarray = array();
-        foreach ($db as $key => $value) {   
-            $itemsarray[] = array('item_id' => $value->item_id, 'quantity' => $value->quantity);
+        foreach ($db as $key => $value) {  
+            $item_name = Helper::get_menu_item_name($value->item_id); 
+            $itemsarray[] = array('item_id' => $value->item_id,'item_name' => $item_name, 'quantity' => $value->quantity);
         }
         foreach ($data as $key => $value) {   
           $net_amount+= $value->amount;
