@@ -324,10 +324,12 @@ class ApiController extends Controller
         $net_amount = 0;
         $refund_status = "no";
         $refund_amount = 0;
+        $dataarr = array();
         foreach ($data as $key => $value) {   
           $net_amount+= $value->amount;
           $refund_status = $value->refund;
           $refund_amount+= $value->refund_amount;
+          $dataarr[] = array("id" => $value->id, 'name' => $value->name,'email' => $value->email,'phone' => $value->phone,'unit_id' => $value->unit_id,'item_id' => $value->item_id,'quantity' => $value->quantity, 'price' => $value->price, 'amount' => $value->amount,'tax' => $value->tax,'payment_id' => $value->payment_id,'order_id' => $value->order_id,'payment_method' => $value->payment_method,'refund' => $value->refund,'refund_amount' => $value->refund_amount, 'status' => $value->status,'created_at' => $value->created_at,'updated_at' => $value->updated_at,'unit_name' => $value->unit_name);
         }
 
         $amount = $net_amount + $refund_amount;
@@ -341,7 +343,7 @@ class ApiController extends Controller
           $data = array();
         }
 
-        $finaldata = array('unit_id' => $units[0]['unit_id'],'unit_name' => $units[0]['unit_name'],'amount' => $amount,'net_amount' => $net_amount,'refund_amount' => $refund_amount, 'data' => $data,'refund_status' => $refund_status,'suspended' => $suspend);
+        $finaldata = array('unit_id' => $units[0]['unit_id'],'unit_name' => $units[0]['unit_name'],'amount' => $amount,'net_amount' => $net_amount,'refund_amount' => $refund_amount, 'data' => $dataarr,'refund_status' => $refund_status,'suspended' => $suspend);
         return array('result' => $finaldata);
   }
 	 function unit_refund(Request $request) {
