@@ -95,15 +95,16 @@ class Helper
       }
 
       $itemdetails = "";
-
+      $itemids = "";
       foreach ($cart as $key => $value) {
         $unit_id = $value['unit_id'];
         $item_id = $value['item_id'];
         $quantity = $value['quantity'];
         $price = $value['price'];
+        $itemids.= $value['item_id'],",";
         $itemdetails.= Helper::get_menu_item_name($item_id)."(Qty: ".$quantity."), ";
         
-        $data = array('name' => $name, 'email' => $email, 'phone' => $phone, 'unit_id' => $unit_id, 'item_id' => $item_id,'quantity' => $quantity, 'price' => $price, 'amount' => $amount, 'tax' => '0','payment_id' => $payment_id,'order_id' => $orderid,'payment_method' => $payment_method,'created_at' => $date, 'updated_at' => $date);
+        $data = array('name' => $name, 'email' => $email, 'phone' => $phone, 'unit_id' => $unit_id, 'item_id' => $item_id,'quantity' => $quantity, 'price' => $price, 'amount' => $amount, 'tax' => '0','payment_id' => $payment_id,'order_id' => $orderid,'payment_method' => $payment_method,'item_ids' => rtrim($itemids,","),'created_at' => $date, 'updated_at' => $date);
          $db = DB::table('food_orders')->insert($data);
 
       }
