@@ -73,7 +73,7 @@ class Helper
             $response = $api->refundCreate(array(
             'payment_id'=> $payment_id,
             'type'=>'QFL',
-            'body'=>'Customer is not satified.'
+            'body'=>'Item is unavailable'
         ));
           $status =  $response['status'];
            $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
