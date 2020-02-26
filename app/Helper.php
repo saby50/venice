@@ -63,7 +63,7 @@ class Helper
         $phone = $value->phone;
       }
       if ($payment_method=="instamojo") {
-         $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
+         
           $api = new \Instamojo\Instamojo(
             config('services.instamojo.api_key'),
             config('services.instamojo.auth_token'),

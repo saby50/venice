@@ -442,6 +442,7 @@ class ApiController extends Controller
       }
        $res = "";
       if ($orderstatus=="rejected") {
+        $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
         $status = Helper::refund_food_order($order_id);
 
       }elseif ($orderstatus=="confirmed") {
