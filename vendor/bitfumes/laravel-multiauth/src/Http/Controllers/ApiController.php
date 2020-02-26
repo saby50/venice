@@ -224,7 +224,7 @@ class ApiController extends Controller
               DB::raw('units.unit_name as unit_name'))
             ->where('units.unit_email',$unit_email)
             ->orderBy('food_orders.id','desc')
-            
+            ->groupBY('food_orders.order_id')
             ->whereDate('food_orders.created_at', Carbon::today())
             ->get();
          $db = DB::table('food_orders')
