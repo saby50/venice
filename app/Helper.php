@@ -51,13 +51,38 @@ class Helper
     public static function refund_food_order($order_id) {  
       $data = DB::table('food_orders')->where('order_id', $order_id)->get();
       $refund_amount = 0;
-      $email = "";
+      $status = "failed";
+      $email = ""; $payment_id = 0; $unit_id = 0;
       foreach ($data as $key => $value) {
         $refund_amount = $value->amount;
         $email = $value->email;
         $amount = $value->amount;
+        $payment_id = $value->payment_id;
+        $payment_method = $value->payment_method;
+        $unit_id = $value->unit_id;
+        $phone = $value->phone;
       }
-      $checkuser = App\User::where('email',$email)->get();
+      if ($payment_method=="instamojo") {
+         $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
+          $api = new \Instamojo\Instamojo(
+            config('services.instamojo.api_key'),
+            config('services.instamojo.auth_token'),
+            config('services.instamojo.url')
+        );
+        try {
+            $response = $api->refundCreate(array(
+            'payment_id'=> $payment_id,
+            'type'=>'QFL',
+            'body'=>'Customer is not satified.'
+        ));
+          $status =  $response['status'];
+           $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
+        }
+       catch (Exception $e) {
+          print('Error: ' . $e->getMessage());
+        }
+      }else {
+        $checkuser = App\User::where('email',$email)->get();
 
          $wall_amount = 0;
          foreach ($checkuser as $key => $value) {
@@ -77,10 +102,9 @@ class Helper
       $content = "Your payment of Rs.".$refund_amount." is refunded from ".$unit_name.", The Grand Venice Mall, Now updated balance is Rs.".$updated_balance.".";
             Helper::send_otp($phone,$content);
       $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
-      $status = "failed";
-      if ($refund) {
-        
-        $status = "Refunded";
+      
+      $status = "Refunded";
+      
       }
       return $status;
   }

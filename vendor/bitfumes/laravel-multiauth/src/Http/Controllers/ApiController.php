@@ -442,46 +442,17 @@ class ApiController extends Controller
       }
        $res = "";
       if ($orderstatus=="rejected") {
-        if ($payment_method=="instamojo") {
-           $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
-          $api = new \Instamojo\Instamojo(
-            config('services.instamojo.api_key'),
-            config('services.instamojo.auth_token'),
-            config('services.instamojo.url')
-        );
-        try {
-            $response = $api->refundCreate(array(
-            'payment_id'=> $payment_id,
-            'type'=>'QFL',
-            'body'=>'Customer is not satified.'
-        ));
-          $status =  $response['status'];
-           $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
-        }
-       catch (Exception $e) {
-          print('Error: ' . $e->getMessage());
-        }
-
-        }else {
-          $status = Helper::refund_food_order($order_id);
-        }
-       
+        $status = Helper::refund_food_order($order_id);
 
       }elseif ($orderstatus=="confirmed") {
          $content = "Your order with order# ".$order_id." is confirmed by restaurant and its being prepared please take the order after 30 minutes!";
-         $res =  "success";
+         $status =  "success";
       }elseif ($orderstatus=="completed") {
         $content = "Your order with order# ".$order_id." is completed, please take the order from the counter!";
-        $res =  "success";
+        $status =  "success";
       }
      
       Helper::send_otp($phone,$content);
-      
-      if ($db) {
-        $status = "success";
-      }else {
-        $status = "failed";
-      }
       return $status;
 
     }
