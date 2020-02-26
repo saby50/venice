@@ -427,13 +427,27 @@ class ApiController extends Controller
       $order_id = $request['order_id'];
       $db = DB::table('food_orders')->where('order_id', $order_id)->update(['status' => $orderstatus]);
       $getdetails = DB::table('food_orders')->where('order_id',$order_id)->get();
-      
+       $res = "";
       if ($orderstatus=="rejected") {
         $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
+        try {
+            $response = $api->refundCreate(array(
+            'payment_id'=>'MOJO5c04000J30502939',
+            'type'=>'QFL',
+            'body'=>'Customer is not satified.'
+        ));
+          $res =  $response;
+        }
+       catch (Exception $e) {
+          print('Error: ' . $e->getMessage());
+        }
+
       }elseif ($orderstatus=="confirmed") {
          $content = "Your order with order# ".$order_id." is confirmed by restaurant and its being prepared please take the order after 30 minutes!";
+         $res =  "success";
       }elseif ($orderstatus=="completed") {
         $content = "Your order with order# ".$order_id." is completed, please take the order from the counter!";
+        $res =  "success";
       }
       $phone = "";
       foreach ($getdetails as $key => $value) {
@@ -446,7 +460,7 @@ class ApiController extends Controller
       }else {
         $status = "failed";
       }
-      return $status;
+      return $res;
 
     }
 	 function checkin(Request $request) {
