@@ -227,18 +227,7 @@ class ApiController extends Controller
             ->groupBY('food_orders.order_id')
             ->whereDate('food_orders.created_at', Carbon::today())
             ->get();
-         $db = DB::table('food_orders')
-            ->join('units','units.id','=','food_orders.unit_id')
-            ->join('users','users.email','=','food_orders.email')
-            ->select(DB::raw('food_orders.*'),
-              DB::raw('users.name as name'),
-              DB::raw('users.phone as phone'),
-              DB::raw('users.email as email'),
-              DB::raw('units.unit_name as unit_name'))
-            ->where('units.unit_email',$unit_email)
-            ->orderBy('food_orders.id','desc')
-            ->whereDate('food_orders.created_at', Carbon::today())
-            ->get();
+       
       }elseif($parameter=="monthly") {
         $now = Carbon::now();
                 $month = $now->month;
@@ -252,7 +241,7 @@ class ApiController extends Controller
               DB::raw('units.unit_name as unit_name'))
             ->where('units.unit_email',$unit_email)
             ->orderBy('food_orders.id','desc')
-            ->whereMonth('wall_history.created_at', $month)
+            ->whereMonth('food_orders.created_at', $month)
             ->get();
       }elseif($parameter=="all") {
         
@@ -279,7 +268,8 @@ class ApiController extends Controller
               DB::raw('units.unit_name as unit_name'))
             ->where('units.unit_email',$unit_email)
             ->orderBy('food_orders.id','desc')
-            ->whereDate('wall_history.created_at', $month)
+            ->groupBY('food_orders.order_id')
+            ->whereDate('food_orders.created_at', $month)
             ->get();
       }elseif($parameter=="lastmonth") {
         $month = new Carbon('last month');
@@ -293,7 +283,7 @@ class ApiController extends Controller
               DB::raw('units.unit_name as unit_name'))
             ->where('units.unit_email',$unit_email)
             ->orderBy('food_orders.id','desc')
-            ->whereMonth('wall_history.created_at', $month)
+            ->whereMonth('food_orders.created_at', $month)
             ->get();
       }elseif($parameter=="custom") {
         $month = new Carbon('last month');
