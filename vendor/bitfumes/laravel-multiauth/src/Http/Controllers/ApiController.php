@@ -429,11 +429,11 @@ class ApiController extends Controller
       $getdetails = DB::table('food_orders')->where('order_id',$order_id)->get();
       
       if ($orderstatus=="rejected") {
-        $content = "Your order is rejected, your payment is refunded within 7 working days!";
+        $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
       }elseif ($orderstatus=="confirmed") {
-         $content = "Your order is confirmed by restaurant and its being prepared please take the order after 30 minutes!";
+         $content = "Your order with order# ".$order_id." is confirmed by restaurant and its being prepared please take the order after 30 minutes!";
       }elseif ($orderstatus=="completed") {
-        $content = "Your order is completed, please take the order from the counter!";
+        $content = "Your order with order# ".$order_id." is completed, please take the order from the counter!";
       }
       $phone = "";
       foreach ($getdetails as $key => $value) {
