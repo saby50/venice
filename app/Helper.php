@@ -59,7 +59,7 @@ class Helper
     foreach ($itemids as $k => $v) {
       list($item_id, $quantity) = explode("_", $v);
       $item_name = Helper::get_menu_item_name($item_id); 
-      $itemsarray[] = array('item_id' => $v,'item_name' => $item_name,'price' => "100", 'quantity' => $quantity);
+      $itemsarray[] = array('item_id' => $item_id,'item_name' => $item_name,'price' => "100", 'quantity' => $quantity);
     }
     return $itemsarray;
   }
