@@ -446,7 +446,7 @@ class ApiController extends Controller
             'type'=>'QFL',
             'body'=>'Customer is not satified.'
         ));
-          $res =  $response;
+          $res =  $response['status'];
         }
        catch (Exception $e) {
           print('Error: ' . $e->getMessage());
