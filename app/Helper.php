@@ -106,7 +106,7 @@ class Helper
       $itemdetails = "";
       $itemids = "";
       foreach ($cart as $key => $value) {
-          $itemids.= $value['item_id']."_".$value['quantity']",";
+          $itemids.= $value['item_id']."_".$value['quantity'].",";
       }
       foreach ($cart as $key => $value) {
         $unit_id = $value['unit_id'];
