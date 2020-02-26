@@ -427,12 +427,17 @@ class ApiController extends Controller
       $order_id = $request['order_id'];
       $db = DB::table('food_orders')->where('order_id', $order_id)->update(['status' => $orderstatus]);
       $getdetails = DB::table('food_orders')->where('order_id',$order_id)->get();
+       $phone = ""; $payment_id = 0;
+      foreach ($getdetails as $key => $value) {
+        $phone = $value->phone;
+        $payment_id = $value->payment_id;
+      }
        $res = "";
       if ($orderstatus=="rejected") {
         $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
         try {
             $response = $api->refundCreate(array(
-            'payment_id'=>'MOJO5c04000J30502939',
+            'payment_id'=> $payment_id,
             'type'=>'QFL',
             'body'=>'Customer is not satified.'
         ));
@@ -449,10 +454,7 @@ class ApiController extends Controller
         $content = "Your order with order# ".$order_id." is completed, please take the order from the counter!";
         $res =  "success";
       }
-      $phone = "";
-      foreach ($getdetails as $key => $value) {
-        $phone = $value->phone;
-      }
+     
       Helper::send_otp($phone,$content);
       $status = "failed";
       if ($db) {
