@@ -378,6 +378,11 @@ class ApiController extends Controller
          
          return redirect()->back()->withInput()->with('status','Refund succcess!');
     }
+    function refund_food(Request $request) {
+      $order_id = $request['order_id'];
+      return Helper::refund_food_order($order_id);
+
+    }
 
     function refund_process($amount, $order_id, $unit_id) {
       $orderdetails = DB::table('wall_history')->where('order_id', $order_id)->get();
