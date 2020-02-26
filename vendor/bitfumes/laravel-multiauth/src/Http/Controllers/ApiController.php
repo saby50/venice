@@ -426,6 +426,20 @@ class ApiController extends Controller
       $orderstatus = $request['status'];
       $order_id = $request['order_id'];
       $db = DB::table('food_orders')->where('order_id', $order_id)->update(['status' => $orderstatus]);
+      $getdetails = DB::table('food_orders')->where('order_id',$order_id)->get();
+      
+      if ($orderstatus=="rejected") {
+        $content = "Your order is rejected, your payment is refunded within 7 working days!";
+      }elseif ($orderstatus=="confirmed") {
+         $content = "Your order is confirmed by restaurant and its being prepared please take the order after 30 minutes!";
+      }elseif ($orderstatus=="completed") {
+        $content = "Your order is completed, please take the order from the counter!";
+      }
+      $phone = "";
+      foreach ($getdetails as $key => $value) {
+        $phone = $value->phone;
+      }
+      Helper::send_otp($phone,$content);
       $status = "failed";
       if ($db) {
         $status = "success";
