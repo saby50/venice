@@ -67,6 +67,15 @@ class Helper
          $updated_balance = Crypt::decrypt($wall_amount) + $amount;
 
       $update = DB::table('users')->where('email',$email)->update(['wall_am' => Crypt::encrypt($updated_balance)]);
+       $unit_info = Helper::get_unit_info($unit_id);
+
+         $unit_name = "";
+
+         foreach ($unit_info as $key => $value) {
+           $unit_name = $value->unit_name;
+         }
+      $content = "Your payment of Rs.".$refund_amount." is refunded from ".$unit_name.", The Grand Venice Mall, Now updated balance is Rs.".$updated_balance.".";
+            Helper::send_otp($phone,$content);
       $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
       $status = "failed";
       if ($refund) {
