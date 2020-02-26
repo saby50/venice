@@ -241,6 +241,7 @@ class ApiController extends Controller
               DB::raw('units.unit_name as unit_name'))
             ->where('units.unit_email',$unit_email)
             ->orderBy('food_orders.id','desc')
+            ->groupBY('food_orders.order_id')
             ->whereMonth('food_orders.created_at', $month)
             ->get();
       }elseif($parameter=="all") {
@@ -254,6 +255,7 @@ class ApiController extends Controller
               DB::raw('users.email as email'),
               DB::raw('units.unit_name as unit_name'))
             ->where('units.unit_email',$unit_email)
+            ->groupBY('food_orders.order_id')
             ->orderBy('food_orders.id','desc')
             ->get();
       }elseif($parameter=="yesterday") {
@@ -283,6 +285,7 @@ class ApiController extends Controller
               DB::raw('units.unit_name as unit_name'))
             ->where('units.unit_email',$unit_email)
             ->orderBy('food_orders.id','desc')
+            ->groupBY('food_orders.order_id')
             ->whereMonth('food_orders.created_at', $month)
             ->get();
       }elseif($parameter=="custom") {

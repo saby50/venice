@@ -55,10 +55,10 @@ class Helper
   }
     public static function get_item_array($itemids) {
     $itemsarray = array();   
-    $item_ids = explode(",", $itemids);
-    foreach ($item_ids as $k => $v) {
+    list($item_id, $quantity) = explode(",", $itemids);
+    foreach ($item_id as $k => $v) {
       $item_name = Helper::get_menu_item_name($v); 
-      $itemsarray[] = array('item_id' => $v,'item_name' => $item_name,'price' => "100", 'quantity' => "1");
+      $itemsarray[] = array('item_id' => $v,'item_name' => $item_name,'price' => "100", 'quantity' => $quantity);
     }
     return $itemsarray;
   }
@@ -106,7 +106,7 @@ class Helper
       $itemdetails = "";
       $itemids = "";
       foreach ($cart as $key => $value) {
-          $itemids.= $value['item_id'].",";
+          $itemids.= $value['item_id']."_".$value['quantity'].",";
       }
       foreach ($cart as $key => $value) {
         $unit_id = $value['unit_id'];
