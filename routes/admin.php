@@ -254,6 +254,7 @@
     Route::POST('/api/checkin', 'ApiController@checkin');
     Route::POST('/api/getdata', 'ApiController@get_data');
     Route::POST('/api/get_food_data', 'ApiController@get_food_data');
+    Route::POST('/api/change_food_status', 'ApiController@change_food_status');
     Route::POST('/api/unit_refund', 'ApiController@unit_refund');
     Route::POST('/api/unit_refund_web', 'ApiController@unit_refund_web');
     Route::get('/api/unit_daily_reporting', 'ApiController@unit_daily_reporting');

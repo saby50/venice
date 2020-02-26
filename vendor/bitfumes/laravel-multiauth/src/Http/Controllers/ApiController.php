@@ -422,9 +422,21 @@ class ApiController extends Controller
          }
          return $data;
     }
+    function change_food_status(Request $request) {
+      $orderstatus = $request['status'];
+      $order_id = $request['order_id'];
+      $db = DB::table('food_orders')->where('order_id', $order_id)->update(['status' => $orderstatus]);
+      $status = "failed";
+      if ($db) {
+        $status = "success";
+      }else {
+        $status = "failed";
+      }
+      return $status;
 
-	function checkin(Request $request) {
-        $phone = $request['phone'];
+    }
+	 function checkin(Request $request) {
+    $phone = $request['phone'];
 		$order_id = $request['order_id'];
 		$s_ids = explode(',', $request['service_id']);
 		$gondolier = $request['gondolier'];
