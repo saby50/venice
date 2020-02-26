@@ -435,6 +435,11 @@ class ApiController extends Controller
        $res = "";
       if ($orderstatus=="rejected") {
         $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
+          $api = new \Instamojo\Instamojo(
+            config('services.instamojo.api_key'),
+            config('services.instamojo.auth_token'),
+            config('services.instamojo.url')
+        );
         try {
             $response = $api->refundCreate(array(
             'payment_id'=> $payment_id,
