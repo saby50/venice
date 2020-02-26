@@ -48,7 +48,33 @@ class Helper
    
     return $data;
   }
-  
+    public static function refund_food_order($order_id) {  
+      $data = DB::table('food_orders')->where('order_id', $order_id)->get();
+      $refund_amount = 0;
+      $email = "";
+      foreach ($data as $key => $value) {
+        $refund_amount = $value->amount;
+        $email = $value->email;
+        $amount = $value->amount;
+      }
+      $checkuser = App\User::where('email',$email)->get();
+
+         $wall_amount = 0;
+         foreach ($checkuser as $key => $value) {
+            $wall_amount = $value->wall_am;
+            
+         }
+         $updated_balance = Crypt::decrypt($wall_amount) + $amount;
+
+      $update = DB::table('users')->where('email',$email)->update(['wall_am' => Crypt::encrypt($updated_balance)]);
+      $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
+      $status = "failed";
+      if ($refund) {
+        
+        $status = "Refunded";
+      }
+      return $status;
+  }
    public static function get_item_addons_list($item_addon_id) {   
     $data = DB::table('unit_menu_items_add_ons_list')->where('item_addon_id', $item_addon_id)->get();
     return $data;

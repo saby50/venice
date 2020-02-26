@@ -427,14 +427,18 @@ class ApiController extends Controller
       $order_id = $request['order_id'];
       $db = DB::table('food_orders')->where('order_id', $order_id)->update(['status' => $orderstatus]);
       $getdetails = DB::table('food_orders')->where('order_id',$order_id)->get();
-       $phone = ""; $payment_id = 0;
+       $phone = ""; $payment_id = 0; $payment_method = ""; $refund_amount = 0;
+       $status = "";
       foreach ($getdetails as $key => $value) {
         $phone = $value->phone;
         $payment_id = $value->payment_id;
+        $payment_method = $value->payment_method;
+        $refund_amount = $value->amount;
       }
        $res = "";
       if ($orderstatus=="rejected") {
-        $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
+        if ($payment_method=="instamojo") {
+           $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
           $api = new \Instamojo\Instamojo(
             config('services.instamojo.api_key'),
             config('services.instamojo.auth_token'),
@@ -446,11 +450,17 @@ class ApiController extends Controller
             'type'=>'QFL',
             'body'=>'Customer is not satified.'
         ));
-          $res =  $response['status'];
+          $status =  $response['status'];
+           $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
         }
        catch (Exception $e) {
           print('Error: ' . $e->getMessage());
         }
+
+        }else {
+          $status = Helper::refund_food_order($order_id);
+        }
+       
 
       }elseif ($orderstatus=="confirmed") {
          $content = "Your order with order# ".$order_id." is confirmed by restaurant and its being prepared please take the order after 30 minutes!";
@@ -461,13 +471,13 @@ class ApiController extends Controller
       }
      
       Helper::send_otp($phone,$content);
-      $status = "failed";
+      
       if ($db) {
         $status = "success";
       }else {
         $status = "failed";
       }
-      return $res;
+      return $status;
 
     }
 	 function checkin(Request $request) {
