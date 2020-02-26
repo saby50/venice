@@ -19,6 +19,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'callback','admin/api/applogin','admin/api/getdata','admin/api/get_food_data','admin/api/gettoken','api/get_recive_payment','api/check_otp','admin/api/forgotpin','admin/api/unit_refund'
+        'callback','admin/api/applogin','admin/api/getdata','admin/api/get_food_data','admin/api/gettoken','api/get_recive_payment','api/check_otp','admin/api/forgotpin','admin/api/unit_refund','api/change_food_status'
     ];
 }
