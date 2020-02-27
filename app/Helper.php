@@ -168,15 +168,30 @@ class Helper
       foreach ($cart as $key => $value) {
           $itemids.= $value['item_id']."_".$value['quantity'].",";
       }
+      $customize = "";
       foreach ($cart as $key => $value) {
         $unit_id = $value['unit_id'];
         $item_id = $value['item_id'];
         $quantity = $value['quantity'];
         $price = $value['price'];
+         $custom = $value['custom'];
+
+          foreach ($custom as $k => $v) {
+                foreach ($v as $m => $n) {
+                  if (!empty($n)) {
+                  foreach ($n as $j => $i) {
+                   list($a,$b) = explode("_", $i);
+                   
+                   $customize.= $a.",";
+                   
+                  }
+                }
+              }
+          }
         
         $itemdetails.= Helper::get_menu_item_name($item_id)."(Qty: ".$quantity."), ";
         
-        $data = array('name' => $name, 'email' => $email, 'phone' => $phone, 'unit_id' => $unit_id, 'item_id' => $item_id,'quantity' => $quantity, 'price' => $price, 'amount' => $amount, 'tax' => '0','payment_id' => $payment_id,'order_id' => $orderid,'payment_method' => $payment_method,'item_ids' => rtrim($itemids,","),'created_at' => $date, 'updated_at' => $date);
+        $data = array('name' => $name, 'email' => $email, 'phone' => $phone, 'unit_id' => $unit_id, 'item_id' => $item_id,'quantity' => $quantity, 'price' => $price, 'amount' => $amount, 'tax' => '0','payment_id' => $payment_id,'order_id' => $orderid,'payment_method' => $payment_method,'item_ids' => rtrim($itemids,","),'customize' => $customize,'created_at' => $date, 'updated_at' => $date);
          $db = DB::table('food_orders')->insert($data);
 
       }

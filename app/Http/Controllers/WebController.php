@@ -182,7 +182,27 @@ class WebController extends Controller
        }
      }
    
-      return $data;
+      foreach ($cart as $key => $value) {
+       $custom = $value['custom'];
+              $customprice = 0;
+            
+              foreach ($custom as $k => $v) {
+                foreach ($v as $m => $n) {
+                    if (!empty($n)) {
+                  foreach ($n as $j => $i) {
+                   list($a,$b) = explode("_", $i);
+                   $customprice+=$b;
+                   echo $a."<br />";
+                   
+                   
+                  }
+                }
+              }
+              }
+              if (!empty($custom)) {
+                echo '<div style="font-size:12px;margin-left:5px;"><a href="'.URL::to("menu/addons/".$value["item_id"]).'" style="color:#000;">  <i class="fa fa-chevron-down" style="color:green;"></i></a> </div>';
+              } 
+      }
 
     }
     function food_cart() {
