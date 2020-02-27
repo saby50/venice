@@ -52,8 +52,21 @@ class ApiController extends Controller
 		$filters = DB::table('filter_types')->where('page_name','bookings')->get();
 		return view('vendor.multiauth.admin.bookings.all', compact('data2','services','packs','type','email','filters','parameter'));
 	}
-	
-
+	function food_items_status($unit_id) {
+      $data = DB::table('unit_menu_items')->where('unit_id', $unit_id)->get();
+      return view('vendor.multiauth.admin.food_item_status', compact('data'));
+  }
+  function change_status(Request $request) {
+      $item_id = $request['item_id'];
+      $itemstatus = $request['status'];
+     
+      $db = DB::table('unit_menu_items')->where('id', $item_id)->update(["status" => $itemstatus]);
+      $status = "failed";
+      if ($db) {
+        $status = "success";
+      }
+      return $status;
+  }
 	function get_app_managers_date_access($email,$type,$parameter2) {
 		$type2 = "choose";
 		$data2 = Helper::get_future_bookings($type2,$type,$parameter2,$email,'all');
