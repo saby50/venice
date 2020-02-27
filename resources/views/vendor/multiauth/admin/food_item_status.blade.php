@@ -2,6 +2,8 @@
 <html>
 <head>
 	<title>Food Item Status</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -79,6 +81,10 @@
 });
 </script>
 <style type="text/css">
+	body {
+		margin: 0px;
+		overflow-x: hidden;
+	}
 	.switch {
   position: relative;
   display: inline-block;
