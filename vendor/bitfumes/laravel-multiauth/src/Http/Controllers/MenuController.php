@@ -67,7 +67,7 @@ class MenuController extends Controller
       $to = $request['to'];
       $fdate = date('dmyhis');
       $filename = "";
-      if ($file->getClientOriginalName()!="") {
+      if ($file!="") {
         $filename = str_replace(" ", "", $fdate."".$file->getClientOriginalName());
         $file->move($destinationPath,$filename);
       }
