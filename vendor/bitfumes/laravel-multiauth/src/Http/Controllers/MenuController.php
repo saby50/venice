@@ -66,8 +66,12 @@ class MenuController extends Controller
       $from = $request['from'];
       $to = $request['to'];
       $fdate = date('dmyhis');
-      $filename = str_replace(" ", "", $fdate."".$file->getClientOriginalName());
-      $file->move($destinationPath,$filename);
+      $filename = "";
+      if ($file->getClientOriginalName()!="") {
+        $filename = str_replace(" ", "", $fdate."".$file->getClientOriginalName());
+        $file->move($destinationPath,$filename);
+      }
+      
 
       $addon = $request['addon'];
    	  $db = DB::table('unit_menu_items')->insert(['unit_id' => $unit_id,'item_name' => $itemname,'price' => $price,'status' => $status,'featured' => $featured,'description' => $description,'food_category_id' => $food_category_id,'veg_nonveg' => $veg_nonveg,'featured_image' => $filename,'from_time' => $from,'to_time' => $to,'created_at' => $date, 'updated_at' => $date]);
