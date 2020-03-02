@@ -122,6 +122,8 @@ Wallet
 				  		$unit_floor = $units['floor_level'];
 				  	}
                     echo $unit_name.", ".$unit_floor;
+				  }elseif($value->identifier=="foodorder") {
+				  	echo "Food Order";
 				  }else {
 				  	echo rtrim($s,",");
 				  }
