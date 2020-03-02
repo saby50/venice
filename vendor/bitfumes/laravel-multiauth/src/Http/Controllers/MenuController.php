@@ -146,7 +146,7 @@ class MenuController extends Controller
       $veg_nonveg = $request['veg_nonveg'];
        $addonprice = $request['addonprice'];
       $addon = $request['addon'];
-      $delete = DB::table('unit_menu_items_add_ons')->where('item_id', $item_id)->delete();
+      
       $from = $request['from'];
       $to = $request['to'];
      
