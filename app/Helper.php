@@ -203,7 +203,7 @@ class Helper
 
       $unit_phone = $units['unit_phone'];
 
-      $content2 = "You have recieved new order from ".$name.", Here are the details: ".$itemdetails." Order ID is: ".$orderid;
+      $content2 = "New order from ".$name." (".$phone."), ".$itemdetails." Order ID: ".$orderid;
 
       Helper::send_otp($unit_phone,$content2);
 

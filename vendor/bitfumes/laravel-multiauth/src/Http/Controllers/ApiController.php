@@ -446,23 +446,28 @@ class ApiController extends Controller
       $db = DB::table('food_orders')->where('order_id', $order_id)->update(['status' => $orderstatus]);
       $getdetails = DB::table('food_orders')->where('order_id',$order_id)->get();
        $phone = ""; $payment_id = 0; $payment_method = ""; $refund_amount = 0;
-       $status = "";
+       $status = ""; $unit_id = 0; $unit_name = "";
       foreach ($getdetails as $key => $value) {
         $phone = $value->phone;
         $payment_id = $value->payment_id;
         $payment_method = $value->payment_method;
         $refund_amount = $value->amount;
+        $unit_id = $value->unit_id;
       }
+       $get_unit_info = Helper::get_unit_info($unit_id);
+       foreach ($get_unit_info as $key => $value) {
+          $unit_name = $value->unit_name;
+       }
        $res = "";
       if ($orderstatus=="rejected") {
-        $content = "Your order with order# ".$order_id." is rejected, your payment is refunded within 7 working days!";
+        $content = "Your Order ID: ".$order_id." is refused by ".$unit_name.". The payment will be refunded within 7 working days. Sorry for the inconvenience!";
         $status = Helper::refund_food_order($order_id);
 
       }elseif ($orderstatus=="confirmed") {
-         $content = "Your order with order# ".$order_id." is confirmed by restaurant and its being prepared please take the order after 30 minutes!";
+         $content = "Your Order ID: ".$order_id." is confirmed by ".$unit_name.". Install the iPhone/Android App: https://l.ead.me/29Ev";
          $status =  "success";
       }elseif ($orderstatus=="completed") {
-        $content = "Your order with order# ".$order_id." is completed, please take the order from the counter!";
+        $content = "Your Order ID: ".$order_id." with ".$unit_name." is READY, Please collect the same! Install the iPhone/Android App: https://l.ead.me/29Ev";
         $status =  "success";
       }
      
