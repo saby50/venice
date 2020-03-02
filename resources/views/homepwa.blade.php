@@ -233,7 +233,7 @@ Home
     height: 90px;
     border-radius: 15px;
     background-position: center !important;
-    background-size: contain !important;
+    background-size: cover !important;
     border: solid 1px #ccc;
 
 }
