@@ -234,7 +234,8 @@ Home
     border-radius: 15px;
     background-position: center !important;
     background-size: contain !important;
-  
+    border: solid 1px #ccc;
+
 }
 </style>
 	@endsection
