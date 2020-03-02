@@ -75,19 +75,19 @@ if (Auth::check()) {
             
               foreach ($custom as $k => $v) {
                 foreach ($v as $m => $n) {
+                  if (is_array($n)) {
                     if (!empty($n)) {
-                      if(count($n)!=0) {
-                        list($a,$b) = explode("_", $n);
-                        $customprice+=$b;
+                  foreach ($n as $j => $i) {
+                    list($a,$b) = explode("_", $i);
+                    $customprice+=$b;
+                  }
+                   }
+                  }else {
+                    list($a,$b) = explode("_", $n);
+                    $customprice+=$b;
 
-                      }else {
-                        foreach ($n as $j => $i) {
-                          list($a,$b) = explode("_", $i);
-                          $customprice+=$b;
-                        }
-                      }
-                  
-                }
+                  }
+                 
               }
               }
               if (!empty($custom)) {
