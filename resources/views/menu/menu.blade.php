@@ -159,9 +159,11 @@ foreach ($cart as $key => $value) {
 				</div>
 			</div>
 			<?php 
-                 $menu_items = Helper::get_menu_items_category_id($v,$view);
-                 foreach($menu_items as $key => $value):
+         $menu_items = Helper::get_menu_items_category_id($v,$view);
+         foreach($menu_items as $key => $value):
+
 			 ?>
+        <?php if($value->featured=="no"): ?>
 
               <div class="row content" style="margin-top: 20px;">
               	<div class="col-1">
@@ -230,6 +232,7 @@ foreach ($cart as $key => $value) {
         <?php endif; ?>
 				</div>
 			</div>
+    <?php endif; ?>
 		<?php endforeach; ?>
    		</div>
    		
