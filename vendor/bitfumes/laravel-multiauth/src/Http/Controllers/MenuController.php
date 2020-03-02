@@ -63,12 +63,14 @@ class MenuController extends Controller
       $addonprice = $request['addonprice'];
       $destinationPath = "uploads/featured_item";
       $file = $request->file('featured');
+      $from = $request['from'];
+      $to = $request['to'];
       $fdate = date('dmyhis');
       $filename = str_replace(" ", "", $fdate."".$file->getClientOriginalName());
       $file->move($destinationPath,$filename);
 
       $addon = $request['addon'];
-   	  $db = DB::table('unit_menu_items')->insert(['unit_id' => $unit_id,'item_name' => $itemname,'price' => $price,'status' => $status,'featured' => $featured,'description' => $description,'food_category_id' => $food_category_id,'veg_nonveg' => $veg_nonveg,'featured_image' => $filename,'created_at' => $date, 'updated_at' => $date]);
+   	  $db = DB::table('unit_menu_items')->insert(['unit_id' => $unit_id,'item_name' => $itemname,'price' => $price,'status' => $status,'featured' => $featured,'description' => $description,'food_category_id' => $food_category_id,'veg_nonveg' => $veg_nonveg,'featured_image' => $filename,'from_time' => $from,'to_time' => $to,'created_at' => $date, 'updated_at' => $date]);
       $insert_id = DB::getPdo()->lastInsertId();
      
    	  if($db) {
@@ -141,9 +143,10 @@ class MenuController extends Controller
        $addonprice = $request['addonprice'];
       $addon = $request['addon'];
       $delete = DB::table('unit_menu_items_add_ons')->where('item_id', $item_id)->delete();
+      $from = $request['from'];
+      $to = $request['to'];
      
-     
-      $db = DB::table('unit_menu_items')->where('id',$item_id)->update(['unit_id' => $unit_id,'item_name' => $itemname,'price' => $price,'status' => $status,'featured' => $featured,'description' => $description,'food_category_id' => $food_category_id,'veg_nonveg' => $veg_nonveg,'created_at' => $date, 'updated_at' => $date]);
+      $db = DB::table('unit_menu_items')->where('id',$item_id)->update(['unit_id' => $unit_id,'item_name' => $itemname,'price' => $price,'status' => $status,'featured' => $featured,'description' => $description,'food_category_id' => $food_category_id,'veg_nonveg' => $veg_nonveg,'from_time' => $from,'to_time' => $to,'created_at' => $date, 'updated_at' => $date]);
       if($db) {
         return redirect('admin/addmenu/'.$unit_id)->withInput()->with('status','Item Updated successfully!');
       }

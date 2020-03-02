@@ -10,6 +10,8 @@
 		$featured = $value->featured;
 		$food_category_id = $value->food_category_id;
 		$veg_nonveg = $value->veg_nonveg;
+		$from_time = $value->from_time;
+		$to_time = $value->to_time;
 	} 
 ?>
 
@@ -82,8 +84,17 @@ Order Menu - <?php $units = Helper::get_unit_info($unit_id); echo $units[0]->uni
 							<input type="text" name="price" value="<?= $price ?>" class="form-control" placeholder="Price" required="required">
 							
 						</div>
-	                  
-                       <div class="col-md-6  form-group">
+	                    <div class="col-md-6">
+                    <label>From</label>
+
+                      <input type="text" class="form-control from" name="from" value="" autocomplete="off" id="from" required="">
+                    </div>
+                    <div class="col-md-6">
+                      <label>To</label>
+                      <input type="text" class="form-control to" name="to" value="" id="to" autocomplete="off" required="">
+                    </div>
+          
+                       <div class="col-md-6  form-group" style="margin-top: 10px;">
                        	<label>Status: </label>
 							<select class="form-control" name="status">
 								<?php if($status=="active"): ?>
@@ -98,7 +109,7 @@ Order Menu - <?php $units = Helper::get_unit_info($unit_id); echo $units[0]->uni
 							
 						</div>
 						<input type="hidden" name="item_id" value="<?= $item_id ?>">
-						 <div class="col-md-6 form-group">
+						 <div class="col-md-6 form-group" style="margin-top: 10px;">
 	                   	<label>Category</label>
 							<select name="food_category_id" class="form-control">
 							<?php foreach($categories as $key => $value): ?>
@@ -215,5 +226,28 @@ Order Menu - <?php $units = Helper::get_unit_info($unit_id); echo $units[0]->uni
 
 
   });
+</script>
+    <script>
+$(document).ready(function() {
+  $('.from').timepicker({
+    timeFormat: 'h:mm p',
+    interval: 60,
+    defaultTime: '<?= $from_time ?>',
+    startTime: '<?= $from_time ?>',
+    dynamic: false,
+    dropdown: false,
+    scrollbar: true
+});
+$('.to').timepicker({
+  timeFormat: 'h:mm p',
+  interval: 60,
+  defaultTime: '<?= $to_time ?>',
+  startTime:  '<?= $to_time ?>',
+  dynamic: false,
+  dropdown: false,
+  scrollbar: true
+});
+});
+
 </script>
 @endsection

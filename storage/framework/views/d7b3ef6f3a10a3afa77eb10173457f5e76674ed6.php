@@ -88,8 +88,7 @@ Units
               	<?php endforeach; ?>
               </select>
               </div>
-<div class="col-md-6">
-           
+          <div class="col-md-6">   
           <label>Food Ordering</label><br />
                 <input type="radio" name="order_food" class="order_food" value="yes"> Enable &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="order_food" value="no" class="order_food" checked="checked"> Disable
               </div>

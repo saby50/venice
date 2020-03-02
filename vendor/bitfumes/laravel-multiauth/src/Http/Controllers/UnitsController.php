@@ -356,9 +356,13 @@ class UnitsController extends Controller
      $destinationPath = "uploads/foodstore";
 
       $file = $request->file('foodicon');
-      $fdate = date('dmyhis');
+      $filename = "";
+      if ($file!="") {
+         $fdate = date('dmyhis');
       $filename = str_replace(" ", "", $fdate."".$file->getClientOriginalName());
       $file->move($destinationPath,$filename);
+      }
+     
 	   
 	   $db = DB::table('units')->insert(['unit_name' => $unit_name, 'unit_phone' => $unit_phone,'unit_email' => $unit_email,'floor_level' => $floor_level,'unit_category_id' => $categories,'order_food' => $order_food,'foodstore' => $filename,'tags' => $tags,'price_for_two' => $price_for_two,'menu_id' => '0','created_at' => $date, 'updated_at' => $date]);
 	   $db2 = DB::table('admins')->insert(['name' => $unit_name, 'phone' => $unit_phone,'email' => $unit_email,'password' => $password,'active' => '1','user_type' => 'unit_manager','created_at' => $date, 'updated_at' => $date]);

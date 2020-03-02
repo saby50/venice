@@ -69,8 +69,17 @@ Order Menu - <?php $units = Helper::get_unit_info($unit_id); echo $units[0]->uni
 							<input type="text" name="price" value="" class="form-control" placeholder="Price" required="required">
 							
 						</div>
-	                  
-                       <div class="col-md-6  form-group">
+	                  <div class="col-md-6">
+                    <label>From</label>
+
+                      <input type="text" class="form-control from" name="from" value="" autocomplete="off" id="from" required="">
+                    </div>
+                    <div class="col-md-6">
+                      <label>To</label>
+                      <input type="text" class="form-control to" name="to" value="" id="to" autocomplete="off" required="">
+                    </div>
+          
+                       <div class="col-md-6" style="margin-top: 10px;">
                        	<label>Status: </label>
 							<select class="form-control" name="status">
 								<option value="active">Active</option>
@@ -78,7 +87,7 @@ Order Menu - <?php $units = Helper::get_unit_info($unit_id); echo $units[0]->uni
 							</select>
 							
 						</div>
-						 <div class="col-md-6 form-group">
+						 <div class="col-md-6" style="margin-top: 10px;">
 	                   	<label>Category</label>
 							<select name="food_category_id" class="form-control">
 							<?php foreach($categories as $key => $value): ?>
@@ -139,5 +148,28 @@ Order Menu - <?php $units = Helper::get_unit_info($unit_id); echo $units[0]->uni
           }
        });
 	});
+</script>
+    <script>
+$(document).ready(function() {
+  $('.from').timepicker({
+    timeFormat: 'h:mm p',
+    interval: 60,
+    defaultTime: '8',
+    startTime: '8:00',
+    dynamic: false,
+    dropdown: false,
+    scrollbar: true
+});
+$('.to').timepicker({
+  timeFormat: 'h:mm p',
+  interval: 60,
+  defaultTime: '16',
+  startTime: '4:00',
+  dynamic: false,
+  dropdown: false,
+  scrollbar: true
+});
+});
+
 </script>
 @endsection

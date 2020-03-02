@@ -39,6 +39,7 @@ foreach ($cart as $key => $value) {
   $p = 0;
 }
 
+
 ?>
 @endsection
 
@@ -106,12 +107,15 @@ foreach ($cart as $key => $value) {
               
              ?>
              <?php if($quantity!=0): ?>
+              
                <div class="addButton btnmargintop hided addbutton_<?= $value->id ?>" data-addon="<?= Helper::checkaddonfields($value->id) ?>"  data-price="<?= $value->price ?>" data="<?= $value->id ?>">Add</div>
          
                <div class="foodquantity btnmargintop quantitybox_<?= $value->id ?>" data="<?= $value->id ?>" data-price="<?= $value->price ?>">
            <button class="decrease"  data="<?= $value->id ?>" data-price="<?= $value->price ?>">-</button> <input type="number" value="1" name="quantity" class="quantity_<?= $value->id ?> q" readonly><button class="increase" data="<?= $value->id ?>" data-price="<?= $value->price ?>">+</button>
           </div>
+           
           <?php else: ?>
+             <?php if(time() >= strtotime($value->from_time) && time() <= strtotime($value->to_time)): ?>
             <div class="addButton btnmargintop addbutton_<?= $value->id ?>" data-addon="<?= Helper::checkaddonfields($value->id) ?>"  data-price="<?= $value->price ?>" data="<?= $value->id ?>">Add</div>
             <?php if(Helper::checkaddonfields($value->id)==1): ?>
            <div class="_1gDO32">Customisable</div>
@@ -120,6 +124,9 @@ foreach ($cart as $key => $value) {
            <button class="decrease"  data="<?= $value->id ?>" data-price="<?= $value->price ?>">-</button> <input type="number" value="1" name="quantity" class="quantity_<?= $value->id ?> q" readonly><button class="increase" data="<?= $value->id ?>" data-price="<?= $value->price ?>">+</button>
             
           </div>
+           <?php else: ?>
+             <div class="unavailable">Currently Unavailable</div>
+          <?php endif; ?>
               <?php endif; ?>
           
          
@@ -187,7 +194,7 @@ foreach ($cart as $key => $value) {
               
              ?>
              <?php if($quantity!=0): ?>
-            
+           
               <div class="foodquantity btnmarginright quantitybox_<?= $value->id ?>" data="<?= $value->id ?>" data-price="<?= $value->price ?>">
            <button class="decrease"  data="<?= $value->id ?>" data-price="<?= $value->price ?>">-</button> <input type="number" value="<?= $quantity ?>" name="quantity"  class="quantity_<?= $value->id ?> q" data="<?= $value->id ?>" data-price="<?= $value->price ?>" readonly> <input type="hidden" value="<?= $quantity ?>" name="quantity" class="nquantity_<?= $value->id ?>"><button class="increase" data="<?= $value->id ?>" data-price="<?= $value->price ?>">+</button>
             
@@ -196,10 +203,11 @@ foreach ($cart as $key => $value) {
               <div class="addButton btnmarginright hided addbutton_<?= $value->id ?>"  data-addon="<?= Helper::checkaddonfields($value->id) ?>" data-price="<?= $value->price ?>" data="<?= $value->id ?>">Add</div>
             <?php if(Helper::checkaddonfields($value->id)==1): ?>
            <div class="_1gDO3">Customisable</div>
+          
          <?php endif; ?>
           <?php else: ?>
-
-           
+             
+            <?php if(time() >= strtotime($value->from_time) && time() <= strtotime($value->to_time)): ?>
               <div class="addButton btnmarginright addbutton_<?= $value->id ?>" data-addon="<?= Helper::checkaddonfields($value->id) ?>" data-price="<?= $value->price ?>" data="<?= $value->id ?>">Add</div>
           <?php if(Helper::checkaddonfields($value->id)==1): ?>
            <div class="_1gDO3">Customisable</div>
@@ -209,6 +217,9 @@ foreach ($cart as $key => $value) {
          
             
           </div>
+          <?php else: ?>
+             <div class="unavailable btnmarginright">Currently Unavailable</div>
+          <?php endif; ?>
         <?php endif; ?>
             
 					
@@ -437,6 +448,7 @@ foreach ($cart as $key => $value) {
             var unit_id = "<?= $getid ?>";
         var url = "<?= URL::to('menu/get_cart_data') ?>/"+unit_id;
         $.get(url, function(data) {
+          console.log(data);
            if (data.length==0) {
                $(".bottomcart").hide();
             }else {
