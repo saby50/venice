@@ -145,9 +145,9 @@ foreach ($cart as $key => $value) {
     </div>
     <?php endif; ?>
     <div class="row">
-     <div class="col-md-12">
+    
    	<?php foreach($categories as $k => $v): ?>
-   	<div class="recyclerview">
+   	
       
 
    		<div class="col-md-12">
@@ -239,9 +239,9 @@ foreach ($cart as $key => $value) {
 		<?php endforeach; ?>
    		</div>
    		
-   	</div>
+   
    <?php endforeach; ?>
-   </div>
+   
     </div>
      </div>
 <a href="{{ URL::to('food_cart') }}" class="bottomcarta">
