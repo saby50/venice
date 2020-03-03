@@ -31,8 +31,8 @@ class Helper
    
     return $data;
   }
-   public static function check_recommended() {   
-    $data = DB::table('unit_menu_items')->where('featured', 'yes')->count();
+   public static function check_recommended($unit_id) {   
+    $data = DB::table('unit_menu_items')->where('unit_id',$unit_id)->where('featured', 'yes')->count();
    
     return $data;
   }
