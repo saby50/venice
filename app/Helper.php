@@ -31,6 +31,11 @@ class Helper
    
     return $data;
   }
+   public static function check_recommended() {   
+    $data = DB::table('unit_menu_items')->where('featured', 'yes')->get();
+   
+    return $data;
+  }
   public static function get_veg_non($unit_id) {   
     $db = DB::table('unit_menu_items')->where('unit_id', $unit_id)->get();
 

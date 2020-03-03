@@ -65,6 +65,7 @@ foreach ($cart as $key => $value) {
         </div>
       </div>
       <hr />
+      <?php if(Helper::check_recommended()!=0): ?>
       <div class="col-md-12">
         <div class="row" style="margin-bottom: 20px;">
 
@@ -142,7 +143,7 @@ foreach ($cart as $key => $value) {
       </div>
       
     </div>
-    
+    <?php endif; ?>
    	<?php foreach($categories as $k => $v): ?>
    	<div class="recyclerview">
       
