@@ -144,10 +144,6 @@ foreach ($cart as $key => $value) {
     </div>
     
    	<?php foreach($categories as $k => $v): ?>
-      <?php 
-          $menu_items = Helper::get_menu_items_category_id($v,$view);
-          if (count($menu_items)!=0):
-      ?>
    	<div class="recyclerview">
       
 
@@ -163,11 +159,11 @@ foreach ($cart as $key => $value) {
 				</div>
 			</div>
 			<?php 
-         
+         $menu_items = Helper::get_menu_items_category_id($v,$view);
          foreach($menu_items as $key => $value):
 
 			 ?>
-        <?php if($value->featured=="no"): ?>
+        
 
               <div class="row content" style="margin-top: 20px;">
               	<div class="col-1">
@@ -236,12 +232,11 @@ foreach ($cart as $key => $value) {
         <?php endif; ?>
 				</div>
 			</div>
-    <?php endif; ?>
+   
 		<?php endforeach; ?>
    		</div>
    		
    	</div>
-   <?php endif; ?>
    <?php endforeach; ?>
    </div>
 <a href="{{ URL::to('food_cart') }}" class="bottomcarta">
