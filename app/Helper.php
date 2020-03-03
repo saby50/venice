@@ -183,14 +183,19 @@ class Helper
 
           foreach ($custom as $k => $v) {
                 foreach ($v as $m => $n) {
-                  if (!empty($n)) {
+                  if (is_array($n)) {
+                    if (!empty($n)) {
                   foreach ($n as $j => $i) {
-                   list($a,$b) = explode("_", $i);
-                   
-                   $customize.= $a.",";
-                   
+                    list($a,$b) = explode("_", $i);
+                    $customize.= $a.",";
                   }
-                }
+                   }
+                  }else {
+                    list($a,$b) = explode("_", $n);
+                    $customize.= $a.",";
+
+                  }
+                 
               }
           }
         
