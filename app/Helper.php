@@ -32,7 +32,7 @@ class Helper
     return $data;
   }
    public static function check_recommended() {   
-    $data = DB::table('unit_menu_items')->where('featured', 'yes')->get();
+    $data = DB::table('unit_menu_items')->where('featured', 'yes')->count();
    
     return $data;
   }
@@ -202,7 +202,7 @@ class Helper
       }
       $units = Helper::get_unit($unit_id);
       
-      $content = "Your order for ".$itemdetails."from ".$units['unit_name']." is confirmed, Your Order ID is: ".$orderid;
+      $content = "Your order for ".$itemdetails."from ".$units['unit_name']." is recieved, Your Order ID is: ".$orderid;
 
       Helper::send_otp($phone,$content);
 
