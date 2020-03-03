@@ -144,6 +144,7 @@ foreach ($cart as $key => $value) {
       
     </div>
     <?php endif; ?>
+     <div class="col-md-12">
    	<?php foreach($categories as $k => $v): ?>
    	<div class="recyclerview">
       
@@ -240,6 +241,7 @@ foreach ($cart as $key => $value) {
    	</div>
    <?php endforeach; ?>
    </div>
+    </div>
 <a href="{{ URL::to('food_cart') }}" class="bottomcarta">
   <?php if(Session::has('food_cart')): ?>
    <div class="bottomcart">
