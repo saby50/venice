@@ -147,7 +147,7 @@ foreach ($cart as $key => $value) {
     <div class="row">
     
    	<?php foreach($categories as $k => $v): ?>
-   	
+   	<div class="recyclerview">
       
 
    		<div class="col-md-12">
@@ -239,7 +239,7 @@ foreach ($cart as $key => $value) {
 		<?php endforeach; ?>
    		</div>
    		
-   
+   	</div>
    <?php endforeach; ?>
    
     </div>
