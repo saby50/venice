@@ -231,11 +231,9 @@ Home
     height: 90px;
     border-radius: 15px;
     background-position: center !important;
-    background-size: contain !important;
+    background-size: cover !important;
     border: solid 1px #ccc;
--webkit-box-shadow: -1px 1px 19px 0px rgba(204,204,204,1);
--moz-box-shadow: -1px 1px 19px 0px rgba(204,204,204,1);
-box-shadow: -1px 1px 19px 0px rgba(204,204,204,1);
+
 }
 </style>
 	<?php $__env->stopSection(); ?>

@@ -184,19 +184,22 @@ Home
 								<hr />
                                 <div class="desc"  style="margin-top: 10px;">
                                     <div class="row">
-                                    <div class="col-6" style="font-size: 8px;">
+                                    <div class="col-4" style="font-size: 8px;">
                                     	<?php 
                    							$nonveg = Helper::get_veg_non($value->id);
 									    ?>
 									    <?php if(in_array('veg', $nonveg)): ?>
-                                        <i class="fa fa-circle" aria-hidden="true" style="color: #16e358;"></i> Veg <br />
+                                        <i class="fa fa-circle" aria-hidden="true" style="color: #16e358;"></i> 
                                     	<?php endif; ?>
                                     	<?php if(in_array('nonveg', $nonveg)): ?>
-                                        <i class="fa fa-circle" aria-hidden="true" style="color: #ee1c25;"></i> Non Veg 
+                                        <i class="fa fa-circle" aria-hidden="true" style="color: #ee1c25;"></i> 
                                     	<?php endif; ?>
                                         
                                     </div>
-                                     <div class="col-6" style="text-align: right;">
+                                     <div class="col-4" style="text-align: right;">
+                                        Prep Time: 30 MINS
+                                    </div>
+                                     <div class="col-4" style="text-align: right;">
                                         <i class='fa fa-rupee'></i> <?= $value->price_for_two ?> For Two
                                     </div></div>
                                     </div>
