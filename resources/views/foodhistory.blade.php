@@ -50,7 +50,7 @@ foreach ($data as $key => $value) {
       <div class="col-12 left">
     <div style="display: inline-block;margin-right: 20px;margin-bottom: 20px;"><img src="{{ asset('public/images/profile.jpg') }}" width="40px" style="margin-top: -30px;"></div><div style="display: inline-block;padding-top: 10px;margin-bottom: 20px;">Order Total<br />
       <h5 style="color: #ef9e17;display: inline;"><i class="fa fa-rupee"></i> <?= $amount ?><?php if($value->refund=="yes"): ?>
-          <span style="color: red;font-size: 13px;">(Refunded)</span>
+          <span style="color: red;font-size: 11px;">(Refunded)</span>
         <?php endif; ?></h5> </div>
       </div>
       <?php
