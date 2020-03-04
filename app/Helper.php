@@ -94,7 +94,7 @@ class Helper
          $user_id = 0;
          foreach ($checkuser as $key => $value) {
             $wall_amount = $value->wall_am;
-            $user_id = $value->user_id;
+            $user_id = $value->id;
          }
          $updated_balance = Crypt::decrypt($wall_amount) + $amount;
        
