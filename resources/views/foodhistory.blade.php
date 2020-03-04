@@ -95,7 +95,7 @@ foreach ($data as $key => $value) {
      <i class="fa fa-rupee"></i> 
      <?php if($refund=="yes"): ?>
       0
-     <?php endif ?>
+     <?php else: ?>
       <?= $subtotal ?>
      <?php endif; ?>
      
@@ -107,7 +107,7 @@ foreach ($data as $key => $value) {
      <i class="fa fa-rupee"></i>
      <?php if($refund=="yes"): ?>
       0
-     <?php endif ?>
+     <?php else: ?>
       <?= $amount - $subtotal ?>
      <?php endif; ?> 
     </div>
