@@ -184,7 +184,7 @@ Home
 								<hr />
                                 <div class="desc"  style="margin-top: 10px;">
                                     <div class="row">
-                                    <div class="col-4" style="font-size: 8px;">
+                                    <div class="col-3" style="font-size: 8px;">
                                     	<?php 
                    							$nonveg = Helper::get_veg_non($value->id);
 									    ?>
