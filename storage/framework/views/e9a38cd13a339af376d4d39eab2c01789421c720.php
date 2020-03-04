@@ -182,7 +182,7 @@ Home
 								<hr />
                                 <div class="desc"  style="margin-top: 10px;">
                                     <div class="row">
-                                    <div class="col-3" style="font-size: 8px;padding: 0px;">
+                                    <div class="col-4" style="font-size: 8px;">
                                     	<?php 
                    							$nonveg = Helper::get_veg_non($value->id);
 									    ?>
@@ -194,10 +194,8 @@ Home
                                     	<?php endif; ?>
                                         
                                     </div>
-                                     <div class="col-4" style="padding: 0px;">
-                                       30 Mins
-                                    </div>
-                                     <div class="col-5" style="text-align: right;padding: 0px;">
+                                 
+                                     <div class="col-4" style="text-align: right;">
                                         <i class='fa fa-rupee'></i> <?= $value->price_for_two ?> For Two
                                     </div></div>
                                     </div>
