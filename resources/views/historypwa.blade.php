@@ -98,7 +98,11 @@ Order History
       </div>
       <div class="row">
       <div class="col-6"><br /><br />
-        <span class="history-price"><i class="fa fa-rupee"></i> <?= $value->amount ?></span>
+        <span class="history-price"><i class="fa fa-rupee"></i> <?= $value->amount ?> 
+        <?php if($value->refund=="yes"): ?>
+          <span style="color: red;">(Refunded)</span>
+        <?php endif; ?>
+      </span>
       </div>
        <div class="col-6" style="text-align: right;"><br /><br />
         <a href="<?= URL::to('history/fooddetails/'.Crypt::encrypt($value->order_id)) ?>"><button class="orderDetails btn">View Order Details</button></a>
