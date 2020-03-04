@@ -100,7 +100,7 @@ Order History
       <div class="col-6"><br /><br />
         <span class="history-price"><i class="fa fa-rupee"></i> <?= $value->amount ?> 
         <?php if($value->refund=="yes"): ?>
-          <span style="color: red;">(Refunded)</span>
+          <span style="color: red;font-size: 13px;">(Refunded)</span>
         <?php endif; ?>
       </span>
       </div>

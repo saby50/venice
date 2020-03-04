@@ -6,12 +6,13 @@ Order Details
 
 @section('content')
 <?php 
-$created_at = ""; $payment_method = "";
+$created_at = ""; $payment_method = ""; $refund = "";
 $amount = 0; $nprice = 0; $nquantity = 0; $subtotal = 0;
 foreach ($data as $key => $value) {
   $created_at = $value->created_at;
   $payment_method = $value->payment_method;
   $amount = $value->amount;
+  $refund = $value->refund;
 }
 
 ?>
@@ -48,7 +49,9 @@ foreach ($data as $key => $value) {
       <div class="row">
       <div class="col-12 left">
     <div style="display: inline-block;margin-right: 20px;margin-bottom: 20px;"><img src="{{ asset('public/images/profile.jpg') }}" width="40px" style="margin-top: -30px;"></div><div style="display: inline-block;padding-top: 10px;margin-bottom: 20px;">Order Total<br />
-      <h5 style="color: #ef9e17;display: inline;"><i class="fa fa-rupee"></i> <?= $amount ?></h5></div>
+      <h5 style="color: #ef9e17;display: inline;"><i class="fa fa-rupee"></i> <?= $amount ?><?php if($value->refund=="yes"): ?>
+          <span style="color: red;font-size: 13px;">(Refunded)</span>
+        <?php endif; ?></h5> </div>
       </div>
       <?php
 
@@ -89,13 +92,24 @@ foreach ($data as $key => $value) {
       Sub-Total
     </div>
      <div class="col-6 right">
-     <i class="fa fa-rupee"></i> <?= $subtotal ?>
+     <i class="fa fa-rupee"></i> 
+     <?php if($refund=="yes"): ?>
+      0
+     <?php endif ?>
+      <?= $subtotal ?>
+     <?php endif; ?>
+     
     </div>
     <div class="col-6 left">
      GST(18%)
     </div>
      <div class="col-6 right">
-     <i class="fa fa-rupee"></i> <?= $amount - $subtotal ?>
+     <i class="fa fa-rupee"></i>
+     <?php if($refund=="yes"): ?>
+      0
+     <?php endif ?>
+      <?= $amount - $subtotal ?>
+     <?php endif; ?> 
     </div>
     </div>
     </div>
