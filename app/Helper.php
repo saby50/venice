@@ -57,7 +57,7 @@ class Helper
       $data = DB::table('food_orders')->where('order_id', $order_id)->get();
       $refund_amount = 0;
       $status = "failed";
-      $email = ""; $payment_id = 0; $unit_id = 0;
+      $email = ""; $payment_id = 0; $unit_id = 0; $payment_id = 0;
       foreach ($data as $key => $value) {
         $refund_amount = $value->amount;
         $email = $value->email;
@@ -66,6 +66,7 @@ class Helper
         $payment_method = $value->payment_method;
         $unit_id = $value->unit_id;
         $phone = $value->phone;
+        $payment_id = $value->payment_id;
       }
       if ($payment_method=="instamojo") {
          
@@ -90,13 +91,16 @@ class Helper
         $checkuser = App\User::where('email',$email)->get();
 
          $wall_amount = 0;
+         $user_id = 0;
          foreach ($checkuser as $key => $value) {
             $wall_amount = $value->wall_am;
-            
+            $user_id = $value->user_id;
          }
          $updated_balance = Crypt::decrypt($wall_amount) + $amount;
+        $date = date("Y-m-d H:i:s");
+         $insert = DB::table('wall_history')->insert(['final_amount' => $amount, 'mainamount' => '0', 'extra' => '0','user_id' => $user_id,'order_id' => $order_id, 'expiry' => '', 'identifier' => 'refund', 'unit_id' => '0','trans_id' => $payment_id, 'platform' => 'android','refund' => 'yes','refund_amount' => $amount,'created_at' => $date, 'updated_at' => $date]);
 
-      $update = DB::table('users')->where('email',$email)->update(['wall_am' => Crypt::encrypt($updated_balance)]);
+        $update = DB::table('users')->where('email',$email)->update(['wall_am' => Crypt::encrypt($updated_balance)]);
        $unit_info = Helper::get_unit_info($unit_id);
 
          $unit_name = "";
