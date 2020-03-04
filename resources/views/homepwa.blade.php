@@ -196,8 +196,8 @@ Home
                                     	<?php endif; ?>
                                         
                                     </div>
-                                     <div class="col-4" style="text-align: right;">
-                                        Prep Time: 30 MINS
+                                     <div class="col-4">
+                                       30 Mins
                                     </div>
                                      <div class="col-4" style="text-align: right;">
                                         <i class='fa fa-rupee'></i> <?= $value->price_for_two ?> For Two
