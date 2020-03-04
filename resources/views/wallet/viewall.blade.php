@@ -60,6 +60,8 @@ Wallet
 				  if ($value->identifier=="payment" || $value->identifier=="refund") {
 				  	$units = Helper::get_unit($value->unit_id);
                     echo $units['unit_name'].", ".$units['floor_level'];
+				  }elseif($value->identifier=="foodorder") {
+				  	echo "Food Order";
 				  }else {
 				  	echo rtrim($s,",");
 				  }
