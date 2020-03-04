@@ -101,6 +101,7 @@ class Helper
        
 
         $update = DB::table('users')->where('email',$email)->update(['wall_am' => Crypt::encrypt($updated_balance)]);
+        $date = date("Y-m-d H:i:s");
          $insert = DB::table('wall_history')->insert(['final_amount' => 0, 'mainamount' => 0, 'extra' => 0,'user_id' => $user_id,'order_id' => $order_id, 'expiry' => '', 'identifier' => 'refund', 'unit_id' => 0,'trans_id' => $payment_id, 'platform' => 'android','refund' => 'yes','refund_amount' => $amount,'created_at' => $date, 'updated_at' => $date]);
        $unit_info = Helper::get_unit_info($unit_id);
 
@@ -109,7 +110,7 @@ class Helper
          foreach ($unit_info as $key => $value) {
            $unit_name = $value->unit_name;
          }
-          $date = date("Y-m-d H:i:s");
+          
           
       $content = "Your payment of Rs.".$refund_amount." is refunded from ".$unit_name.", The Grand Venice Mall, Now updated balance is Rs.".$updated_balance.".";
             Helper::send_otp($phone,$content);
