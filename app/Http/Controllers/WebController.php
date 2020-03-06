@@ -123,8 +123,21 @@ class WebController extends Controller
         $cart[] = array('unit_id' => $unit_id,'item_id' => $item_id,'quantity' => $quantity, 'price' => $price,'custom' => array());
       }
       Session::put('food_cart', $cart);
-      $cart = Session::get('food_cart');
-      return $sameunit;
+      $carts = Session::get('food_cart');
+     $data = array();
+      $get_unit_name = Helper::get_unit_info($unit_id);
+      $unit_name = "";
+      foreach ($get_unit_name as $key => $value) {
+        $unit_name = $value->unit_name;
+      }
+      $q = 0; $p = 0;
+      foreach ($carts as $key => $value) {
+        $q+= $value['quantity'];
+        $p+= $value['price'];
+        $data = array('price' => $p,'quantity' => $q, 'unit_name' => $unit_name,'sameunit' => $sameunit);
+         
+      }
+       return $data;
 
     }
 
@@ -134,6 +147,7 @@ class WebController extends Controller
       $quantity = $request['quantity'];
       $identifier = $request['identifier'];
       $price = $request['price'];
+      $unit_id = $request['unit_id'];
       $cart = Session::get('food_cart');
       $sprice = Helper::get_menu_item_price($item_id);
       $qprice = $quantity * $sprice;
@@ -154,8 +168,21 @@ class WebController extends Controller
       }
   
       Session::put('food_cart', $cart);
-      $cart = Session::get('food_cart');
-      return $cart;
+      $carts = Session::get('food_cart');
+      $data = array();
+      $get_unit_name = Helper::get_unit_info($unit_id);
+      $unit_name = "";
+      foreach ($get_unit_name as $key => $value) {
+        $unit_name = $value->unit_name;
+      }
+      $q = 0; $p = 0;
+      foreach ($carts as $key => $value) {
+        $q+= $value['quantity'];
+        $p+= $value['price'];
+        $data = array('price' => $p,'quantity' => $q, 'unit_name' => $unit_name);
+         
+      }
+       return $data;
     }
 
     function get_cart_data($unit_id) {

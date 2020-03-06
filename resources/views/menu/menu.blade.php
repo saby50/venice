@@ -392,7 +392,16 @@ foreach ($cart as $key => $value) {
 
               $.post(url,  formData,
             function (resp,textStatus, jqXHR) {
-                if (resp==1) {
+
+                console.log(resp);
+            if (resp.length==0) {
+               $(".bottomcart").hide();
+            }else {
+              $(".bottomcart").show();
+              $(".itemcount").html(resp['quantity']);
+              $(".itemprice").html(resp['price']);
+              $(".unit_name").html(resp['unit_name']);
+                if (resp['sameunit']==1) {
                     
                   $("#myModalSame").modal("show");
                   $(".sitem_id").val(data);
@@ -406,19 +415,18 @@ foreach ($cart as $key => $value) {
                   if (addon=="1") {
                  window.location = "<?= URL::to('menu/addons/') ?>/"+data;
                 }
-                }
+            }
+              
+              }
                 
             });
-               i = i + 1; 
-            $(".itemcount").html(i);
-            mainprice = mainprice + price;
-            $(".itemprice").html(mainprice);
            
          });
          $(".decrease").click(function() {
                 setTimeout( function() { $('.loader').show(); }, 300 );
             setTimeout( function() { $('.loader').hide(); }, 800 );
             var data = $(this).attr('data');
+            var unit_id = "<?= $getid ?>";
             var price = parseInt($(this).attr('data-price'));
             var currentquantity = parseInt($(this).next('input.q').val());
             var updatedquantity = 0;
@@ -438,29 +446,27 @@ foreach ($cart as $key => $value) {
                 'item_id': data,
                 'quantity': updatedquantity,
                 'price': price,
-                'identifier': 'minus'
+                'identifier': 'minus',
+                'unit_id' : unit_id
             };
 
             var url = '<?= URL::to("menu/foodcart_update") ?>'; 
             
 
             $.post(url,  formData, function (resp,textStatus, jqXHR) {
-            
-            });
-
-            var unit_id = "<?= $getid ?>";
-        var url = "<?= URL::to('menu/get_cart_data') ?>/"+unit_id;
-        $.get(url, function(data) {
-          console.log(data);
-           if (data.length==0) {
+               console.log(resp);
+            if (resp.length==0) {
                $(".bottomcart").hide();
             }else {
               $(".bottomcart").show();
-              $(".itemcount").html(data['quantity']);
-              $(".itemprice").html(data['price']);
-              $(".unit_name").html(data['unit_name']);
+              $(".itemcount").html(resp['quantity']);
+              $(".itemprice").html(resp['price']);
+              $(".unit_name").html(resp['unit_name']);
             }
-        });
+            });
+
+            var unit_id = "<?= $getid ?>";
+        
 
             
             
@@ -471,6 +477,7 @@ foreach ($cart as $key => $value) {
             var unit_id = "<?= $getid ?>";
             var data = $(this).attr('data');
             var price = parseInt($(this).attr('data-price'));
+            var unit_id = "<?= $getid ?>";
            // alert(data);
             var currentquantity = parseInt($(".quantity_"+data).val());
             var updatedquantity = currentquantity + 1;
@@ -481,27 +488,26 @@ foreach ($cart as $key => $value) {
                 'item_id': data,
                 'quantity': updatedquantity,
                 'price': price,
-                'identifier': 'plus'
+                'identifier': 'plus',
+                'unit_id' : unit_id
             };
 
             var url = '<?= URL::to("menu/foodcart_update") ?>'; 
             
 
             $.post(url,  formData, function (resp,textStatus, jqXHR) {
-            
-            });
-              var unit_id = "<?= $getid ?>";
-        var url = "<?= URL::to('menu/get_cart_data') ?>/"+unit_id;
-        $.get(url, function(data) {
-           if (data.length==0) {
+              console.log(resp);
+            if (resp.length==0) {
                $(".bottomcart").hide();
             }else {
               $(".bottomcart").show();
-              $(".itemcount").html(data['quantity']);
-              $(".itemprice").html(data['price']);
-              $(".unit_name").html(data['unit_name']);
+              $(".itemcount").html(resp['quantity']);
+              $(".itemprice").html(resp['price']);
+              $(".unit_name").html(resp['unit_name']);
             }
-        });
+            });
+              var unit_id = "<?= $getid ?>";
+       
             
          });
 
