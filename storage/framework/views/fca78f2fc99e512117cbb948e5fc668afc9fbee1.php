@@ -36,6 +36,7 @@
          foreach($menu_items as $k => $v):
 
        ?>
+       <div class="mcontent">
 	<div class="col-6 stitles" style="text-align: left;">
         <?= $v->item_name ?>
 		
@@ -52,7 +53,9 @@
             <span class="slider round"></span>
           </label>   
 	</div>
+  </div>
   <?php endforeach; ?>
+
 	</div>
 <?php endforeach; ?>
 
@@ -85,10 +88,10 @@
  			var text = $(this).val();
  
   			// Hide all content class element
- 			$('.fcontent').hide();
+ 			$('.mcontent').hide();
 
            // Search and show
-           $('.fcontent .stitles:contains("'+text+'")').closest('.fcontent').show();
+           $('.mcontent .stitles:contains("'+text+'")').closest('.mcontent').show();
  
          });
 	});

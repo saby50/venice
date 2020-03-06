@@ -119,7 +119,7 @@
   width: 0;
   height: 0;
 }
-.fcontent {
+.fcontent, .mcontent {
 	display: contents;
 }
 
