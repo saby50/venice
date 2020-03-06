@@ -54,7 +54,7 @@ class ApiController extends Controller
 	}
 	function food_items_status($unit_id) {
       $data = DB::table('unit_menu_items')->where('unit_id', $unit_id)->get();
-      return view('vendor.multiauth.admin.food_item_status', compact('data'));
+      return view('vendor.multiauth.admin.food_item_status', compact('data','unit_id'));
   }
   function change_status(Request $request) {
       $item_id = $request['item_id'];

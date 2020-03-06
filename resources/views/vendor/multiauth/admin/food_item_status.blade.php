@@ -16,25 +16,43 @@
 		<input type="text" class="form-control" name="search" id="search" placeholder="Search by item name">
 		
 	</div>
-    
-	<?php foreach($data as $key => $value): ?>
+  <?php 
+    $menu = Helper::get_menu_items($unit_id,'all');
+    $categories = array();
+   foreach ($menu as $key => $value) {
+    $categories[] = $value->food_category_id;
+  }
+   $categories = array_unique($categories);
+
+  ?>
+	<?php foreach($categories as $key => $value): ?>
 		 <div class="fcontent">
+      <div class="col-12" style="font-weight: bold;text-align: left;font-size: 16px;margin-bottom: 10px;border-bottom: solid 1px #ccc;padding-bottom:5px;text-transform: uppercase;">
+        <?= Helper::get_food_category_name($value) ?>
+        
+      </div>
+      <?php 
+         $menu_items = Helper::get_menu_items_category_id($value,'all');
+         foreach($menu_items as $k => $v):
+
+       ?>
 	<div class="col-6 stitles" style="text-align: left;">
-        <?= $value->item_name ?>
+        <?= $v->item_name ?>
 		
 	</div>
 
 	<div class="col-6 sf-align-right" style="text-align: right;">
 
 		<label class="switch">
-            <?php if($value->status=="active"): ?>
-             <input type="checkbox" name="veg" value="inactive" data="<?= $value->id ?>" class="status" checked="checked">
+            <?php if($v->status=="active"): ?>
+             <input type="checkbox" name="veg" value="inactive" data="<?= $v->id ?>" class="status" checked="checked">
              <?php else: ?>
-              <input type="checkbox" name="veg" value="active" data="<?= $value->id ?>" class="status">
+              <input type="checkbox" name="veg" value="active" data="<?= $v->id ?>" class="status">
               <?php endif; ?>
             <span class="slider round"></span>
           </label>   
 	</div>
+  <?php endforeach; ?>
 	</div>
 <?php endforeach; ?>
 
