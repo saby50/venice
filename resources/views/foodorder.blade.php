@@ -6,7 +6,7 @@ Food
 
 @section('content')
 <div class="slider-pwa">
-        <img data-u="image" src="http://localhost/venice/public/images/pages/foodcourtm.jpg" class="mobile">
+        <img data-u="image" src="<?= URL::to("public/images/pages/foodcourtm.jpg") ?>" class="mobile">
       </div>
 
         <!-- Start RecyclerView -->
