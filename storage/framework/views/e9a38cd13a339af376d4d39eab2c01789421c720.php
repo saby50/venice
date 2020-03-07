@@ -174,7 +174,7 @@ Home
 					<div class="featured-pwa ripple">
 						<div class="row">
 							<div class="col-4">
-								<div class="featureimage" style="background: url(<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>);"></div>
+								<img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>">
 							</div>	
 							<div class="col-8">
 								<span class="title"><?= $value->unit_name ?></span><br />
@@ -235,6 +235,9 @@ Home
     background-size: cover !important;
     border: solid 1px #ccc;
 
+}
+.feature {
+	border: solid 1px #ccc;
 }
 </style>
 	<?php $__env->stopSection(); ?>
