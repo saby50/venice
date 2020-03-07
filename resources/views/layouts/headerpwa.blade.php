@@ -12,7 +12,36 @@
         }
       }
     ?>
-     <?php if(Helper::get_device_platform()=="android"): ?>   
+     <?php if(Helper::check_app()=="1"): ?>   
+       <style type="text/css">
+        .searc_by_restaurant {
+    width: 100%;
+    height: 65px;
+    position: fixed;
+    top: 59px;
+    z-index: 9;
+    background: #fff;
+    padding: 10px;
+    display: none;
+   }
+      </style>
+
+      <?php else: ?>
+         <style type="text/css">
+        .searc_by_restaurant {
+    width: 100%;
+    height: 65px;
+    position: fixed;
+    top: 0px;
+    z-index: 9;
+    background: #fff;
+    padding: 10px;
+    display: none;
+   }
+      </style>
+      <?php endif; ?>
+     <?php if(Helper::get_device_platform()=="android"): ?>  
+     
   <?php if(Helper::check_app()=="1"): ?>   
  <style type="text/css">
     
@@ -27,13 +56,13 @@
     top: 0;
     z-index: 9;
   }
-   
    .headpwa {
     top: 59px;
    }
     .firstbox {
       margin-top: 130px !important;
    }
+
   </style>
   <div class="searc_by_restaurant">
     <div class="row">
@@ -112,6 +141,42 @@
       margin-top: 130px !important;
    }
   </style>
+  <div class="searc_by_restaurant">
+    <div class="row">
+      <div class="col-1" style="margin-top: 7px;">
+      <span class="backbtn ripple" style="font-size: 18px;"> <i class="fa fa-arrow-left fa-lg" style="color: #ccc;" aria-hidden="true"></i></span>
+
+      </div>
+       <div class="col-10">
+        <input type="text" class="form-control search" name="search" placeholder="Search by restaurant name">
+      </div>
+        <div class="col-1" style="margin-left: -20px;margin-top: 7px;">
+        <i class="fa fa-times fa-lg close_by_restaurant" style="color: #ccc;" aria-hidden="true"></i>
+
+      </div>
+    </div>
+    </div>
+    
+    
+  </div>
+    <div class="searc_by_dish">
+    <div class="row">
+      <div class="col-1" style="margin-top: 7px;">
+      <span class="backbtn ripple" style="font-size: 18px;"> <i class="fa fa-arrow-left fa-lg" style="color: #ccc;" aria-hidden="true"></i></span>
+
+      </div>
+       <div class="col-10">
+        <input type="text" class="form-control search_dish" name="search" placeholder="Search by dish name">
+      </div>
+        <div class="col-1" style="margin-left: -20px;margin-top: 7px;">
+        <i class="fa fa-times fa-lg close_by_dish" style="color: #ccc;" aria-hidden="true"></i>
+
+      </div>
+    </div>
+    </div>
+    
+    
+  </div>
       <div id="pre-header">
         <div class="row">
             <div class="col-sm-12" style="z-index: 999;margin-left: -30px;">
@@ -311,33 +376,7 @@ $(document).ready(function() {
 });
 
 </script>
-<?php if(Helper::check_app()==true): ?>
-  <style type="text/css">
-    .searc_by_restaurant {
-    width: 100%;
-    height: 65px;
-    position: fixed;
-    top: 0px;
-    z-index: 9;
-    background: #fff;
-    padding: 10px;
-    display: none;
-   }
-</style>
-<?php else: ?>
-  <style type="text/css">
-    .searc_by_restaurant {
-    width: 100%;
-    height: 65px;
-    position: fixed;
-    top: 59px;
-    z-index: 9;
-    background: #fff;
-    padding: 10px;
-    display: none;
-   }
-  </style>
-  <?php endif; ?>
+
 <style type="text/css">
 	.backbtn {
 		color: #FFF;
