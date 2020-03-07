@@ -7,6 +7,7 @@ Food
 @section('content')
 <?php 
 $vegnonveg = "";
+
 ?>
 <div class="slider-pwa">
         <img data-u="image" src="<?= URL::to("public/images/pages/foodcourtm.jpg") ?>" class="mobile">
@@ -85,7 +86,9 @@ $vegnonveg = "";
 
             <!-- End RecyclerView -->
 
-
+<?php 
+ echo $vegnonveg;
+?>
 <style type="text/css">
 	p {
 		text-align: justify;
