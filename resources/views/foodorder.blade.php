@@ -33,7 +33,7 @@ Food
                             <div class="col-4">
                                 <img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>">
                             </div>  
-                            <div class="col-8" style="padding-left: 24px;">
+                            <div class="col-8">
                                 <span class="title"><?= $value->unit_name ?></span><br />
                                 <span class="desc"><?= $value->tags ?></span><br />
                                 <hr />
