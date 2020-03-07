@@ -12,36 +12,7 @@
         }
       }
     ?>
-     <?php if(Helper::check_app()=="1"): ?>   
-       <style type="text/css">
-        .searc_by_restaurant {
-    width: 100%;
-    height: 65px;
-    position: fixed;
-    top: 59px;
-    z-index: 9;
-    background: #fff;
-    padding: 10px;
-    display: none;
-   }
-      </style>
-
-      <?php else: ?>
-         <style type="text/css">
-        .searc_by_restaurant {
-    width: 100%;
-    height: 65px;
-    position: fixed;
-    top: 0px;
-    z-index: 9;
-    background: #fff;
-    padding: 10px;
-    display: none;
-   }
-      </style>
-      <?php endif; ?>
-     <?php if(Helper::get_device_platform()=="android"): ?>  
-     
+     <?php if(Helper::get_device_platform()=="android"): ?>   
   <?php if(Helper::check_app()=="1"): ?>   
  <style type="text/css">
     
@@ -56,50 +27,15 @@
     top: 0;
     z-index: 9;
   }
+   
    .headpwa {
     top: 59px;
    }
     .firstbox {
       margin-top: 130px !important;
    }
-
   </style>
-  <div class="searc_by_restaurant">
-    <div class="row">
-      <div class="col-1" style="margin-top: 7px;">
-      <span class="backbtn ripple" style="font-size: 18px;"> <i class="fa fa-arrow-left fa-lg" style="color: #ccc;" aria-hidden="true"></i></span>
-
-      </div>
-       <div class="col-10">
-        <input type="text" class="form-control search" name="search" placeholder="Search by restaurant name">
-      </div>
-        <div class="col-1" style="margin-left: -20px;margin-top: 7px;">
-        <i class="fa fa-times fa-lg close_by_restaurant" style="color: #ccc;" aria-hidden="true"></i>
-
-      </div>
-    </div>
-    </div>
-    
-    
-  </div>
-    <div class="searc_by_dish">
-    <div class="row">
-      <div class="col-1" style="margin-top: 7px;">
-      <span class="backbtn ripple" style="font-size: 18px;"> <i class="fa fa-arrow-left fa-lg" style="color: #ccc;" aria-hidden="true"></i></span>
-
-      </div>
-       <div class="col-10">
-        <input type="text" class="form-control search_dish" name="search" placeholder="Search by dish name">
-      </div>
-        <div class="col-1" style="margin-left: -20px;margin-top: 7px;">
-        <i class="fa fa-times fa-lg close_by_dish" style="color: #ccc;" aria-hidden="true"></i>
-
-      </div>
-    </div>
-    </div>
-    
-    
-  </div>
+  
       <div id="pre-header">
         <div class="row">
             <div class="col-sm-12" style="z-index: 999;margin-left: -30px;">
@@ -141,7 +77,27 @@
       margin-top: 130px !important;
    }
   </style>
-  <div class="searc_by_restaurant">
+      <div id="pre-header">
+        <div class="row">
+            <div class="col-sm-12" style="z-index: 999;margin-left: -30px;">
+                <ul>
+
+                    <?php if(Helper::get_device_platform()=="android"): ?>   
+                    <li class="list-inline-item" style="width: 100%;text-align: center;"><span style="color: #EF9E11">Download App: </span> <a href="https://play.google.com/store/apps/details?id=com.thebhasin.thegrandvenice" target="_blank"><img src="{{ asset('public/images/google.png') }}" style="height: 40px;width: auto;"></a></li>
+                    <?php else: ?>
+                    <li class="list-inline-item" style="width: 100%;text-align: center;"><span style="color: #EF9E11">Download App: </span> <a href="https://apps.apple.com/gb/app/the-grand-venice-mall/id1492430011?ign-mpt=uo%3D2" target="_blank"><img src="{{ asset('public/images/apple.png') }}" style="height: 40px;width: auto;"></a></li>
+                     <?php endif; ?>
+                    
+                </ul>
+            </div>
+            
+        </div>
+       
+    </div>  
+     <?php endif; ?>
+
+      <?php endif; ?>
+      <div class="searc_by_restaurant">
     <div class="row">
       <div class="col-1" style="margin-top: 7px;">
       <span class="backbtn ripple" style="font-size: 18px;"> <i class="fa fa-arrow-left fa-lg" style="color: #ccc;" aria-hidden="true"></i></span>
@@ -177,26 +133,6 @@
     
     
   </div>
-      <div id="pre-header">
-        <div class="row">
-            <div class="col-sm-12" style="z-index: 999;margin-left: -30px;">
-                <ul>
-
-                    <?php if(Helper::get_device_platform()=="android"): ?>   
-                    <li class="list-inline-item" style="width: 100%;text-align: center;"><span style="color: #EF9E11">Download App: </span> <a href="https://play.google.com/store/apps/details?id=com.thebhasin.thegrandvenice" target="_blank"><img src="{{ asset('public/images/google.png') }}" style="height: 40px;width: auto;"></a></li>
-                    <?php else: ?>
-                    <li class="list-inline-item" style="width: 100%;text-align: center;"><span style="color: #EF9E11">Download App: </span> <a href="https://apps.apple.com/gb/app/the-grand-venice-mall/id1492430011?ign-mpt=uo%3D2" target="_blank"><img src="{{ asset('public/images/apple.png') }}" style="height: 40px;width: auto;"></a></li>
-                     <?php endif; ?>
-                    
-                </ul>
-            </div>
-            
-        </div>
-       
-    </div>  
-     <?php endif; ?>
-
-      <?php endif; ?>
  <?php if(Request::is('profile')): ?>   
 <div class="headpwa" style="z-index: 1000;">
   <?php else: ?>
@@ -376,7 +312,6 @@ $(document).ready(function() {
 });
 
 </script>
-
 <style type="text/css">
 	.backbtn {
 		color: #FFF;
@@ -392,7 +327,16 @@ $(document).ready(function() {
     top: 12px;
     display: none;
    }
-   
+   .searc_by_restaurant {
+    width: 100%;
+    height: 65px;
+    position: fixed;
+    top: 59px;
+    z-index: 9;
+    background: #fff;
+    padding: 10px;
+    display: none;
+   }
     .searc_by_dish {
     width: 100%;
     height: 65px;
