@@ -12,6 +12,33 @@
         }
       }
     ?>
+     <?php if(Helper::check_app()=="1"): ?>   
+    <style type="text/css">
+        .searc_by_restaurant {
+    width: 100%;
+    height: 65px;
+    position: fixed;
+    top: 0px;
+    z-index: 9;
+    background: #fff;
+    padding: 10px;
+    display: none;
+   }
+    </style>
+    <?php else: ?>
+          <style type="text/css">
+        .searc_by_restaurant {
+    width: 100%;
+    height: 65px;
+    position: fixed;
+    top: 59px;
+    z-index: 9;
+    background: #fff;
+    padding: 10px;
+    display: none;
+   }
+    </style>
+         <?php endif; ?>
      <?php if(Helper::get_device_platform()=="android"): ?>   
   <?php if(Helper::check_app()=="1"): ?>   
  <style type="text/css">
@@ -327,16 +354,7 @@ $(document).ready(function() {
     top: 12px;
     display: none;
    }
-   .searc_by_restaurant {
-    width: 100%;
-    height: 65px;
-    position: fixed;
-    top: 59px;
-    z-index: 9;
-    background: #fff;
-    padding: 10px;
-    display: none;
-   }
+ 
     .searc_by_dish {
     width: 100%;
     height: 65px;
