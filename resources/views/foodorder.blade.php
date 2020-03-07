@@ -5,10 +5,7 @@ Food
 @endsection
 
 @section('content')
-<?php 
-$vegnonveg = "";
 
-?>
 <div class="slider-pwa">
         <img data-u="image" src="<?= URL::to("public/images/pages/foodcourtm.jpg") ?>" class="mobile">
       </div>
@@ -86,9 +83,7 @@ $vegnonveg = "";
 
             <!-- End RecyclerView -->
 
-<?php 
- echo $vegnonveg;
-?>
+
 <style type="text/css">
 	p {
 		text-align: justify;
@@ -193,7 +188,7 @@ background-size: contain;
            'keyword': data
         };
         var response = "";
-        var nonveg = "<?= $vegnonveg ?>";
+        
         if (data != "") {
           $.post(url, formdata, function(resp,textStatus, jqXHR) {
             console.log(resp);
@@ -211,8 +206,9 @@ background-size: contain;
                                 <hr />\n\
                                 <div class="desc"  style="margin-top: 10px;">\n\
                                     <div class="row">\n\
-                                    <div class="col-6" style="font-size: 8px;">\n\
-                                        '+nonveg+' <br />\n\
+                                    <div class="col-6" style="font-size: 8px;">';
+                                   
+                                  response+= '<br />\n\
                                     </div>\n\
                                      <div class="col-6" style="text-align: right;">\n\
                                         <i class="fa fa-rupee"></i> '+n['price_for_two']+' For Two\n\
