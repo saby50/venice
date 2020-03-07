@@ -5,6 +5,9 @@ Food
 @endsection
 
 @section('content')
+<?php 
+$vegnonveg = "";
+?>
 <div class="slider-pwa">
         <img data-u="image" src="<?= URL::to("public/images/pages/foodcourtm.jpg") ?>" class="mobile">
       </div>
@@ -45,9 +48,15 @@ Food
                                         ?>
                                         <?php if(in_array('veg', $nonveg)): ?>
                                          <img src="{{ asset('public/images/veg.png') }}" style="width: 15px;height: 15px;">
+                                         <?php 
+                                           $vegnonveg.= '<img src="'.asset('public/images/veg.png').'" style="width: 15px;height: 15px;">';
+                                         ?>
                                         <?php endif; ?>
                                         <?php if(in_array('nonveg', $nonveg)): ?>
-                                       <img src="{{ asset('public/images/nonveg.png') }}" style="width: 15px;height: 15px;">
+                                          <img src="{{ asset('public/images/nonveg.png') }}" style="width: 15px;height: 15px;">
+                                          <?php 
+                                           $vegnonveg.= '<img src="'.asset('public/images/nonveg.png').'" style="width: 15px;height: 15px;">';
+                                         ?>
                                         <?php endif; ?>
                                         
                                     </div>
@@ -181,7 +190,7 @@ background-size: contain;
            'keyword': data
         };
         var response = "";
-        var nonveg
+        var nonveg = "<?= $vegnonveg ?>";
         if (data != "") {
           $.post(url, formdata, function(resp,textStatus, jqXHR) {
             console.log(resp);
@@ -200,7 +209,7 @@ background-size: contain;
                                 <div class="desc"  style="margin-top: 10px;">\n\
                                     <div class="row">\n\
                                     <div class="col-6" style="font-size: 8px;">\n\
-                                        <i class="fa fa-circle" aria-hidden="true" style="color: #16e358;"></i> Veg <br />\n\
+                                        '+nonveg+' <br />\n\
                                     </div>\n\
                                      <div class="col-6" style="text-align: right;">\n\
                                         <i class="fa fa-rupee"></i> '+n['price_for_two']+' For Two\n\
