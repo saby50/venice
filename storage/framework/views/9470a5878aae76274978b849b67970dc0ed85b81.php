@@ -4,7 +4,7 @@ Food
 
 <?php $__env->startSection('content'); ?>
 <div class="slider-pwa">
-        <img data-u="image" src="http://localhost/venice/public/images/pages/foodcourtm.jpg" class="mobile">
+        <img data-u="image" src="<?= URL::to("public/images/pages/foodcourtm.jpg") ?>" class="mobile">
       </div>
 
         <!-- Start RecyclerView -->
@@ -31,7 +31,7 @@ Food
                             <div class="col-4">
                                 <img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>">
                             </div>  
-                            <div class="col-8" style="padding-left: 24px;">
+                            <div class="col-8">
                                 <span class="title"><?= $value->unit_name ?></span><br />
                                 <span class="desc"><?= $value->tags ?></span><br />
                                 <hr />
@@ -42,10 +42,10 @@ Food
                                             $nonveg = Helper::get_veg_non($value->id);
                                         ?>
                                         <?php if(in_array('veg', $nonveg)): ?>
-                                        <i class="fa fa-circle" aria-hidden="true" style="color: #16e358;"></i> 
+                                         <img src="<?php echo e(asset('public/images/veg.png')); ?>" style="width: 15px;height: 15px;">
                                         <?php endif; ?>
                                         <?php if(in_array('nonveg', $nonveg)): ?>
-                                        <i class="fa fa-circle" aria-hidden="true" style="color: #ee1c25;"></i> 
+                                       <img src="<?php echo e(asset('public/images/nonveg.png')); ?>" style="width: 15px;height: 15px;">
                                         <?php endif; ?>
                                         
                                     </div>
