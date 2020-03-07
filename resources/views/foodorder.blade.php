@@ -181,17 +181,19 @@ background-size: contain;
            'keyword': data
         };
         var response = "";
+        var nonveg
         if (data != "") {
           $.post(url, formdata, function(resp,textStatus, jqXHR) {
             console.log(resp);
             $.each(resp, function(i,n) {
+
               response+= '<hr /><a href="<?= URL::to('show-menu/all/') ?>/'+n['id']+'" class="restaurantall">\n\
                     <div class="featured-pwa ripple">\n\
                         <div class="row">\n\
                             <div class="col-4">\n\
-                                <div class="featureimage" style="background: url(<?= URL::to('public/uploads/foodstore/') ?>/'+n['foodstore']+');"></div>\n\
+                            <img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/') ?>/'+n['foodstore']+'" alt="'+n['foodstore']+'">\n\
                             </div>  \n\
-                            <div class="col-8" style="padding-left: 24px;">\n\
+                            <div class="col-8">\n\
                                 <span class="title">'+n['unit_name']+'</span><br />\n\
                                 <span class="desc">'+n['tags']+'</span><br />\n\
                                 <hr />\n\
