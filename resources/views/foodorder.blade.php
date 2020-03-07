@@ -5,7 +5,6 @@ Food
 @endsection
 
 @section('content')
-
 <div class="slider-pwa">
         <img data-u="image" src="<?= URL::to("public/images/pages/foodcourtm.jpg") ?>" class="mobile">
       </div>
@@ -46,15 +45,9 @@ Food
                                         ?>
                                         <?php if(in_array('veg', $nonveg)): ?>
                                          <img src="{{ asset('public/images/veg.png') }}" style="width: 15px;height: 15px;">
-                                         <?php 
-                                           $vegnonveg.= '<img src="'.asset('public/images/veg.png').'" style="width: 15px;height: 15px;">';
-                                         ?>
                                         <?php endif; ?>
                                         <?php if(in_array('nonveg', $nonveg)): ?>
-                                          <img src="{{ asset('public/images/nonveg.png') }}" style="width: 15px;height: 15px;">
-                                          <?php 
-                                           $vegnonveg.= '<img src="'.asset('public/images/nonveg.png').'" style="width: 15px;height: 15px;">';
-                                         ?>
+                                       <img src="{{ asset('public/images/nonveg.png') }}" style="width: 15px;height: 15px;">
                                         <?php endif; ?>
                                         
                                     </div>
@@ -188,7 +181,6 @@ background-size: contain;
            'keyword': data
         };
         var response = "";
-        
         if (data != "") {
           $.post(url, formdata, function(resp,textStatus, jqXHR) {
             console.log(resp);
@@ -206,9 +198,8 @@ background-size: contain;
                                 <hr />\n\
                                 <div class="desc"  style="margin-top: 10px;">\n\
                                     <div class="row">\n\
-                                    <div class="col-6" style="font-size: 8px;">';
-                                   
-                                  response+= '<br />\n\
+                                    <div class="col-6" style="font-size: 8px;">\n\
+                                        <br />\n\
                                     </div>\n\
                                      <div class="col-6" style="text-align: right;">\n\
                                         <i class="fa fa-rupee"></i> '+n['price_for_two']+' For Two\n\
