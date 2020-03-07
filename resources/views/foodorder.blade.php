@@ -44,10 +44,10 @@ Food
                                             $nonveg = Helper::get_veg_non($value->id);
                                         ?>
                                         <?php if(in_array('veg', $nonveg)): ?>
-                                        <i class="fa fa-circle" aria-hidden="true" style="color: #16e358;"></i> 
+                                         <img src="{{ asset('public/images/veg.png') }}" style="width: 15px;height: 15px;">
                                         <?php endif; ?>
                                         <?php if(in_array('nonveg', $nonveg)): ?>
-                                        <i class="fa fa-circle" aria-hidden="true" style="color: #ee1c25;"></i> 
+                                       <img src="{{ asset('public/images/nonveg.png') }}" style="width: 15px;height: 15px;">
                                         <?php endif; ?>
                                         
                                     </div>
