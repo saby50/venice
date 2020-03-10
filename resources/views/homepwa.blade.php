@@ -154,7 +154,7 @@ Home
 			<img src="{{ asset('public/images/pwa/commercial.JPG') }}" alt="commercial.JPG">
 
 		</div>
-		<div class="col-md-12">
+		<div class="col-md-12" style="display: none;">
 		<!-- Start RecyclerView -->
 			<div class="recyclerview">
 				<div class="row">
