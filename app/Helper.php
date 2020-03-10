@@ -295,6 +295,10 @@ class Helper
     }
     return $item_price;
   }
+  public static function get_menu_item_count() {   
+    $data = DB::table('unit_menu_items')->count();
+    return $data;
+  }
   public static function get_menu_item_details($item_id) {   
     $data = DB::table('unit_menu_items')->where('id', $item_id)->get();
    
