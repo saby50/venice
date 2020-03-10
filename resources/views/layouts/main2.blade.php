@@ -7,6 +7,8 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="theme-color" content="#37367c"/>
     <?php if (\Request::is('/')): ?>
+    <meta property="title" content="The Grand Venice Mall">
+    <meta property="description" content="Do you want a perfect day out? Come to the Grand Venice Mall. The perfect destination for everyone who wants to have some fun and shop to their heart's delight. NCR's biggest tourist attraction featuring the best of architectural elements from Venice beckon you to experience unlimited happiness.">
     <meta property="og:title" content="The Grand Venice Mall">
     <meta property="og:description" content="Do you want a perfect day out? Come to the Grand Venice Mall. The perfect destination for everyone who wants to have some fun and shop to their heart's delight. NCR's biggest tourist attraction featuring the best of architectural elements from Venice beckon you to experience unlimited happiness.">
     <meta property="og:image" content="{{ asset('public/images/GV03.jpg') }}">
