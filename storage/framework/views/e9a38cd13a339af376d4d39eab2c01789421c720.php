@@ -152,6 +152,7 @@ Home
 			<img src="<?php echo e(asset('public/images/pwa/commercial.JPG')); ?>" alt="commercial.JPG">
 
 		</div>
+		<?php if(Helper::get_menu_item_count()!=0): ?>
 		<div class="col-md-12">
 		<!-- Start RecyclerView -->
 			<div class="recyclerview">
@@ -219,6 +220,7 @@ Home
 
 			<!-- End RecyclerView -->
 </div>
+<?php endif; ?>
 	</div>
 	<script type="text/javascript">
 

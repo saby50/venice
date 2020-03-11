@@ -409,13 +409,26 @@ foreach ($packs as $key => $value) {
         </form>
     </div>
     <!-- booking form success end -->
-   
+ 
     <main id="main">
+
           <!--==========================
       About Section
     ============================-->
         <section id="about" class="aboutarea">
             <div class="container">
+                <?php if(Helper::check_mobile()==1): ?>
+        <?php if($pack_type=="leads3"): ?>
+            <div class="row" style="margin-left: -50px;">
+            <div class="col-12" style="font-size: 15px;">
+             <i class="fa fa-phone" style="color: #EF9E11;" aria-hidden="true"></i> 88606 00030
+            </div>
+            <div class="col-12" style="font-size: 15px;">
+               <i class="fa fa-envelope" style="color: #EF9E11;" aria-hidden="true"></i> office@veniceindia.com
+            </div>
+        </div>
+    <?php endif; ?>
+     <?php endif; ?>
                 <div class="row">
                     <div class="col-md-5 col-12">
                         <?php if(Helper::check_mobile()==1): ?>
@@ -992,7 +1005,7 @@ a.anchor{
 } 
 @media (max-width: 425px) {
     .booking-form {
-    margin-top: 20px !important;
+    margin-top: 40px !important;
     } 
     .gvtower {
         position: relative;
