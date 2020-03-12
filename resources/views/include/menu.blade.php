@@ -73,6 +73,16 @@ $tempval = "";
                     </li>
 
                      <li>|</li>
+
+                    <li class="menu-has-children <?php if($segment2=='couple-pack' || $segment2=='family-pack' || $segment2=='combo-pack') { echo 'menu-active'; } ?>"><a href="<?= URL('categories#packs') ?>">Events</a>
+                        <ul>
+                        <?php foreach($events as $key => $value): ?>
+                            <li><a href="<?= URL::to('events/'.$value->alias) ?>"><?= $value->event_name ?></a></li>
+                        <?php endforeach; ?>
+                           
+                        </ul>
+                    </li>
+                     <li>|</li>
                      <?php if(count($gvtower) !=0): ?>
                       <li class="<?php if($segment2=='commercial') { echo 'menu-active'; } ?>"><a href="<?= URL('commercial') ?>">GV Tower</a></li> 
                         <li>|</li>
