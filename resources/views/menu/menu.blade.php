@@ -160,7 +160,7 @@ foreach ($cart as $key => $value) {
 				</div>
 			</div>
 			<?php 
-         $menu_items = Helper::get_menu_items_category_id($v,$view);
+         $menu_items = Helper::get_menu_items_category_id($v,$view,$getid);
          foreach($menu_items as $key => $value):
 
 			 ?>

@@ -313,11 +313,11 @@ class Helper
    
     return $data;
   }
-  public static function get_menu_items_category_id($food_category_id,$view) { 
+  public static function get_menu_items_category_id($food_category_id,$view, $unit_id) { 
     if ($view=="veg") {
-      $data = DB::table('unit_menu_items')->where('food_category_id', $food_category_id)->where('veg_nonveg', $view)->get();
+      $data = DB::table('unit_menu_items')->where('unit_id', $unit_id)->where('food_category_id', $food_category_id)->where('veg_nonveg', $view)->get();
     }else {
-      $data = DB::table('unit_menu_items')->where('food_category_id', $food_category_id)->get();
+      $data = DB::table('unit_menu_items')->where('unit_id', $unit_id)->where('food_category_id', $food_category_id)->get();
     }
     
     return $data;
