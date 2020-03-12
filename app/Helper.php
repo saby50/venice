@@ -125,13 +125,22 @@ class Helper
     $data = DB::table('unit_menu_items_add_ons_list')->where('item_addon_id', $item_addon_id)->get();
     return $data;
   }
+    public static function get_customize($item_id) { 
+    $customize = "";  
+    $data = DB::table('food_orders')->where('item_id', $item_id)->get();
+    foreach ($data as $key => $value) {
+      $customize = $value->customize;  
+    }
+    return $customize;
+  }
     public static function get_item_array($itemids) {
     $itemsarray = array();   
     $itemids = explode(",", $itemids);
     foreach ($itemids as $k => $v) {
       list($item_id, $quantity) = explode("_", $v);
       $item_name = Helper::get_menu_item_name($item_id); 
-      $itemsarray[] = array('item_id' => $item_id,'item_name' => $item_name,'price' => "100", 'quantity' => $quantity);
+      $customize = Helper::get_customize($item_id);
+      $itemsarray[] = array('item_id' => $item_id,'item_name' => $item_name,'price' => "100", 'quantity' => $quantity, 'customize' => $customize);
     }
     return $itemsarray;
   }
