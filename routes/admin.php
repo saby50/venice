@@ -218,9 +218,9 @@
     Route::post('/events/upload_mobile_banner', 'EventsController@upload_mobile_banner');
     Route::get('/events/load_mobile_banner/{id}', 'EventsController@load_mobile_banner');
     Route::post('/events/delete_mobile_banner', 'EventsController@delete_mobile_banner');
-        Route::post('/events/uploadr', 'EventsController@uploadr');
-         Route::get('/events/delete/{id}', 'EventsController@delete');
-
+    Route::post('/events/uploadr', 'EventsController@uploadr');
+    Route::get('/events/delete/{id}', 'EventsController@delete');
+    Route::get('/events/edit/{id}', 'EventsController@edit');
 
     Route::get('slides','HomeController@index');
 

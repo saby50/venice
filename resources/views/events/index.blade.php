@@ -92,8 +92,15 @@ Event | <?= $data[0]->event_name ?>
             
             <h4>Event: <?= $event_name ?></h4>
         </div>
-        <form class="row" action="{{ URL::to('events/checkout') }}" method="post">
+        <?php if($finalamount==0): ?>
+          <form class="row" action="{{ URL::to('events/send') }}" method="post">
+
+        <?php else: ?>
+         <form class="row" action="{{ URL::to('events/checkout') }}" method="post">
+        <?php endif; ?>
+        
             @csrf
+            <input type="hidden" name="event_name" value="<?= $event_name ?>">
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="date">Arrival Date</label>
@@ -160,8 +167,14 @@ Event | <?= $data[0]->event_name ?>
                 </div>
                 <div class="form-group">
                     <?php if($event==1): ?>
+                        <?php if($finalamount==0): ?>
+                             <button name="addtocart" type="submit" class="buynow btn" style="width: 100% !important;"><span> Check Out</span></button>
 
-                   <button name="addtocart" type="submit" id="checkout" class="buynow btn" style="width: 100% !important;"><span> Check Out</span></button>
+                        <?php else: ?>
+                             <button name="addtocart" type="submit" id="checkout" class="buynow btn" style="width: 100% !important;"><span> Check Out</span></button>
+                        <?php endif; ?>
+
+                  
                    <?php else: ?>
                     <div class="alert alert-danger"> Sorry this event is closed!</div>
                <?php endif; ?>

@@ -65,6 +65,7 @@ Route::get('food/status_s', 'WebController@status_s');
 Route::get('status_f', 'PaymentController@status_f');
 Route::get('events/{event_alias}', 'EventController@index');
 Route::post('events/add_event', 'EventController@add_event');
+Route::post('events/send', 'EventController@send');
 Route::post('apply_coupon', 'CartController@apply_coupon');
 Route::get('echeckout', 'EventController@checkout');
 Route::get('event/status', 'EventController@status');

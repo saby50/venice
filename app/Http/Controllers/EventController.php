@@ -30,6 +30,7 @@ class EventController extends Controller
        $featured2 = DB::table('packs')->inRandomOrder()->where('pack_type','!=','leads')->limit(2)->get();
        return view('events/index', compact('data','gallery','eventdates','featured','featured2'));	
     }
+
      function add_event(Request $request) {
        
        $date = $request['event_date'];
@@ -205,5 +206,21 @@ class EventController extends Controller
     }
     function event_terms_condtions() {
       return view('eventsterms');
+    }
+    function send(Request $request) {
+      $name = $request['name'];
+      $phone = $request['phone'];
+      $email = $request['email'];
+      $quant = $request['quant'];
+      $amount = $request['amount'];
+      $event_name = $request['event_name'];
+      $payment_id = rand(15,35); 
+      $currency = "INR";
+      $type = "NULL";
+      $purpose = "NULL";
+      $status = "success";
+      $this->booking_process($name,$email,$phone,$purpose,$amount,'NULL',$payment_id,$currency,$type,$status); 
+      return redirect()->back()->withInput()->with('status','You have success booked!');
+
     }
 }
