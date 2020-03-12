@@ -47,6 +47,7 @@ Event | <?= $data[0]->event_name ?>
    }
 
    $edates = ""; $etime="";
+   $lastdate = "";
    foreach ($eventdates as $key => $value) {
       $edates .= '"'.date('d-n-Y',strtotime($value->event_date)).'",';
       $etime = $value->event_time;
