@@ -74,10 +74,10 @@ $tempval = "";
 
                      <li>|</li>
 
-                    <li class="menu-has-children <?php if($segment2=='couple-pack' || $segment2=='family-pack' || $segment2=='combo-pack') { echo 'menu-active'; } ?>"><a href="<?= URL('categories#packs') ?>">Events</a>
+                    <li class="menu-has-children"><a href="<?= URL('#') ?>">Events</a>
                         <ul>
                         <?php foreach($events as $key => $value): ?>
-                            <li><a href="<?= URL::to('events/'.$value->alias) ?>"><?= $value->event_name ?></a></li>
+                            <li><a href="<?= URL::to('events/'.$value->event_alias) ?>"><?= $value->event_name ?></a></li>
                         <?php endforeach; ?>
                            
                         </ul>
