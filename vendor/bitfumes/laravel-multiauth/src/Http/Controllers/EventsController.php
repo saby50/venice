@@ -58,7 +58,8 @@ class EventsController extends Controller
       }
     }
     function uploads($id) {
-    	return view('vendor.multiauth.admin.events.uploads', compact('id'));
+       $type = "web";
+    	return view('vendor.multiauth.admin.events.uploads', compact('id','type'));
     }
 
     function upload_banner(Request $request) {
