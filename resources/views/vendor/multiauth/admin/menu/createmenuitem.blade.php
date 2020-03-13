@@ -163,8 +163,8 @@ $(document).ready(function() {
 $('.to').timepicker({
   timeFormat: 'h:mm p',
   interval: 60,
-  defaultTime: '16',
-  startTime: '4:00',
+  defaultTime: '22',
+  startTime: '10:00',
   dynamic: false,
   dropdown: false,
   scrollbar: true
