@@ -72,7 +72,7 @@ $tempval = "";
                         </ul>
                     </li>
 
-                     <li>|</li>
+                     <li style="display: none;">|</li>
 
                     <li class="menu-has-children" style="display: none;"><a href="<?= URL('#') ?>">Events</a>
                         <ul>
