@@ -74,7 +74,7 @@ $tempval = "";
 
                      <li>|</li>
 
-                    <li class="menu-has-children"><a href="<?= URL('#') ?>">Events</a>
+                    <li class="menu-has-children" style="display: none;"><a href="<?= URL('#') ?>">Events</a>
                         <ul>
                         <?php foreach($events as $key => $value): ?>
                             <li><a href="<?= URL::to('events/'.$value->event_alias) ?>"><?= $value->event_name ?></a></li>
