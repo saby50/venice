@@ -386,22 +386,35 @@
         <!--==========================
       Gallery Section
     ============================-->
-    <?php if(count($gallery) != 0): ?>
         <section id="gallery">
-            <div class="container-fluid">
+           <div class="container-fluid">
                 <div class="row">
-                    <?php foreach($gallery as $key => $value): ?>
-                    <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay="0.2s" style="padding-left: 0;">
-                        <div class="pic1">
+                    <?php if(Helper::check_mobile()==1): ?>
+                        <div style="width: 100%;overflow-x: scroll;height: 250px;position: relative;">
+                         <ul class="mobile-slider2">
+                         <?php foreach($gallery as $key => $value): ?>
+                   
+                        <li>
                             <img src="<?= asset('public/uploads/gallery/'.$value->img_name) ?>">
-                        </div>
-                    </div>
+                        </li>
+                    
                 <?php endforeach; ?>
+                </ul>
+                </div>
+                        <?php else: ?>
+                            <?php foreach($gallery as $key => $value): ?>
+                            <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay="0.2s" style="padding-left: 0;">
+                                <div class="pic1">
+                                    <img src="<?= asset('public/uploads/gallery/'.$value->img_name) ?>">
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+            <?php endif; ?>
                    
                 </div>
             </div>
+
 </section>
-<?php endif; ?>
 <!--==========================
       featured Section
     ============================-->
