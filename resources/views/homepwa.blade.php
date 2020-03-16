@@ -30,7 +30,7 @@ Home
 				</div>
 			</div>
 			<?php $i=0; foreach($events as $key => $value): ?>
-			<a href="<?= URL::to('packs/'.$value->event_alias."#bookingform") ?>">
+			<a href="<?= URL::to('events/'.$value->event_alias."#bookingform") ?>">
 				<div class="featured-pwa ripple">
 					<div class="row">
 						<div class="col-4">
