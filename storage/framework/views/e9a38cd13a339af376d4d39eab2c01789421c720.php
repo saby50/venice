@@ -19,8 +19,53 @@ Home
 			<div class="row">
 
 				<div class="col-12">
-					<div class="recyclerviewhead">
-						Featured Packs
+					<div class="recyclerviewhead" style="color: #EE0000;">
+						 Featured Events
+					</div>
+					<div class="recyclerviewhead2">
+						<a href="<?= URL::to('categories#packs') ?>" style="display: none;">View All</a>
+					</div>		
+				</div>
+			</div>
+			<?php $i=0; foreach($events as $key => $value): ?>
+			<a href="<?= URL::to('packs/'.$value->event_alias."#bookingform") ?>">
+				<div class="featured-pwa ripple">
+					<div class="row">
+						<div class="col-4">
+
+							<img class="img-fluid mx-auto d-block" src="<?= URL::to('public/uploads/featured_app/'.$value->featured_app) ?>"  alt="<?= $value->featured_app ?>">
+						</div>	
+						<div class="col-8" style="padding-left: 24px;">
+							<span class="title"><?= $value->event_name ?></span><br />
+							<span class="desc"><?= $value->teaser_line_1 ?> <?= $value->teaser_line_2 ?></span><br />
+							<span class="prices"><?php $rates = Helper::get_all_rates($value->id, 'packs');
+							echo '<i class="fa fa-rupee"></i> '.$value->event_price;
+							?></span>
+						</div>
+					</div>
+				</div>
+			</a>
+			<?php if($i == count($events) - 1): ?>
+				<?php else: ?>
+					<hr />
+				<?php endif; ?>
+				
+
+				<?php 
+				$i++;
+				?>
+
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<div class="col-12">
+		<!-- Start RecyclerView -->
+		<div class="recyclerview">
+			<div class="row">
+
+				<div class="col-12">
+					<div class="recyclerviewhead" style="color: #EE0000;">
+						 Featured Packs
 					</div>
 					<div class="recyclerviewhead2">
 						<a href="<?= URL::to('categories#packs') ?>">View All</a>
@@ -100,9 +145,9 @@ Home
 				<div class="row">
 
 					<div class="col-12">
-						<div class="recyclerviewhead">
+						<div class="recyclerviewhead" style="color: #EE0000;">
 
-							Featured Activities
+							 Featured Activities
 
 						</div>
 						<div class="recyclerviewhead2">

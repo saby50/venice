@@ -1,5 +1,5 @@
 <?php $__env->startSection('title'); ?>
-Event | <?= $data[0]->event_name ?>
+<?= $data[0]->event_name ?>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('includes'); ?>
 <meta property="og:title" content="The Grand Venice Mall | <?= $data[0]->event_name ?>">
@@ -25,6 +25,9 @@ Event | <?= $data[0]->event_name ?>
     $tax_percent = "";
     $minimum_quantity = 0;
     $rate_type = "";
+    $stag_entry = "";
+    $couple_entry = "";
+    $family_entry = "";
     $finalamount = 0; $taxamount = 0;   
    foreach ($data as $key => $value) {
     $teaser_line_1 = $value->teaser_line_1;
@@ -44,6 +47,9 @@ Event | <?= $data[0]->event_name ?>
     $mobile_banner = $value->mobile_banner;
     $rate_type = $value->rate_type;
     $minimum_quantity = $value->minimum_quantity;
+    $stag_entry = $value->stag_entry;
+    $family_entry = $value->family_entry;
+    $couple_entry = $value->couple_entry;
    }
 
    $edates = ""; $etime="";
@@ -94,7 +100,7 @@ Event | <?= $data[0]->event_name ?>
 
         <div class="head" style="padding-bottom: 10px;">
             
-            <h4>Event: <?= $event_name ?></h4>
+            <h4><?= $event_name ?></h4>
         </div>
         <?php if($finalamount==0): ?>
           <form class="row" action="<?php echo e(URL::to('events/send')); ?>" method="post">
@@ -114,6 +120,25 @@ Event | <?= $data[0]->event_name ?>
                             <?= date('l, F d Y',strtotime($lastdate)) ?> (<?= $time ?>)
                             <input type="hidden" class="form-control datepicker2" id="datepicker" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
                       <?php endif; ?></label>
+                      <div class="" style="font-size: 11px;">
+                        <?php if($stag_entry=="yes"): ?> 
+                            <i class="fa fa-check" aria-hidden="true" style="color: green;"></i> Stag Entry
+                        <?php else: ?>
+                            <i class="fa fa-times-circle" aria-hidden="true" style="color: red;"></i>  Stag Entry
+                        <?php endif; ?>
+                        &nbsp;&nbsp;
+                                <?php if($couple_entry=="yes"): ?> 
+                            <i class="fa fa-check" aria-hidden="true" style="color: green;"></i> Couple Entry
+                        <?php else: ?>
+                            <i class="fa fa-times-circle" aria-hidden="true" style="color: red;"></i>  Couple Entry
+                        <?php endif; ?>
+                         &nbsp;&nbsp;
+                             <?php if($family_entry=="yes"): ?> 
+                            <i class="fa fa-check" aria-hidden="true" style="color: green;"></i> Family Entry
+                        <?php else: ?>
+                            <i class="fa fa-times-circle" aria-hidden="true" style="color: red;"></i>  Family Entry
+                        <?php endif; ?>
+                      </div>
                     <div class="input-group">
                       
                         <span class="input-group-addon">

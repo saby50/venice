@@ -68,7 +68,11 @@ Services
                       <div id="fileuploader2">Upload</div>
                     </div>
                  
-                    
+                     <div class="col-md-12">
+                      <hr />
+                       <h5><strong>Upload Featured App</strong></h5>
+                      <div id="fileuploader6">Upload</div>
+                    </div>
                     
               <div class="col-md-12">
                 <br />
@@ -97,7 +101,46 @@ Services
 <script>
 $(document).ready(function()
 {
+$("#fileuploader6").uploadFile({
+  url:"<?= URL::to('admin/events/upload_featured_app') ?>",
+  maxFileCount:1,
+  fileName:"myfile",
+  formData: {"_token":"<?php echo e(csrf_token()); ?>", 'id': "<?= $id ?>"},
+  acceptFiles:"image/*",
+  showDelete: true,
+  returnType: "json",
+  showDownload:false,
+  showPreview:true,
+  previewHeight: "100px",
+  previewWidth: "100px",
+  onLoad:function(obj)
+   {
+    $.ajax({
+        cache: false,
+         url: "<?= URL::to('admin/events/load_featured_app/'.Request::segment(4)) ?>",
+        dataType: "json",
+        success: function(data)
+        {
+          for(var i=0;i<data.length;i++)
+          {
+            obj.createProgress(data[i]["name"],data[i]["path"],data[i]["size"]);
+          }
+          }
+    });
+  },
+  deleteCallback: function (data, pd) {
+    for (var i = 0; i < data.length; i++) {
+        $.post("<?= URL::to('admin/events/delete_featured_app/') ?>",  {op: "delete",name: data[i], id : "<?= Request::segment(4) ?>","_token":"<?php echo e(csrf_token()); ?>"},
+            function (resp,textStatus, jqXHR) {
+                //Show Message
+                alert("File Deleted");
+            });
+    }
+    pd.statusbar.hide(); //You choice.
 
+}
+  
+});
 $("#fileuploader3").uploadFile({
   url:"<?= URL::to('admin/events/upload_banner') ?>",
   maxFileCount:1,

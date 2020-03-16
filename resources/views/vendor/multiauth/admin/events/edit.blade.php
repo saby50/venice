@@ -7,6 +7,7 @@ Events
    $event_name = "";
    $event_alias = "";
    $end_date = "";
+    $price = "";
    $end_time = "";
    foreach ($data as $key => $value) {
      $event_name = $value->event_name;
@@ -51,7 +52,7 @@ Events
 </div><!-- Top Bar Chart -->
 
 <div class="panel-content">
-  <form action="{{ URL::to('admin/events/add') }}" method="post">
+  <form action="{{ URL::to('admin/events/update') }}" method="post">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 		<div class="col-md-12">
@@ -76,6 +77,7 @@ Events
             <div class="col-md-6">
                 <label>Event Name</label>
                 <input type="text" class="form-control" name="event_name" value="<?= $event_name ?>" required>
+                <input type="hidden" name="event_id" value="<?= $id ?>">
               </div>
               
                      <div class="col-md-6">
@@ -85,11 +87,11 @@ Events
                     </div>
                          <div class="col-md-6">
                   <label>Event Date</label>
-                    <input type="text" class="form-control" name="event_date[]" value="<?= $end_date ?>" required>
+                    <input type="text" class="form-control" name="event_date" value="<?= $end_date ?>" required>
                   </div>
                       <div class="col-md-6">
                   <label>Event Time</label>
-                    <input type="text" class="form-control" name="event_time[]" value="<?= $end_time ?>" required>
+                    <input type="text" class="form-control" name="event_time" value="<?= $end_time ?>" required>
                   </div>
                       <div class="col-md-6">
                       <label>Price</label><br />
@@ -173,5 +175,29 @@ $(document).ready(function()
       x--;
   })
 });
+</script>
+
+        <script>
+$(document).ready(function() {
+  $('.from').timepicker({
+    timeFormat: 'h:mm p',
+    interval: 60,
+    defaultTime: '8',
+    startTime: '8:00',
+    dynamic: false,
+    dropdown: false,
+    scrollbar: true
+});
+$('.to').timepicker({
+  timeFormat: 'h:mm p',
+  interval: 60,
+  defaultTime: '16',
+  startTime: '4:00',
+  dynamic: false,
+  dropdown: false,
+  scrollbar: true
+});
+});
+
 </script>
 @endsection

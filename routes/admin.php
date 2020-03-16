@@ -207,6 +207,10 @@
     
      Route::get('/events/create/', 'EventsController@create');
      Route::post('/events/add', 'EventsController@add');
+     Route::post('/events/update', 'EventsController@update');
+     Route::post('/events/upload_featured_app', 'EventsController@upload_featured_app');
+     Route::post('/events/delete_featured_app', 'EventsController@delete_featured_app');
+     Route::get('/events/load_featured_app/{id}', 'EventsController@load_featured_app');
      Route::get('/events/uploads/{id}', 'EventsController@uploads');
      Route::post('/events/upload_banner', 'EventsController@upload_banner');
     Route::get('/events/load_banner/{id}', 'EventsController@load_banner');

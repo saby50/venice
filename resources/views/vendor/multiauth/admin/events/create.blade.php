@@ -68,11 +68,11 @@ Events
                     </div>
                          <div class="col-md-6">
                   <label>Event Date</label>
-                    <input type="text" class="form-control" name="event_date[]"  required>
+                    <input type="date" class="form-control" name="event_date"  required>
                   </div>
                       <div class="col-md-6">
                   <label>Event Time</label>
-                    <input type="text" class="form-control" name="event_time[]"  required>
+                    <input type="text" class="form-control" name="event_time"  required>
                   </div>
                   
                       <div class="col-md-6">
@@ -160,5 +160,29 @@ $(document).ready(function()
       x--;
   })
 });
+</script>
+
+        <script>
+$(document).ready(function() {
+  $('.from').timepicker({
+    timeFormat: 'h:mm p',
+    interval: 60,
+    defaultTime: '8',
+    startTime: '8:00',
+    dynamic: false,
+    dropdown: false,
+    scrollbar: true
+});
+$('.to').timepicker({
+  timeFormat: 'h:mm p',
+  interval: 60,
+  defaultTime: '16',
+  startTime: '4:00',
+  dynamic: false,
+  dropdown: false,
+  scrollbar: true
+});
+});
+
 </script>
 @endsection
