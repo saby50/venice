@@ -119,7 +119,7 @@
             <input type="hidden" name="event_name" value="<?= $event_name ?>">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label for="date">Arrival Date: <?php if(count($eventdates)==1): ?>
+                    <label for="date"><?php if(count($eventdates)==1): ?>
                        <span style="font-weight: normal;"><?= date('l, F d Y',strtotime($lastdate)) ?> (<?= $time ?>)</span>
                         <input type="hidden" class="form-control datepicker2" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
                         <?php else: ?>
