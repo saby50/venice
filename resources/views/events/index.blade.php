@@ -1,7 +1,7 @@
 @extends('layouts.main2')
 
 @section('title')
-Event | <?= $data[0]->event_name ?>
+<?= $data[0]->event_name ?>
 @endsection
 @section('includes')
 <meta property="og:title" content="The Grand Venice Mall | <?= $data[0]->event_name ?>">
