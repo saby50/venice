@@ -87,7 +87,11 @@
 
 
 ?>
- <section id="hero" class="otherhero">
+<?php if (Helper::check_mobile()=="1"): ?>
+ <section id="hero" class="otherhero" style="margin-top: 130px !important;">
+    <?php else: ?>
+        <section id="hero" class="otherhero">
+    <?php endif; ?>
         <div class="hero-container ">
             <img src="<?= asset('public/uploads/mobile_banner/'.$mobile_banner) ?>" class="mobile" style="margin-top: -40px;">
         </div>
@@ -113,7 +117,7 @@
             <input type="hidden" name="event_name" value="<?= $event_name ?>">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label for="date">Arrival Date: <?php if(count($eventdates)==1): ?>
+                    <label for="date"><?php if(count($eventdates)==1): ?>
                        <span style="font-weight: normal;"><?= date('l, F d Y',strtotime($lastdate)) ?> (<?= $time ?>)</span>
                         <input type="hidden" class="form-control datepicker2" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
                         <?php else: ?>
@@ -168,14 +172,14 @@
                             <label for="time">Quantity</label>
                             <div class="input-group">
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                    <button type="button" class="btn btn-default btn-number minus"  disabled="disabled" data-type="minus" data-field="quant[1]">
                                         <span class="fa fa-minus"></span>
                                     </button>
                                 </span>
 
                                 <input type="text" name="quant[1]" class="form-control input-number quantity" value="<?= $minimum_quantity ?>" min="<?= $minimum_quantity ?>" max="10">
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                                    <button type="button" class="btn btn-default btn-number plus" data-type="plus" data-field="quant[1]">
                                         <span class="fa fa-plus"></span>
                                     </button>
                                 </span>
@@ -380,22 +384,35 @@
         <!--==========================
       Gallery Section
     ============================-->
-    <?php if(count($gallery) != 0): ?>
         <section id="gallery">
-            <div class="container-fluid">
+           <div class="container-fluid">
                 <div class="row">
-                    <?php foreach($gallery as $key => $value): ?>
-                    <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay="0.2s" style="padding-left: 0;">
-                        <div class="pic1">
+                    <?php if(Helper::check_mobile()==1): ?>
+                        <div style="width: 100%;overflow-x: scroll;height: 250px;position: relative;">
+                         <ul class="mobile-slider2">
+                         <?php foreach($gallery as $key => $value): ?>
+                   
+                        <li>
                             <img src="<?= asset('public/uploads/gallery/'.$value->img_name) ?>">
-                        </div>
-                    </div>
+                        </li>
+                    
                 <?php endforeach; ?>
+                </ul>
+                </div>
+                        <?php else: ?>
+                            <?php foreach($gallery as $key => $value): ?>
+                            <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay="0.2s" style="padding-left: 0;">
+                                <div class="pic1">
+                                    <img src="<?= asset('public/uploads/gallery/'.$value->img_name) ?>">
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+            <?php endif; ?>
                    
                 </div>
             </div>
+
 </section>
-<?php endif; ?>
 <!--==========================
       featured Section
     ============================-->
@@ -655,7 +672,7 @@ function available(date) {
          setTimeout( function() { $('.loader').hide(); }, 600 );
          
          var quantity = 1;
-        if (!isNaN(currentVal)) {
+         if (!isNaN(currentVal)) {
             if (type == 'minus') {
 
                 if (currentVal > input.attr('min')) {
@@ -671,7 +688,7 @@ function available(date) {
 
                 if (currentVal < input.attr('max')) {
                     input.val(currentVal + 1).change();
-                    
+                     $(".minus").attr('disabled',false);
                     quantity = currentVal + 1;
                 }
                 if (parseInt(input.val()) == input.attr('max')) {
@@ -683,7 +700,6 @@ function available(date) {
         } else {
             input.val(0);
         }
-
         var price = '<?= $price ?>';
         var rate_type = '<?= $rate_type ?>';
         var tax_percent = '<?= $tax_percent ?>';

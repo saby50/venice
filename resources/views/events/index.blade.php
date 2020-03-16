@@ -174,14 +174,14 @@
                             <label for="time">Quantity</label>
                             <div class="input-group">
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                    <button type="button" class="btn btn-default btn-number minus"  disabled="disabled" data-type="minus" data-field="quant[1]">
                                         <span class="fa fa-minus"></span>
                                     </button>
                                 </span>
 
                                 <input type="text" name="quant[1]" class="form-control input-number quantity" value="<?= $minimum_quantity ?>" min="<?= $minimum_quantity ?>" max="10">
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                                    <button type="button" class="btn btn-default btn-number plus" data-type="plus" data-field="quant[1]">
                                         <span class="fa fa-plus"></span>
                                     </button>
                                 </span>
@@ -674,7 +674,7 @@ function available(date) {
          setTimeout( function() { $('.loader').hide(); }, 600 );
          
          var quantity = 1;
-        if (!isNaN(currentVal)) {
+         if (!isNaN(currentVal)) {
             if (type == 'minus') {
 
                 if (currentVal > input.attr('min')) {
@@ -690,7 +690,7 @@ function available(date) {
 
                 if (currentVal < input.attr('max')) {
                     input.val(currentVal + 1).change();
-                    
+                     $(".minus").attr('disabled',false);
                     quantity = currentVal + 1;
                 }
                 if (parseInt(input.val()) == input.attr('max')) {
@@ -702,7 +702,6 @@ function available(date) {
         } else {
             input.val(0);
         }
-
         var price = '<?= $price ?>';
         var rate_type = '<?= $rate_type ?>';
         var tax_percent = '<?= $tax_percent ?>';
