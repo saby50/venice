@@ -89,7 +89,11 @@
 
 
 ?>
- <section id="hero" class="otherhero">
+<?php if (Helper::check_mobile()=="1"): ?>
+ <section id="hero" class="otherhero" style="margin-top: 130px !important;">
+    <?php else: ?>
+        <section id="hero" class="otherhero">
+    <?php endif; ?>
         <div class="hero-container ">
             <img src="<?= asset('public/uploads/mobile_banner/'.$mobile_banner) ?>" class="mobile" style="margin-top: -40px;">
         </div>
