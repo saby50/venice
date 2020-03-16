@@ -74,6 +74,7 @@ Events
                   <label>Event Time</label>
                     <input type="text" class="form-control" name="event_time[]"  required>
                   </div>
+                  
                       <div class="col-md-6">
                       <label>Price</label><br />
                    <input type="text" class="form-control" name="price"  required>
@@ -120,7 +121,10 @@ Events
                    <input type="radio" name="rate_type" value="yes" checked="checked"> Tax Inclusive &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="rate_type" value="no"> Tax Exclusive
                    
                     </div>
-                                      
+                           <div class="col-md-12" style="margin-bottom: 20px;">
+                  <label>Minimum Quantity</label>
+                    <input type="text" class="form-control" name="minimum_quantity"  required>
+                  </div>              
               <div class="col-md-12">              
                 <input type="submit" class="btn btn-primary" value="Next">
               </div>

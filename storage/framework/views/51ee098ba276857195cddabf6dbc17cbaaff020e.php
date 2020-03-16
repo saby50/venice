@@ -3,6 +3,23 @@
 Events
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+<?php
+   $event_name = "";
+   $event_alias = "";
+   $end_date = "";
+   $end_time = "";
+   foreach ($data as $key => $value) {
+     $event_name = $value->event_name;
+     $event_alias = $value->event_alias;
+     $end_date = $value->end_date;
+     $price = $value->event_price;
+     $end_time = $value->end_time;
+     $teaser_line_1 = $value->teaser_line_1;
+     $event_description = $value->event_description;
+     $event_short_description = $value->event_short_description;
+     $teaser_line_2 = $value->teaser_line_2;
+   }
+?>
 <div class="main-content style2"> 
 <div class="breadcrumbs">
 	<ul>
@@ -58,26 +75,25 @@ Events
 					<div class="row formarea">
             <div class="col-md-6">
                 <label>Event Name</label>
-                <input type="text" class="form-control" name="event_name"  required>
+                <input type="text" class="form-control" name="event_name" value="<?= $event_name ?>" required>
               </div>
               
                      <div class="col-md-6">
                       <label>Event Alias</label><br />
-                   <input type="text" class="form-control" name="event_alias"  required>
+                   <input type="text" class="form-control" name="event_alias" value="<?= $event_alias ?>" required>
                    
                     </div>
                          <div class="col-md-6">
                   <label>Event Date</label>
-                    <input type="text" class="form-control" name="event_date[]"  required>
+                    <input type="text" class="form-control" name="event_date[]" value="<?= $end_date ?>" required>
                   </div>
                       <div class="col-md-6">
                   <label>Event Time</label>
-                    <input type="text" class="form-control" name="event_time[]"  required>
+                    <input type="text" class="form-control" name="event_time[]" value="<?= $end_time ?>" required>
                   </div>
-                  
                       <div class="col-md-6">
                       <label>Price</label><br />
-                   <input type="text" class="form-control" name="price"  required>
+                   <input type="text" class="form-control" name="price" value="<?= $price ?>"required>
                    
                     </div>
                          <div class="col-md-6">
@@ -91,24 +107,24 @@ Events
                     </div>
                         <div class="col-md-6">
                       <label>Teaser Line 1</label><br />
-                   <input type="text" class="form-control" name="line1"  required>
+                   <input type="text" class="form-control" name="line1" value="<?= $teaser_line_1 ?>" required>
                    
                     </div>
                         <div class="col-md-6">
                       <label>Teaser Line 2</label><br />
-                   <input type="text" class="form-control" name="line2"  required>
+                   <input type="text" class="form-control" name="line2"  value="<?= $teaser_line_2 ?>"  required>
                    
                     </div>
 
                       <div class="col-md-6">
                     	<label>Short Description</label><br />
-                       <textarea class="form-control" id="summernote" name="shortdesc"></textarea>
+                       <textarea class="form-control" id="summernote" name="shortdesc"><?= $event_short_description ?></textarea>
                    
                     </div>
 
                     <div class="col-md-6">
                       <label>Description</label><br />
-                       <textarea class="form-control" id="summernote2" name="description"></textarea>                  
+                       <textarea class="form-control" id="summernote2" name="description"><?= $event_description ?></textarea>                  
                     </div> 
                       <div class="col-md-6" style="margin-bottom: 20px;">
                       <label>Suspend</label><br />
@@ -121,10 +137,7 @@ Events
                    <input type="radio" name="rate_type" value="yes" checked="checked"> Tax Inclusive &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="rate_type" value="no"> Tax Exclusive
                    
                     </div>
-                           <div class="col-md-12" style="margin-bottom: 20px;">
-                  <label>Minimum Quantity</label>
-                    <input type="text" class="form-control" name="event_time[]"  required>
-                  </div>              
+                                      
               <div class="col-md-12">              
                 <input type="submit" class="btn btn-primary" value="Next">
               </div>
@@ -163,4 +176,4 @@ $(document).ready(function()
 </script>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('multiauth::layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/vendor/multiauth/admin/events/create.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('multiauth::layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/vendor/multiauth/admin/events/edit.blade.php ENDPATH**/ ?>

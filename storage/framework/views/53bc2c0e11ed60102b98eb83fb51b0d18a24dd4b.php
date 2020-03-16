@@ -23,6 +23,7 @@ Event | <?= $data[0]->event_name ?>
     $event_alias = "";
     $mobile_banner = "";
     $tax_percent = "";
+    $minimum_quantity = 0;
     $rate_type = "";
     $finalamount = 0; $taxamount = 0;   
    foreach ($data as $key => $value) {
@@ -42,6 +43,7 @@ Event | <?= $data[0]->event_name ?>
     $event_alias = $value->event_alias;
     $mobile_banner = $value->mobile_banner;
     $rate_type = $value->rate_type;
+    $minimum_quantity = $value->minimum_quantity;
    }
 
    $edates = ""; $etime="";
@@ -73,6 +75,10 @@ Event | <?= $data[0]->event_name ?>
        $event = 1;
    }
 
+   $finalamount =  $finalamount * $minimum_quantity;
+   $price = $price * $minimum_quantity;
+   $taxamount = $taxamount * $minimum_quantity;
+
 
 ?>
  <section id="hero" class="otherhero">
@@ -101,13 +107,15 @@ Event | <?= $data[0]->event_name ?>
             <input type="hidden" name="event_name" value="<?= $event_name ?>">
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label for="date">Arrival Date</label>
-                    <div class="input-group">
-                      <?php if(count($eventdates)==1): ?>
-                        <input type="text" class="form-control datepicker2" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
+                    <label for="date">Arrival Date: <?php if(count($eventdates)==1): ?>
+                       <span style="font-weight: normal;"><?= date('l, F d Y',strtotime($lastdate)) ?> (<?= $time ?>)</span>
+                        <input type="hidden" class="form-control datepicker2" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
                         <?php else: ?>
-                            <input type="text" class="form-control datepicker2" id="datepicker" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
-                      <?php endif; ?>
+                            <?= date('l, F d Y',strtotime($lastdate)) ?> (<?= $time ?>)
+                            <input type="hidden" class="form-control datepicker2" id="datepicker" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
+                      <?php endif; ?></label>
+                    <div class="input-group">
+                      
                         <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -139,7 +147,8 @@ Event | <?= $data[0]->event_name ?>
                                         <span class="fa fa-minus"></span>
                                     </button>
                                 </span>
-                                <input type="text" name="quant[1]" class="form-control input-number quantity" value="1" min="1" max="10">
+
+                                <input type="text" name="quant[1]" class="form-control input-number quantity" value="<?= $minimum_quantity ?>" min="<?= $minimum_quantity ?>" max="10">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
                                         <span class="fa fa-plus"></span>
@@ -151,7 +160,7 @@ Event | <?= $data[0]->event_name ?>
                     <div class="col-sm-6" style="background: #FFF;">
                         <div class="input-group margin-bottom-sm price-box" style="width: 100%; margin: 0;">
                           <span class="input-group-addon rupeeicon"><i class="fa fa-rupee fa-lg"></i> </span> 
-                            <input type="text" class="form-control" id="price" value="<?= $finalamount ?>" name="amount" placeholder="&#x20B9; ----" readonly="readonly" style="background: #FFF;">
+                            <input type="text" class="form-control" id="price" value="<?= $finalamount  ?>" name="amount" placeholder="&#x20B9; ----" readonly="readonly" style="background: #FFF;">
 
                         </div>
                        <div class="pricetaxbox"> Price: <span class="mprice"><?= $price ?></span> |  GST: <span class="tax"><?= $taxamount ?></span>

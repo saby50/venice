@@ -27,6 +27,7 @@ class EventsController extends Controller
                 DB::raw('events.event_name as event_name'),
              DB::raw('events.start_date as event_date'),
              DB::raw('events.start_time as event_time'))
+              ->orderBy('booking_events.id','desc')
               ->get();
         $type = 'web';     
 	      return view('vendor.multiauth.admin.events.bookings', compact('data','type'));
@@ -35,6 +36,12 @@ class EventsController extends Controller
     	 $taxes = DB::table('taxes')->get();
         $type = "web";
     	return view('vendor.multiauth.admin.events.create', compact('data','taxes','type'));
+    }
+    function edit($id) {
+      $taxes = DB::table('taxes')->get();
+      $type = "web";
+      $data = DB::table('events')->where('id', $id)->get();
+      return view('vendor.multiauth.admin.events.edit', compact('data','taxes','type'));
     }
     function add(Request $request) {
       $event_name = $request['event_name'];
@@ -45,12 +52,13 @@ class EventsController extends Controller
       $line2 = $request['line2'];
       $suspend = $request['suspend'];
       $rate_type = $request['rate_type'];
+      $minimum_quantity = $request['minimum_quantity'];
       $tax_id = $request['tax_id'];
       $price = $request['price'];
       $shortdesc = $request['shortdesc'];
       $description = $request['description'];
       $date = date("Y-m-d H:i:s");
-      $data = array('event_name' => $event_name,'start_date' => '','start_time' =>'','end_date' => '','end_time' => '','teaser_line_1' => $line1,'teaser_line_2' => $line2,'event_description' => $description,'event_short_description' => $shortdesc,'event_price' => $price,'event_alias' => $event_alias,'tax_id' => $tax_id,'rate_type' => $rate_type,'created_at' => $date, 'updated_at' => $date);
+      $data = array('event_name' => $event_name,'start_date' => '','start_time' =>'','end_date' => '','end_time' => '','teaser_line_1' => $line1,'teaser_line_2' => $line2,'event_description' => $description,'event_short_description' => $shortdesc,'event_price' => $price,'event_alias' => $event_alias,'tax_id' => $tax_id,'rate_type' => $rate_type,'minimum_quantity' => $minimum_quantity,'created_at' => $date, 'updated_at' => $date);
       $db = DB::table('events')->insert($data);
        $insertid = DB::getPdo()->lastInsertId();
       if ($db) {
