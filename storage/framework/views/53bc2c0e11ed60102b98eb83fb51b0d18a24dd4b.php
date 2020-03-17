@@ -8,7 +8,9 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <?php 
-
+if (Auth::check()) {
+   $wall_amount = Crypt::decrypt(Auth::user()->wall_am);
+} 
     $teaser_line_1 = "";
     $teaser_line_2 = "";
     $description = "";
@@ -153,17 +155,28 @@
                
                 <div class="form-group">
                    <input type="hidden" name="services" value="1">
+                    <?php if(Auth::check()): ?>
+                    <input type="text" class="form-control name" name="name" value="<?php echo e(Auth::user()->name); ?>" placeholder="Name" required="required" readonly="readonly">
+                    <?php else: ?>
                     <input type="text" class="form-control name" name="name" placeholder="Name" required="required">
+                    <?php endif; ?>
                 </div>
                  <div class="form-group">
+                     <?php if(Auth::check()): ?>
+                    <input type="text" class="form-control phone" name="phone" placeholder="Phone" value="<?php echo e(Auth::user()->phone); ?>" required="required" onkeypress="return event.charCode >= 48 && event.charCode <= 57" readonly="readonly">
+                    <?php else: ?>
                     <input type="text" class="form-control phone" name="phone" placeholder="Phone" required="required" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                     <?php endif; ?>
                     <input type="hidden" class="event_name" value="<?= $event_name ?>">
                     <input type="hidden" class="event_alias" value="<?= $event_alias ?>">
                    <input type="hidden" class="event_time" value="<?= $starttime ?>">
                 </div>
                 <div class="form-group">
-                
+                <?php if(Auth::check()): ?>
+                    <input type="email" class="form-control email" name="email" value="<?php echo e(Auth::user()->email); ?>" aria-describedby="emailHelp" placeholder="Email" required="required" readonly="readonly">
+                    <?php else: ?>
                     <input type="email" class="form-control email" name="email" aria-describedby="emailHelp" placeholder="Email" required="required">
+                   <?php endif; ?> 
                      
                 </div>
                 <div class="row">
@@ -186,8 +199,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6" style="background: #FFF;">
-                        <div class="input-group margin-bottom-sm price-box" style="width: 100%; margin: 0;">
+                    <div class="col-sm-6" style="">
+                        <div class="input-group margin-bottom-sm price-box" style="width: 100%; margin: 0;background: #FFF;">
                           <span class="input-group-addon rupeeicon"><i class="fa fa-rupee fa-lg"></i> </span> 
                             <input type="text" class="form-control" id="price" value="<?= $finalamount  ?>" name="amount" placeholder="&#x20B9; ----" readonly="readonly" style="background: #FFF;">
 
@@ -201,13 +214,14 @@
                     <input type="checkbox" name="agreement" checked="checked" class="agreement"> I agree to the <a href="<?php echo e(URL::to('event/gudgudi-terms-conditions')); ?>" style="font-size: 15px;color: #ef9e11;" target="_blank">Terms and Conditions</a>
                     
                 </div>
+
                 <div class="form-group">
                     <?php if($event==1): ?>
                         <?php if($finalamount==0): ?>
                              <button name="addtocart" type="submit" class="buynow btn" style="width: 100% !important;"><span> Check Out</span></button>
 
                         <?php else: ?>
-                             <button name="addtocart" type="submit" id="checkout" class="buynow btn" style="width: 100% !important;"><span> Check Out</span></button>
+                             <button name="addtocart" type="submit" class="buynow btn checkout" style="width: 100% !important;"><span> Check Out</span></button>
                         <?php endif; ?>
 
                   
@@ -502,6 +516,34 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="paymentModal" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <label>Select Payment Method</label>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+          </div>
+          <div class="modal-body">
+            <div class="content">
+                <div class="row">
+                <div class="col-5"> <label> <input type="radio" name="payment_mode" class="payment_mode" checked="checked" value="instamojo" style="position: relative;top:2px;">  <img src="<?= asset('public/images/instamojo.JPG') ?>" class="payment_method2" style="width: 80px;"></label><br /></div>
+      <?php if(Auth::check()): ?>
+      <?php if($wall_amount!=0 && $wall_amount >= $finalamount): ?>
+    <div class="col-7" style="font-size: 12px;"><label> <input type="radio" name="payment_mode" class="payment_mode" value="wallet" style="position: relative;top:2px;"> <img src="<?= asset('public/images/gv_pocket.JPG') ?>" class="payment_method2" style="width: 60px;"> (<i class="fa fa-rupee"></i> <?= $wall_amount ?>)</label><br /></div>
+     <?php endif; ?>
+          <?php endif; ?>
+            </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             <button type="submit" class="buynow btn" id="checkout">Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
 <?php echo $__env->make('include/subfooter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <style type="text/css">
 #hero {
@@ -563,6 +605,13 @@
    }
    ?>
 <script type="text/javascript">
+
+    $(document).ready(function() {
+       $(".checkout").click(function() {
+        $("#paymentModal").modal("show");
+         return false;
+       });
+    });
     
     if ($(".agreement").is(':checked')) {
       $("#checkout").prop('disabled',false);
@@ -615,6 +664,7 @@ function available(date) {
            var name = $('.name').val();
            var email = $('.email').val();
            var phone = $('.phone').val();
+           var payment_mode = $(".payment_mode:checked").val();
             if (name != "" && email != "" && phone != "") {
              if (validateEmail(email)) {
                  var event_name = $('.event_name').val();
@@ -644,7 +694,7 @@ function available(date) {
             $.post(url,  formData,
             function (resp,textStatus, jqXHR) {
                 //Show Message
-                window.location = '<?= URL::to('echeckout') ?>';
+                window.location = '<?= URL::to('echeckout') ?>/'+payment_mode;
             });
         }else {
                $('#bookingModal').modal('show');

@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EventReciept;
 use Crypt;
+use Auth;
 class EventController extends Controller
 {
     function index($alias) {
@@ -54,9 +55,9 @@ class EventController extends Controller
         return redirect('cart');
        
     }
-    function checkout() {
+    function checkout($payment_method) {
        $event_cart = Session::get('event');
-       $payment_method = 'instamojo';
+       
      
       if ($payment_method=="instamojo") {
           $api = new \Instamojo\Instamojo(
@@ -83,6 +84,15 @@ class EventController extends Controller
         print('Error: ' . $e->getMessage());
     }
         
+      }else {
+         $trans_id = uniqid(mt_rand(),true);
+         $currency = "INR";
+         $status = "success";
+         $type = "wallet";
+         $this->booking_process($event_cart['name'],$event_cart['email'],$event_cart['phone'],$event_cart['event_name'],$event_cart['amount'],$payment_method,$trans_id,$currency,$type,$status); 
+
+          return redirect('status_s');
+
       }
        
     }
@@ -183,6 +193,20 @@ class EventController extends Controller
             Helper::send_otp($phone,$content2);
 
             $ndata[] = $data;
+
+            if ($payment_method=="wallet") {
+               $current_bal = Crypt::decrypt(Auth::user()->wall_am);
+
+           $updated_bal = $current_bal - $amount;
+         
+           $query2 = DB::table('users')->where('id',Auth::user()->id)->update(['wall_am' => Crypt::encrypt($updated_bal)]);
+           $trans_id = uniqid(mt_rand(),true);
+            $platform = Helper::get_device_platform();
+           $query3 = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $orderid,'identifier' => 'event','trans_id' => $trans_id,'payment_method' => 'wallet','platform' => $platform,'created_at' => $date, 'updated_at' => $date]);
+
+              $contentwallet = "You have paid Rs. ".$amount." to ".$purpose.", Order ID: ".$orderid.", Now current balance is Rs. ".$updated_bal.".";
+              Helper::send_otp(Auth::user()->phone,$contentwallet);
+            }
 
              if ($email != "") {
              Mail::to($email)->cc(['ravinder.bedi@thebasin.in'])->send(new EventReciept($ndata));

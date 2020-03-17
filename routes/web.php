@@ -67,7 +67,7 @@ Route::get('events/{event_alias}', 'EventController@index');
 Route::post('events/add_event', 'EventController@add_event');
 Route::post('events/send', 'EventController@send');
 Route::post('apply_coupon', 'CartController@apply_coupon');
-Route::get('echeckout', 'EventController@checkout');
+Route::get('echeckout/{payment_method}', 'EventController@checkout');
 Route::get('event/status', 'EventController@status');
 Route::get('getunitqr/{unit_id}', 'WebController@getunitqr');
 Route::get('get_time/{event_date}/{event_id}', 'EventController@get_time');
