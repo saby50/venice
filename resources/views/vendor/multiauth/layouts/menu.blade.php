@@ -155,7 +155,7 @@ $food_check = Helper::get_unit_by_email_food(Auth::user()->email);
                   <li><a href="<?= URL::to('admin/addmenu/'.$unitid) ?>"><i class="fa fa-eye"></i> <span>Manage Menu</a></li> 
                   <?php endif; ?> 
             <?php endif; ?> 
-          <li><a href="<?= URL::to('/') ?>" title="" target="_blank"><i class="fa fa-eye"></i> <span>Visit Website</a></li> 
+          <li><a href="https://veniceindia.com" title="" target="_blank"><i class="fa fa-eye"></i> <span>Visit Website</a></li> 
 
       <li><a href="/admin/logout" title="" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> <span>{{ __('Logout') }}</a>
