@@ -211,6 +211,11 @@
      Route::post('/events/upload_featured_app', 'EventsController@upload_featured_app');
      Route::post('/events/delete_featured_app', 'EventsController@delete_featured_app');
      Route::get('/events/load_featured_app/{id}', 'EventsController@load_featured_app');
+     
+        Route::post('/events/upload_video_icon', 'EventsController@upload_video_icon');
+     Route::post('/events/delete_video_icon', 'EventsController@delete_video_icon');
+     Route::get('/events/load_video_icon/{id}', 'EventsController@load_video_icon');
+
      Route::get('/events/uploads/{id}', 'EventsController@uploads');
      Route::post('/events/upload_banner', 'EventsController@upload_banner');
     Route::get('/events/load_banner/{id}', 'EventsController@load_banner');

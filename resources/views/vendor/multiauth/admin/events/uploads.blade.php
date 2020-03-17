@@ -68,12 +68,16 @@ Services
                       <div id="fileuploader2">Upload</div>
                     </div>
                  
-                     <div class="col-md-12">
+                     <div class="col-md-6">
                       <hr />
                        <h5><strong>Upload Featured App</strong></h5>
                       <div id="fileuploader6">Upload</div>
                     </div>
-                    
+                     <div class="col-md-6">
+                      <hr />
+                       <h5><strong>Upload Video Icon</strong></h5>
+                      <div id="fileuploader7">Upload</div>
+                    </div>
               <div class="col-md-12">
                 <br />
 		
@@ -131,6 +135,46 @@ $("#fileuploader6").uploadFile({
   deleteCallback: function (data, pd) {
     for (var i = 0; i < data.length; i++) {
         $.post("<?= URL::to('admin/events/delete_featured_app/') ?>",  {op: "delete",name: data[i], id : "<?= Request::segment(4) ?>","_token":"{{ csrf_token()}}"},
+            function (resp,textStatus, jqXHR) {
+                //Show Message
+                alert("File Deleted");
+            });
+    }
+    pd.statusbar.hide(); //You choice.
+
+}
+  
+});
+$("#fileuploader7").uploadFile({
+  url:"<?= URL::to('admin/events/upload_video_icon') ?>",
+  maxFileCount:1,
+  fileName:"myfile",
+  formData: {"_token":"{{ csrf_token()}}", 'id': "<?= $id ?>"},
+  acceptFiles:"image/*",
+  showDelete: true,
+  returnType: "json",
+  showDownload:false,
+  showPreview:true,
+  previewHeight: "100px",
+  previewWidth: "100px",
+  onLoad:function(obj)
+   {
+    $.ajax({
+        cache: false,
+         url: "<?= URL::to('admin/events/load_video_icon/'.Request::segment(4)) ?>",
+        dataType: "json",
+        success: function(data)
+        {
+          for(var i=0;i<data.length;i++)
+          {
+            obj.createProgress(data[i]["name"],data[i]["path"],data[i]["size"]);
+          }
+          }
+    });
+  },
+  deleteCallback: function (data, pd) {
+    for (var i = 0; i < data.length; i++) {
+        $.post("<?= URL::to('admin/events/delete_video_icon/') ?>",  {op: "delete",name: data[i], id : "<?= Request::segment(4) ?>","_token":"{{ csrf_token()}}"},
             function (resp,textStatus, jqXHR) {
                 //Show Message
                 alert("File Deleted");

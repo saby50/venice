@@ -13,8 +13,9 @@ Events
      $event_name = $value->event_name;
      $event_alias = $value->event_alias;
      $end_date = $value->end_date;
+     $start_date = $value->start_date;
      $price = $value->event_price;
-     $end_time = $value->end_time;
+     $start_time = $value->start_time;
      $teaser_line_1 = $value->teaser_line_1;
      $event_description = $value->event_description;
      $event_short_description = $value->event_short_description;
@@ -87,11 +88,11 @@ Events
                     </div>
                          <div class="col-md-6">
                   <label>Event Date</label>
-                    <input type="text" class="form-control" name="event_date" value="<?= $end_date ?>" required>
+                    <input type="text" class="form-control" name="event_date" value="<?= $start_date ?>" required>
                   </div>
                       <div class="col-md-6">
                   <label>Event Time</label>
-                    <input type="text" class="form-control" name="event_time" value="<?= $end_time ?>" required>
+                    <input type="text" class="form-control" name="event_time" value="<?= $start_time ?>" required>
                   </div>
                       <div class="col-md-6">
                       <label>Price</label><br />
@@ -139,7 +140,17 @@ Events
                    <input type="radio" name="rate_type" value="yes" checked="checked"> Tax Inclusive &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="rate_type" value="no"> Tax Exclusive
                    
                     </div>
-                                      
+                        <div class="col-md-6">
+                      <label>Type</label><br />
+                       <select name="videotype" class="form-control">
+                        <option value="video">Video</option>
+                         <option value="page">Page</option>
+                       </select>                  
+                    </div>   
+                      <div class="col-md-6">
+                      <label>Link</label><br />
+                       <input type="text" name="link" class="form-control">                
+                    </div>                     
               <div class="col-md-12">              
                 <input type="submit" class="btn btn-primary" value="Next">
               </div>

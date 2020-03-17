@@ -17,6 +17,7 @@ if (Auth::check()) {
     $background = "";
     $event_date = "";
     $duration = "";
+     $video_icon = "";
     $totime = "";
     $fromtime = "";
     $forground = "";
@@ -24,6 +25,9 @@ if (Auth::check()) {
     $icon = "";
     $event_alias = "";
     $mobile_banner = "";
+    $videotype = "";
+    $link = "";
+    $video = "";
     $tax_percent = "";
     $minimum_quantity = 0;
     $rate_type = "";
@@ -43,6 +47,7 @@ if (Auth::check()) {
     $endtime = $value->end_time;
     $tax_percent = $value->tax_percent;
     $forground = $value->forground;
+     $video_icon = $value->video_icon;
     $event_name = $value->event_name;
     $price = $value->event_price;
     $event_alias = $value->event_alias;
@@ -52,6 +57,8 @@ if (Auth::check()) {
     $stag_entry = $value->stag_entry;
     $family_entry = $value->family_entry;
     $couple_entry = $value->couple_entry;
+    $videotype = $value->videotype;
+    $link = $value->link;
    }
 
    $edates = ""; $etime="";
@@ -120,10 +127,10 @@ if (Auth::check()) {
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="date"><?php if(count($eventdates)==1): ?>
-                       <span style="font-weight: normal;"><?= date('l, F d Y',strtotime($lastdate)) ?> (<?= $time ?>)</span>
+                       <span style="font-weight: normal;"><?= date('l, F j Y',strtotime($lastdate)) ?> (<?= $time ?>)</span>
                         <input type="hidden" class="form-control datepicker2" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
                         <?php else: ?>
-                            <?= date('l, F d Y',strtotime($lastdate)) ?> (<?= $time ?>)
+                            <?= date('l, F j Y',strtotime($lastdate)) ?> (<?= $time ?>)
                             <input type="hidden" class="form-control datepicker2" id="datepicker" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
                       <?php endif; ?></label>
                       <div class="" style="font-size: 11px;">
@@ -349,52 +356,39 @@ if (Auth::check()) {
     </div>
     <!-- booking form success end -->
     <main id="main">
-        <!--==========================
-      Services Section
+         <!--==========================
+      About Section
     ============================-->
-        <section id="services">
-            <div class="container wow fadeIn">
-                <div class="section-header text-center">
-                    <h4><?= $teaser_line_1 ?></h4>
-                    <h3 class="section-title"><?= $teaser_line_2 ?></h3>
-                    <p class="section-description"><?= $description ?></p>
-                    <div class="row" style="display: none;">
-                        <div class="col-md-3">
-                            <h6>TIMINGS</h6>
-                            <P><?= date('g A', strtotime($fromtime)) ?> - <?= date('g A', strtotime($totime)) ?></P>
-                        </div>
-                        <div class="col-md-3">
-                            <h6>EVENT DATE</h6>
-                            <P>All</P>
-                        </div>
-                        <div class="col-md-3">
-                            <h6>VENUE</h6>
-                            <P>Grand Venice Mall</P>
-                        </div>
-                        <div class="col-md-3">
-                            <h6>DURATION</h6>
-                            <P><?= $duration ?></P>
-                        </div>
+        <section id="about" class="aboutarea">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 col-12">
+                        <?php if(Helper::check_mobile()==1): ?>
+                         <iframe width="100%" height="250" class="youtube-video" src="<?= $video ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+                        <?php else: ?>
+                        
+                        <?php if($videotype=="video"): ?>
+                        <img src="<?= asset('public/uploads/vidicon/'.$video_icon) ?>">
+                        <a href="javascript:;" class="modalclick" data-toggle="modal" data-target="#myModal"><img src="<?php echo e(asset('public/images/home/Video-Play-Btn.png')); ?>" class="img-responsive center playBtn" style="height: auto;"></a>
+                        <?php else: ?>
+                        <a href="<?= $link ?>" target="_blank"><img src="<?= asset('public/uploads/vidicon/'.$video_icon) ?>"></a>
+                        <?php endif; ?>
+                        <?php endif; ?>
+                          
+                        
                     </div>
-                    <div class="row incluions-box eventbox">
-                     
-                            <div class="col-2 incluions-title">
-                                <img src="<?php echo e(asset('public/images/inclusionicons.jpg')); ?>">Details
-                            </div>
-                            <div class="col-9 inclusion-content">
-                                <ul class="inclusions">
-                                    
-                                   
-                                    <li><?= date('l, F d 2019',strtotime($lastdate)) ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $time ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ticket@ <span style="text-transform: capitalize !important;">Rs</span>. <?= $data[0]->event_price ?></li>
-                   
-                                </ul>
-                            </div>
-                            
-                     
+                    <div class="col-md-7 col-12">
+                        <div class="section-header">
+                             <h2 class="section-title"><?= $teaser_line_1 ?></h2>
+                            <h3><?= $teaser_line_2 ?></h3>
+                          
+                      <p><?= $description ?></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section><!-- #services -->
+        </section><!-- #About -->
         <!--==========================
       Gallery Section
     ============================-->
@@ -544,6 +538,33 @@ if (Auth::check()) {
         </div>
       </div>
     </div>
+     <div id="myModal" class="modal fade" role="dialog" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+      </div>
+      <div class="modal-body">
+      <iframe width="750" height="400" class="youtube-video" src="https://www.youtube.com/embed/PddSUho7PeI?start=2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+      </div>
+    </div>
+
+  </div>
+</div>
+  <script type="text/javascript">
+      $(function() {
+        $(".modalclick").click(function() {
+           $('#myModal').modal({backdrop: 'static', keyboard: false});
+               $('.youtube-video').attr('src','<?= $video ?>?autoplay=1');
+              
+        });
+        $("#myModal .close").click(function() {
+           $('.youtube-video').attr('src','<?= $video ?>');
+        });
+      });
+    </script>
 <?php echo $__env->make('include/subfooter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <style type="text/css">
 #hero {

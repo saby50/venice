@@ -124,7 +124,18 @@ Events
                            <div class="col-md-12" style="margin-bottom: 20px;">
                   <label>Minimum Quantity</label>
                     <input type="text" class="form-control" name="minimum_quantity"  required>
-                  </div>              
+                  </div>  
+                   <div class="col-md-6">
+                      <label>Type</label><br />
+                       <select name="videotype" class="form-control">
+                         <option value="video">Video</option>
+                         <option value="page">Page</option>
+                       </select>                  
+                    </div>   
+                      <div class="col-md-6">
+                      <label>Link</label><br />
+                       <input type="text" name="link" class="form-control">                
+                    </div>                    
               <div class="col-md-12">              
                 <input type="submit" class="btn btn-primary" value="Next">
               </div>

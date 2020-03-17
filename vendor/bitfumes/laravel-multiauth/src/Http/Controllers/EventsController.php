@@ -52,13 +52,15 @@ class EventsController extends Controller
       $line2 = $request['line2'];
       $suspend = $request['suspend'];
       $rate_type = $request['rate_type'];
+      $videotype = $request['videotype'];
+      $link = $request['link'];
       $minimum_quantity = $request['minimum_quantity'];
       $tax_id = $request['tax_id'];
       $price = $request['price'];
       $shortdesc = $request['shortdesc'];
       $description = $request['description'];
       $date = date("Y-m-d H:i:s");
-      $data = array('event_name' => $event_name,'start_date' => $event_date,'start_time' => $event_time,'teaser_line_1' => $line1,'teaser_line_2' => $line2,'event_description' => $description,'event_short_description' => $shortdesc,'event_price' => $price,'event_alias' => $event_alias,'tax_id' => $tax_id,'rate_type' => $rate_type,'minimum_quantity' => $minimum_quantity,'created_at' => $date, 'updated_at' => $date);
+      $data = array('event_name' => $event_name,'start_date' => $event_date,'start_time' => $event_time,'teaser_line_1' => $line1,'teaser_line_2' => $line2,'event_description' => $description,'event_short_description' => $shortdesc,'event_price' => $price,'event_alias' => $event_alias,'tax_id' => $tax_id,'rate_type' => $rate_type,'minimum_quantity' => $minimum_quantity,'videotype' => $videotype,'link' => $link,'created_at' => $date, 'updated_at' => $date);
       $db = DB::table('events')->insert($data);
        $insertid = DB::getPdo()->lastInsertId();
       if ($db) {
@@ -285,12 +287,14 @@ class EventsController extends Controller
       $rate_type = $request['rate_type'];
       $minimum_quantity = $request['minimum_quantity'];
       $event_id = $request['event_id'];
+      $videotype = $request['videotype'];
+      $link = $request['link'];
       $tax_id = $request['tax_id'];
       $price = $request['price'];
       $shortdesc = $request['shortdesc'];
       $description = $request['description'];
       $date = date("Y-m-d H:i:s");
-      $data = array('event_name' => $event_name,'start_date' => $event_date,'start_time' => $event_time,'teaser_line_1' => $line1,'teaser_line_2' => $line2,'event_description' => $description,'event_short_description' => $shortdesc,'event_price' => $price,'event_alias' => $event_alias,'tax_id' => $tax_id,'rate_type' => $rate_type,'minimum_quantity' => $minimum_quantity,'created_at' => $date, 'updated_at' => $date);
+      $data = array('event_name' => $event_name,'start_date' => $event_date,'start_time' => $event_time,'teaser_line_1' => $line1,'teaser_line_2' => $line2,'event_description' => $description,'event_short_description' => $shortdesc,'event_price' => $price,'event_alias' => $event_alias,'tax_id' => $tax_id,'rate_type' => $rate_type,'minimum_quantity' => $minimum_quantity,'videotype' => $videotype,'link' => $link,'created_at' => $date, 'updated_at' => $date);
       $db = DB::table('events')->where('id',$event_id)->update($data);
        
       if ($db) {
@@ -414,6 +418,87 @@ class EventsController extends Controller
      $output_dir = "uploads/featured_app/";
      $id = $request['id'];
      $db = DB::table('events')->where('id', $id)->update(['featured_app' => '']);
+     if($request['op'] == "delete")
+    {
+    $fileName = $request['name'];
+    $fileName=str_replace("..",".",$fileName); //required. if somebody is trying parent folder files
+    $filePath = $output_dir. $fileName;
+
+    if (file_exists($filePath))
+    {
+         unlink($filePath);
+     }
+      echo "Deleted File: ".$filePath;
+    }
+   }
+
+
+   function upload_video_icon(Request $request) {
+    $destinationPath = "uploads/vidicon";
+    $file = $request->file('myfile');
+    $id = $request['id'];
+    $fdate = date('dmyhis');
+    if(isset($file))
+    {
+      $ret = array();
+
+    //  This is for custom errors;
+    /*  $custom_error= array();
+      $custom_error['jquery-upload-file-error']="File already exists";
+      echo json_encode($custom_error);
+      die();
+    */
+      $filename = str_replace(" ", "", $fdate."".$file->getClientOriginalName());
+
+      //You need to handle  both cases
+      //If Any browser does not support serializing of multiple files using FormData()
+      if(!is_array($file->getClientOriginalName())) //single file
+      {
+        $fileName = str_replace(" ", "", $fdate."".$file->getClientOriginalName());
+        $file->move($destinationPath,$fileName);
+        $db = DB::table('events')->where('id', $id)->update(['video_icon' => $filename]);
+        $ret[]= $fileName;
+      }
+      else  //Multiple files, file[]
+      {
+        $fileCount = count($file->getClientOriginalName());
+        for($i=0; $i < $fileCount; $i++)
+        {
+          $fileName = $filename[$i];
+          $file->move($destinationPath,$fileName);
+          $ret[]= $fileName;
+        }
+
+      }
+        return $ret;
+     }
+   }
+
+   function load_video_icon($id) {
+    $dir="uploads/vidicon";
+    $db = DB::table('events')->where('id', $id)->get();
+       $filename = null;
+        $ret= array();
+        foreach ($db as $key => $value) {
+          $file = $value->video_icon;
+
+          if ($file != "") {
+            $filePath = $dir."/".$file;
+            $details['name'] = $file;
+            $details['path']=URL::to($filePath);
+            $details['size']=filesize($filePath);
+            $ret[] = $details;
+
+          }
+
+
+        }
+         echo json_encode($ret);
+   }
+   function delete_video_icon(Request $request) {
+     $output_dir = "uploads/vidicon/";
+     $id = $request['id'];
+     $db = DB::table('events')->where('id', $id)->update(['video_icon' => '']);
      if($request['op'] == "delete")
     {
     $fileName = $request['name'];
