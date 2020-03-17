@@ -159,7 +159,8 @@ Events
                       <div class="col-md-6">
                       <label>Link</label><br />
                        <input type="text" name="link" class="form-control" value="<?= $link ?>">                
-                    </div>                     
+                    </div> 
+                                        
               <div class="col-md-12">              
                 <input type="submit" class="btn btn-primary" value="Next">
               </div>

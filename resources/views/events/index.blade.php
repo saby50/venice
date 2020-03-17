@@ -366,7 +366,12 @@ if (Auth::check()) {
                 <div class="row">
                     <div class="col-md-5 col-12">
                         <?php if(Helper::check_mobile()==1): ?>
-                         <iframe width="100%" height="250" class="youtube-video" src="<?= $video ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                        
+                          <?php if($videotype=="video"): ?>
+                        <iframe width="100%" height="250" class="youtube-video" src="<?= $video ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                        <?php else: ?>
+                        <a href="<?= $link ?>" target="_blank"><img src="<?= asset('public/uploads/vidicon/'.$video_icon) ?>"></a>
+                        <?php endif; ?>
 
                         <?php else: ?>
                         
