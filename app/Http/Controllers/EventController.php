@@ -155,7 +155,7 @@ class EventController extends Controller
        	    $date2 = date("Y-m-d H:i:s");
            $orderid = "GV/ON/E/".Helper::generatePIN();
             $finduser = User::where('phone', $phone)->first();
-            $pin = Helper::generatePIN();
+            $pin = Helper::generatePIN(6);
             $user_id =0;
             if (!$finduser) {
               $user = new User;
@@ -189,7 +189,7 @@ class EventController extends Controller
                $event_id = $this->get_event_id($event_alias);
                $data = array('user_id' => $user_id,'name' => $name,'email' => $email,'phone' => $phone, 'event_id' => $event_id,'event_name' => $event_name,'amount' => $amount,'date' => $date,'time' => $event_time,'status' => $status,'quantity' => $quantity,'price'=> $price,'tax' => $tax_amount,'txnid' => $payment_id,'payment_mode' => $type,'platform' =>'web','payment_method' => $payment_method,'order_id' => $orderid,'created_at' => $date2, 'updated_at' => $date2);
                $db = DB::table('booking_events')->insert($data);
-               $content2 = "You booked Event: ".$event_name.", ".date('d F',strtotime($date))."(".$event_time."). Order ID: ".$orderid.", Qty: ".$quantity.", Paid: Rs. ".$amount.". The Grand Venice Mall";
+               $content2 = "Event Confirmation: ".$event_name.", ".date('d F',strtotime($date))."(".$event_time."). Order ID: ".$orderid.", Qty: ".$quantity.", Paid: Rs. ".$amount.". Install the Apps: https://l.ead.me/29Ev";
             Helper::send_otp($phone,$content2);
 
             $ndata[] = $data;
@@ -202,9 +202,9 @@ class EventController extends Controller
            $query2 = DB::table('users')->where('id',Auth::user()->id)->update(['wall_am' => Crypt::encrypt($updated_bal)]);
            $trans_id = uniqid(mt_rand(),true);
             $platform = Helper::get_device_platform();
-           $query3 = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $orderid,'identifier' => 'event','trans_id' => $trans_id,'payment_method' => 'wallet','platform' => $platform,'created_at' => $date, 'updated_at' => $date]);
+           $query3 = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $orderid,'identifier' => 'event','trans_id' => $trans_id,'payment_method' => 'wallet','platform' => $platform,'created_at' => $date2, 'updated_at' => $date2]);
 
-              $contentwallet = "You have paid Rs. ".$amount." to ".$purpose.", Order ID: ".$orderid.", Now current balance is Rs. ".$updated_bal.".";
+              $contentwallet = "You paid Rs. ".$amount." ".$purpose.", Order ID: ".$orderid.", GV Pay balance is Rs. ".$updated_bal.". Install the iPhone/Android App: https://l.ead.me/29Ev";
               Helper::send_otp(Auth::user()->phone,$contentwallet);
             }
 

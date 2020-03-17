@@ -15,6 +15,7 @@ Home
 		<?php endforeach; ?>
 		
 	</div>
+	<?php if(count($events)!= 0): ?>
 	<div class="col-12">
 		<!-- Start RecyclerView -->
 		<div class="recyclerview">
@@ -25,7 +26,9 @@ Home
 						 Featured Events
 					</div>
 					<div class="recyclerviewhead2">
-						<a href="<?= URL::to('categories#packs') ?>" style="display: none;">View All</a>
+						<?php if(count($events) > 1): ?>
+						<a href="<?= URL::to('categories#events') ?>">View All</a>
+					<?php endif; ?>
 					</div>		
 				</div>
 			</div>
@@ -62,6 +65,7 @@ Home
 			<?php endforeach; ?>
 		</div>
 	</div>
+<?php endif; ?>
 	<div class="col-12">
 		<!-- Start RecyclerView -->
 		<div class="recyclerview">

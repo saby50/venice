@@ -98,6 +98,7 @@ if (Auth::check()) {
 
 
 ?>
+
 <?php if (Helper::check_mobile()=="1"): ?>
  <section id="hero" class="otherhero" style="margin-top: 130px !important;">
     <?php else: ?>
@@ -165,6 +166,7 @@ if (Auth::check()) {
                 <div class="form-group">
                    <input type="hidden" name="services" value="1">
                     @if(Auth::check())
+
                     <input type="text" class="form-control name" name="name" value="{{ Auth::user()->name }}" placeholder="Name" required="required" readonly="readonly">
                     @else
                     <input type="text" class="form-control name" name="name" placeholder="Name" required="required">
@@ -230,7 +232,11 @@ if (Auth::check()) {
                              <button name="addtocart" type="submit" class="buynow btn" style="width: 100% !important;"><span> Check Out</span></button>
 
                         <?php else: ?>
+                            <?php if(Auth::check()): ?>
                              <button name="addtocart" type="submit" class="buynow btn checkout" style="width: 100% !important;"><span> Check Out</span></button>
+                             <?php else:?>
+                                  <button name="addtocart" type="submit" id="checkout" class="buynow btn checkout" style="width: 100% !important;"><span> Check Out</span></button>
+                             <?php endif; ?>
                         <?php endif; ?>
 
                   
@@ -532,6 +538,15 @@ if (Auth::check()) {
       <?php if(Auth::check()): ?>
       <?php if($wall_amount!=0 && $wall_amount >= $finalamount): ?>
     <div class="col-7" style="font-size: 12px;"><label> <input type="radio" name="payment_mode" class="payment_mode" value="wallet" style="position: relative;top:2px;"> <img src="<?= asset('public/images/gv_pocket.JPG') ?>" class="payment_method2" style="width: 60px;"> (<i class="fa fa-rupee"></i> <?= $wall_amount ?>)</label><br /></div>
+    <script type="text/javascript">
+     $(document).ready(function() {
+       $(".checkout").click(function() {
+        $("#paymentModal").modal("show");
+         return false;
+       });
+    });
+    
+</script>
      <?php endif; ?>
           <?php endif; ?>
             </div>
@@ -634,13 +649,7 @@ if (Auth::check()) {
    ?>
 <script type="text/javascript">
 
-    $(document).ready(function() {
-       $(".checkout").click(function() {
-        $("#paymentModal").modal("show");
-         return false;
-       });
-    });
-    
+   
     if ($(".agreement").is(':checked')) {
       $("#checkout").prop('disabled',false);
     }else {

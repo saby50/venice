@@ -96,6 +96,7 @@ if (Auth::check()) {
 
 
 ?>
+
 <?php if (Helper::check_mobile()=="1"): ?>
  <section id="hero" class="otherhero" style="margin-top: 130px !important;">
     <?php else: ?>
@@ -163,6 +164,7 @@ if (Auth::check()) {
                 <div class="form-group">
                    <input type="hidden" name="services" value="1">
                     <?php if(Auth::check()): ?>
+
                     <input type="text" class="form-control name" name="name" value="<?php echo e(Auth::user()->name); ?>" placeholder="Name" required="required" readonly="readonly">
                     <?php else: ?>
                     <input type="text" class="form-control name" name="name" placeholder="Name" required="required">
@@ -228,7 +230,11 @@ if (Auth::check()) {
                              <button name="addtocart" type="submit" class="buynow btn" style="width: 100% !important;"><span> Check Out</span></button>
 
                         <?php else: ?>
+                            <?php if(Auth::check()): ?>
                              <button name="addtocart" type="submit" class="buynow btn checkout" style="width: 100% !important;"><span> Check Out</span></button>
+                             <?php else:?>
+                                  <button name="addtocart" type="submit" id="checkout" class="buynow btn checkout" style="width: 100% !important;"><span> Check Out</span></button>
+                             <?php endif; ?>
                         <?php endif; ?>
 
                   
@@ -364,7 +370,12 @@ if (Auth::check()) {
                 <div class="row">
                     <div class="col-md-5 col-12">
                         <?php if(Helper::check_mobile()==1): ?>
-                         <iframe width="100%" height="250" class="youtube-video" src="<?= $video ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                        
+                          <?php if($videotype=="video"): ?>
+                        <iframe width="100%" height="250" class="youtube-video" src="<?= $video ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                        <?php else: ?>
+                        <a href="<?= $link ?>" target="_blank"><img src="<?= asset('public/uploads/vidicon/'.$video_icon) ?>"></a>
+                        <?php endif; ?>
 
                         <?php else: ?>
                         
@@ -525,6 +536,15 @@ if (Auth::check()) {
       <?php if(Auth::check()): ?>
       <?php if($wall_amount!=0 && $wall_amount >= $finalamount): ?>
     <div class="col-7" style="font-size: 12px;"><label> <input type="radio" name="payment_mode" class="payment_mode" value="wallet" style="position: relative;top:2px;"> <img src="<?= asset('public/images/gv_pocket.JPG') ?>" class="payment_method2" style="width: 60px;"> (<i class="fa fa-rupee"></i> <?= $wall_amount ?>)</label><br /></div>
+    <script type="text/javascript">
+     $(document).ready(function() {
+       $(".checkout").click(function() {
+        $("#paymentModal").modal("show");
+         return false;
+       });
+    });
+    
+</script>
      <?php endif; ?>
           <?php endif; ?>
             </div>
@@ -627,13 +647,7 @@ if (Auth::check()) {
    ?>
 <script type="text/javascript">
 
-    $(document).ready(function() {
-       $(".checkout").click(function() {
-        $("#paymentModal").modal("show");
-         return false;
-       });
-    });
-    
+   
     if ($(".agreement").is(':checked')) {
       $("#checkout").prop('disabled',false);
     }else {

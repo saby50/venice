@@ -124,6 +124,8 @@ Wallet
                     echo $unit_name.", ".$unit_floor;
 				  }elseif($value->identifier=="foodorder") {
 				  	echo "Food Order";
+				  }elseif($value->identifier=="event") {
+				  	echo Helper::get_event_name($value->order_id);
 				  }else {
 				  	echo rtrim($s,",");
 				  }
@@ -145,7 +147,7 @@ Wallet
              	<strong class="gv-price">- <i class="fa fa-rupee"></i> <?= $value->refund_amount ?></span>
              </strong>
              <?php elseif($value->identifier=="refund"): ?>
-             	<strong class="gv-price">+ <i class="fa fa-rupee"></i> <?= $value->final_amount ?></strong>
+             	<strong class="gv-price2">+ <i class="fa fa-rupee"></i> <?= $value->final_amount ?></strong>
              <?php else: ?>
              	<strong class="gv-price2">- <i class="fa fa-rupee"></i> <?= $value->final_amount ?>
              </strong>

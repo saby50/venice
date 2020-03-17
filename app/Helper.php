@@ -36,6 +36,15 @@ class Helper
    
     return $data;
   }
+    public static function get_event_name($orderid) {   
+    $data = DB::table('booking_events')->where('order_id',$orderid)->get();
+    $event_name = "";
+    foreach ($data as $key => $value) {
+      $event_name = $value->event_name;
+    }
+   
+    return $event_name;
+  }
   public static function get_veg_non($unit_id) {   
     $db = DB::table('unit_menu_items')->where('unit_id', $unit_id)->get();
 
