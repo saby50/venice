@@ -153,9 +153,9 @@ class EventController extends Controller
        	   $cart = Session::get('event');
 
        	    $date2 = date("Y-m-d H:i:s");
-           $orderid = "GV/ON/E/".Helper::generatePIN();
+           $orderid = "GV/ON/E/".Helper::generatePIN(6);
             $finduser = User::where('phone', $phone)->first();
-            $pin = Helper::generatePIN(6);
+            $pin = Helper::generatePIN();
             $user_id =0;
             if (!$finduser) {
               $user = new User;
