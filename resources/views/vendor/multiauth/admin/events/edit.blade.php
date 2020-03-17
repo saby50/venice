@@ -8,6 +8,7 @@ Events
    $event_alias = "";
    $end_date = "";
     $price = "";
+    $link = "";
    $end_time = "";
    foreach ($data as $key => $value) {
      $event_name = $value->event_name;
@@ -16,6 +17,7 @@ Events
      $start_date = $value->start_date;
      $price = $value->event_price;
      $start_time = $value->start_time;
+     $link = $value->link;
      $teaser_line_1 = $value->teaser_line_1;
      $event_description = $value->event_description;
      $event_short_description = $value->event_short_description;
@@ -143,13 +145,18 @@ Events
                         <div class="col-md-6">
                       <label>Type</label><br />
                        <select name="videotype" class="form-control">
-                        <option value="video">Video</option>
+                        <?php if($videotype=="video"): ?>
+                        <option value="video" selected="selected">Video</option>
                          <option value="page">Page</option>
+                         <?php else: ?>
+                          <option value="video">Video</option>
+                         <option value="page" selected="selected">Page</option>
+                         <?php endif; ?>
                        </select>                  
                     </div>   
                       <div class="col-md-6">
                       <label>Link</label><br />
-                       <input type="text" name="link" class="form-control">                
+                       <input type="text" name="link" class="form-control" value="<?= $link ?>">                
                     </div>                     
               <div class="col-md-12">              
                 <input type="submit" class="btn btn-primary" value="Next">
