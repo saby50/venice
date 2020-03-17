@@ -522,7 +522,7 @@ if (Auth::check()) {
       </div>
     </div>
     <div class="modal fade" id="paymentModal" role="dialog">
-      <div class="modal-dialog modal-md">
+      <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <label>Select Payment Method</label>
@@ -595,14 +595,34 @@ if (Auth::check()) {
   position: relative;
   margin-top: -80px;
 }
+
 @media (max-width: 425px){
 #hero {
   background: none;
 
 }
+.modal-footer {
+    background: #FFF !important;
+     padding: 10px;
+}
+.modal-dialog {
+margin-top: 320px;
+}
+.checkoutbtn {
+    width: 150px !important;
+    padding: 10px !important;
+    height: 40px;
+}
+.modal-header {
+    padding: 10px;
+}
 #hero .hero-container {
     display: block;
 }
+.modal-body {
+    padding: 10px;
+}
+
 }
 .timepicker {
         padding: .375rem .75rem !important;
