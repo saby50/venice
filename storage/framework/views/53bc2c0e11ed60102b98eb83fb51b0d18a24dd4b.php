@@ -517,7 +517,7 @@ if (Auth::check()) {
       </div>
     </div>
     <div class="modal fade" id="paymentModal" role="dialog">
-      <div class="modal-dialog modal-sm">
+      <div class="modal-dialog modal-md">
         <div class="modal-content">
           <div class="modal-header">
             <label>Select Payment Method</label>
@@ -538,8 +538,8 @@ if (Auth::check()) {
           </div>
           <div class="modal-footer">
 
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-             <button type="submit" class="buynow btn" id="checkout">Checkout</button>
+           
+             <button type="submit" class="buynow btn checkoutbtn" id="checkout">Submit</button>
           </div>
         </div>
       </div>

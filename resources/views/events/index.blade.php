@@ -540,8 +540,8 @@ if (Auth::check()) {
           </div>
           <div class="modal-footer">
 
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-             <button type="submit" class="buynow btn" id="checkout">Checkout</button>
+           
+             <button type="submit" class="buynow btn checkoutbtn" id="checkout">Submit</button>
           </div>
         </div>
       </div>
