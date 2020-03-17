@@ -41,8 +41,10 @@ Home
 							<span class="title"><?= $value->event_name ?></span><br />
 							<span class="desc"><?= $value->teaser_line_1 ?> <?= $value->teaser_line_2 ?></span><br />
 							<span class="prices"><?php $rates = Helper::get_all_rates($value->id, 'packs');
-							echo '<i class="fa fa-rupee"></i> '.$value->event_price;
-							?></span>
+							
+							?>
+								<?= date('l, F j Y',strtotime($value->start_date)) ?> (<?= $value->start_time ?>)
+							</span>
 						</div>
 					</div>
 				</div>

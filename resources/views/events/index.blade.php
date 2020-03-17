@@ -122,10 +122,10 @@ if (Auth::check()) {
             <div class="col-sm-12">
                 <div class="form-group">
                     <label for="date"><?php if(count($eventdates)==1): ?>
-                       <span style="font-weight: normal;"><?= date('l, F d Y',strtotime($lastdate)) ?> (<?= $time ?>)</span>
+                       <span style="font-weight: normal;"><?= date('l, F j Y',strtotime($lastdate)) ?> (<?= $time ?>)</span>
                         <input type="hidden" class="form-control datepicker2" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
                         <?php else: ?>
-                            <?= date('l, F d Y',strtotime($lastdate)) ?> (<?= $time ?>)
+                            <?= date('l, F j Y',strtotime($lastdate)) ?> (<?= $time ?>)
                             <input type="hidden" class="form-control datepicker2" id="datepicker" placeholder="----" value="<?= $eventdates[0]->event_date ?>" readonly>
                       <?php endif; ?></label>
                       <div class="" style="font-size: 11px;">
