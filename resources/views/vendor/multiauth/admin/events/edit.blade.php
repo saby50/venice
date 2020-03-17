@@ -10,6 +10,7 @@ Events
     $price = "";
     $link = "";
    $end_time = "";
+   $videotype = "";
    foreach ($data as $key => $value) {
      $event_name = $value->event_name;
      $event_alias = $value->event_alias;
@@ -17,6 +18,7 @@ Events
      $start_date = $value->start_date;
      $price = $value->event_price;
      $start_time = $value->start_time;
+     $videotype = $value->videotype;
      $link = $value->link;
      $teaser_line_1 = $value->teaser_line_1;
      $event_description = $value->event_description;
