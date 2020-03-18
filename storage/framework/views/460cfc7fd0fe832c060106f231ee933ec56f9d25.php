@@ -104,13 +104,14 @@ $(document).ready(function(){
          <!--==========================
       featured Section
     ============================-->
-         <section id="featured" class="">
-            <div class="container">
+         
+            
                 <div class="row">
-                   <img src="<?= URL::to('public/images/event_desktop.jpg') ?>">
+                  <div class="col-12" style="margin-bottom: 40px;text-align: center;">
+                   <a href="<?= URL::to('events/parmish-verma-live') ?>"><img src="<?= URL::to('public/images/event_desktop.jpg') ?>"></a>
                 </div>
             </div>
-        </section><!-- #featured -->
+        <!-- #featured -->
        <!--==========================
       featured Section
     ============================-->
