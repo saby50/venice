@@ -216,6 +216,36 @@ Categories
                                 </div>
                        
                   	<?php endforeach; ?>
+                    <?php if(count($events)!=0): ?>
+                     <div class="col-12">
+                        <a name="events"></a>
+                            <h4>Events</h4>
+                            <hr />
+                    <div class="carousel-inner row w-100 mx-auto" role="listbox">
+
+                    <?php foreach($events as $k => $v): ?>
+                        <div class=" col-md-4" style="margin-bottom: 40px;">
+                                    <div class="panel panel-default">
+                                        <div class="panel-thumbnail">
+                                                <img class="img-fluid mx-auto d-block" src="<?= URL::to('public/uploads/featured_app/'.$v->featured_app) ?>" alt="slide 1">
+                                            <div class="title" style="text-align: center;">
+                                                <strong> <?= $v->event_name ?></strong>
+                                            </div>
+                                            <div class="desc" style="text-align: center;">
+                                                <?php $short = $v->event_short_description;
+                                                     echo Helper::truncate($short,60);
+                                                 ?>
+                                            </div>
+                                            <div class="price" style="text-align: center;margin-top: 20px;">
+                                               
+                                                <a href="<?= URL::to('packs/'.$v->event_alias) ?>" class="btn btn-info">Book Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                       
+                    <?php endforeach; ?>
+                <?php endif; ?>
 
                   </div>
 
