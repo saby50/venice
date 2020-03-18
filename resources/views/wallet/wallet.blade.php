@@ -143,7 +143,7 @@ Wallet
 				
 			</div>
              <div class="col-4" style="text-align: right;">
-             	 <?php if($value->refund=="yes"): ?>
+             	 <?php if($value->identifier=="refund"): ?>
              	<strong class="gv-price">+ <i class="fa fa-rupee"></i> <?= $value->refund_amount ?></span>
              		
              </strong>
