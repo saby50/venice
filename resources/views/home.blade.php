@@ -98,7 +98,7 @@ $(document).ready(function(){
             </div>
         </div>
     </div>
-    
+     <?php if(count($events)!=0): ?>
          <!--==========================
       featured Section
     ============================-->
@@ -154,6 +154,7 @@ $(document).ready(function(){
        <!--==========================
       featured Section
     ============================-->
+  <?php endif; ?>
          <section id="featured" class="">
             <div class="container">
                 <div class="row">

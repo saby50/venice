@@ -18,8 +18,15 @@ Contact Us
 <p><strong>Address:</strong></p>
 <p>Bhasin Infotech And Infrastructure Private Limited<br>
 Plot No SH3, Site IV, Near Pari Chowk, Block B, Industrial Area, <br />Surajpur Site 4, Greater Noida, Uttar Pradesh 201308<br /><br />
-<strong>Email: </strong> <a style="color: #EF9E11; font-weight: 600;font-family: inherit;" href="mailto:info@veniceindia.com" target="_top">info@veniceindia.com</a><br>
-<strong>Phone: </strong> <a style="color: #EF9E11; font-weight: 600;font-family: inherit;" href="tel:00918860666666">+91 88606-66666</a></p>
+<strong>Customer Care:</strong> <br />
+<strong style="font-size: 11px;">Email: </strong> <a style="color: #EF9E11; font-weight: 600;font-family: inherit;" href="mailto:info@veniceindia.com" target="_top">info@veniceindia.com</a><br>
+<strong style="font-size: 11px;">Phone: </strong> <a style="color: #EF9E11; font-weight: 600;font-family: inherit;" href="tel:918860666666">+91 88606-66666</a></p>
+<strong>GV Tower Leasing:</strong> <br />
+<strong style="font-size: 11px;">Email: </strong> <a style="color: #EF9E11; font-weight: 600;font-family: inherit;" href="mailto:office@veniceindia.com" target="_top">office@veniceindia.com</a><br>
+<strong style="font-size: 11px;">Phone: </strong> <a style="color: #EF9E11; font-weight: 600;font-family: inherit;" href="tel:918860600030">+91 8860 600 030</a></p>
+<strong>Retail Leasing:</strong> <br />
+<strong style="font-size: 11px;">Email: </strong> <a style="color: #EF9E11; font-weight: 600;font-family: inherit;" href="mailto:retail@veniceindia.com" target="_top">retail@veniceindia.com</a><br>
+<strong style="font-size: 11px;">Phone: </strong> <a style="color: #EF9E11; font-weight: 600;font-family: inherit;" href="tel:918860600030">+91 8860 600 030</a></p>
 </div>
 </div>
 

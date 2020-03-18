@@ -96,7 +96,7 @@ $(document).ready(function(){
             </div>
         </div>
     </div>
-    
+     <?php if(count($events)!=0): ?>
          <!--==========================
       featured Section
     ============================-->
@@ -132,7 +132,7 @@ $(document).ready(function(){
                                             </div>
                                             <div class="price" style="text-align: center;margin-top: 20px;">
                                                
-                                                <a href="<?= URL::to('events/'.$value->event_alias) ?>" class="btn btn-info">Buy Now</a>
+                                                <a href="<?= URL::to('events/'.$value->event_alias) ?>" class="btn btn-info">Book Now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -152,6 +152,7 @@ $(document).ready(function(){
        <!--==========================
       featured Section
     ============================-->
+  <?php endif; ?>
          <section id="featured" class="">
             <div class="container">
                 <div class="row">
