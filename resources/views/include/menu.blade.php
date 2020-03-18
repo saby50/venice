@@ -71,7 +71,7 @@ $tempval = "";
                            
                         </ul>
                     </li>
-
+                    <?php if(count($events)!=0): ?>
                      <li>|</li>
 
                     <li class="menu-has-children"><a href="<?= URL('#') ?>">Events</a>
@@ -82,6 +82,7 @@ $tempval = "";
                            
                         </ul>
                     </li>
+                  <?php endif; ?>
                      <li>|</li>
                      <?php if(count($gvtower) !=0): ?>
                       <li class="<?php if($segment2=='commercial') { echo 'menu-active'; } ?>"><a href="<?= URL('commercial') ?>">GV Tower</a></li> 

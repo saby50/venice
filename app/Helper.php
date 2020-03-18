@@ -1312,7 +1312,7 @@ class Helper
   }
   
   public static function get_events() {   
-    $data = DB::table('events')->get();
+    $data = DB::table('events')->where('status','published')->get();
    
     return $data;
   }
