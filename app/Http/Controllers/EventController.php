@@ -28,7 +28,7 @@ class EventController extends Controller
        $eventdates = DB::table('event_dates')->where('event_id',$event_id)->get();
        $gallery = DB::table('event_gallery')->where('event_id',$event_id)->get();
        $featured = DB::table('services')->inRandomOrder()->limit(2)->get();
-       $featured2 = DB::table('packs')->inRandomOrder()->where('pack_type','!=','leads')->limit(2)->get();
+       $featured2 = DB::table('packs')->inRandomOrder()->where('pack_type','!=','leads')->where('pack_type','!=','leads3')->limit(2)->get();
        return view('events/index', compact('data','gallery','eventdates','featured','featured2'));	
     }
 
