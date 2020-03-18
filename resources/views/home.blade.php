@@ -109,49 +109,7 @@ $(document).ready(function(){
          <section id="featured" class="">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12 featured_content">
-                        <div class="section-header">
-                            <h2 class="section-title">Exciting</h2>
-                            <h3 style="text-align: center;">Events</h3>
-                           
-                          
-                        </div>
-                    </div>
-                </div>
-                  <div class="row mt-4">
-                    <div class="col-sm-12">
-                        <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000" style="">
-                            <div class="carousel-inner row w-100 mx-auto" role="listbox">
-                              
-                              <?php foreach($events as $key => $value): ?>
-                               <div class="carousel-item col-md-3  active">
-                                    <div class="panel panel-default">
-                                        <div class="panel-thumbnail">
-                                                <img class="img-fluid mx-auto d-block" src="<?= URL::to('public/uploads/featured_app/'.$value->featured_app) ?>" alt="slide 1">
-                                            <div class="title">
-                                                <p><?= $value->event_name ?></p>
-                                            </div>
-                                            <div class="desc" style="text-align: center;">
-                                                 <?php $short = $value->event_short_description;
-                                                      echo $short;
-                                                 ?>
-                                            </div>
-                                            <div class="price" style="text-align: center;margin-top: 20px;">
-                                               
-                                                <a href="<?= URL::to('events/'.$value->event_alias) ?>" class="btn btn-info">Book Now</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                             
-                           </div>
-                            <?php endforeach; ?>
-                               
-                               
-                            </div>
-                        
-                        </div>
-                        
-                    </div>
+                   <a href="<?= URL::to('events/parmish-verma-live') ?>"><img src="<?= URL::to('public/images/event_desktop.jpg') ?>"></a>
                 </div>
             </div>
         </section><!-- #featured -->
