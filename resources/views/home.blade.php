@@ -16,7 +16,7 @@ Home
 "><img src="{{ asset('public/images/home/n/iconpack.png') }}" onmouseover="this.src='{{ asset("public/images/home/n/iconpacka.png") }}'"  onmouseout="this.src='{{ asset("public/images/home/n/iconpack.png") }}'"></a>
     <?php if(count(Helper::get_events())!=0):  ?>
       <br />
-      <a href="<?= URL::to('categories/#events') ?>" data-placement="left" data-toggle="tooltip" title="GV Packs
+      <a href="<?= URL::to('categories/#events') ?>" data-placement="left" data-toggle="tooltip" title="Events
 "><img src="{{ asset('public/images/eventicon.png') }}" onmouseover="this.src='{{ asset("public/images/eventicona.png") }}'"  onmouseout="this.src='{{ asset("public/images/eventicon.png") }}'"></a>
 <?php endif; ?>
     </div>

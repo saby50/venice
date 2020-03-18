@@ -48,7 +48,7 @@ Categories
 
             <?php endforeach; ?>
             <div class="row">
-<a name="packs"></a>
+<a name="packss"></a>
             <div class="col-12">
                 <div class="recyclerviewhead">
             Packs 
@@ -96,7 +96,7 @@ Categories
               <hr />
             <?php if(count($events)!=0): ?>
             <div class="row">
-<a name="events"></a>
+<a name="eventss"></a>
             <div class="col-12">
                 <div class="recyclerviewhead">
             Events 
@@ -188,8 +188,8 @@ Categories
 
                 	 <div class="col-12">
                 	 	<a name="packs"></a>
-                         	<h4>GV Packs</h4>
-                         	<hr />
+                      <h4>GV Packs</h4>
+                      <hr />
                     <div class="carousel-inner row w-100 mx-auto" role="listbox">
 
                     <?php foreach($packs as $k => $v): ?>
@@ -214,9 +214,10 @@ Categories
                                 </div>
                        
                   	<?php endforeach; ?>
+
                     <?php if(count($events)!=0): ?>
                      <div class="col-12">
-                        <a name="events"></a>
+                       
                             <h4>Events</h4>
                             <hr />
                     <div class="carousel-inner row w-100 mx-auto" role="listbox">
@@ -225,11 +226,12 @@ Categories
                         <div class=" col-md-4" style="margin-bottom: 40px;">
                                     <div class="panel panel-default">
                                         <div class="panel-thumbnail">
+                                            <a name="events"></a>
                                                 <img class="img-fluid mx-auto d-block" src="<?= URL::to('public/uploads/featured_app/'.$v->featured_app) ?>" alt="slide 1">
-                                            <div class="title" style="text-align: center;">
+                                            <div class="title" style="text-align: center;margin-top: 10px;">
                                                 <strong> <?= $v->event_name ?></strong>
                                             </div>
-                                            <div class="desc" style="text-align: center;">
+                                            <div class="desc" style="text-align: left !important;">
                                                 <?php $short = $v->event_short_description;
                                                      echo Helper::truncate($short,60);
                                                  ?>

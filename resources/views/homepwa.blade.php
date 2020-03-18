@@ -27,7 +27,7 @@ Home
 					</div>
 					<div class="recyclerviewhead2">
 						<?php if(count($events) > 1): ?>
-						<a href="<?= URL::to('categories#events') ?>">View All</a>
+						<a href="<?= URL::to('categories#eventss') ?>">View All</a>
 					<?php endif; ?>
 					</div>		
 				</div>
@@ -76,7 +76,7 @@ Home
 						 Featured Packs
 					</div>
 					<div class="recyclerviewhead2">
-						<a href="<?= URL::to('categories#packs') ?>">View All</a>
+						<a href="<?= URL::to('categories#packss') ?>">View All</a>
 					</div>		
 				</div>
 			</div>
