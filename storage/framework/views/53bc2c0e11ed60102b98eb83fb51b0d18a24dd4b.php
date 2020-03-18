@@ -522,7 +522,7 @@ if (Auth::check()) {
       </div>
     </div>
     <div class="modal fade" id="paymentModal" role="dialog">
-      <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <label>Select Payment Method</label>

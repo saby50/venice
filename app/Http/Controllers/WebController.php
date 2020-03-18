@@ -597,7 +597,8 @@ class WebController extends Controller
       $categories = Helper::get_menu();
      $services = DB::table('services')->get();
       $packs = DB::table('packs')->where('pack_type','!=','leads')->where('pack_type','!=','leads3')->get();
-      return view('categories', compact('categories','packs','services'));  
+       $events = DB::table('events')->where('status','published')->get();
+      return view('categories', compact('categories','packs','services','events'));  
     }
     function terrazzo() {  
       return view('pages/terrazzo');

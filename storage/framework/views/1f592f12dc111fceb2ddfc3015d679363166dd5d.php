@@ -93,9 +93,50 @@ Categories
                 ?>
 
             <?php endforeach; ?>
+            <?php if(count($events)!=0): ?>
+            <div class="row">
+<a name="events"></a>
+            <div class="col-12">
+                <div class="recyclerviewhead">
+            Events 
+         </div>
+            <div class="recyclerviewhead2">
+             
+         </div>     
+            </div>
+            </div>
+            <?php $i=0; foreach($events as $key => $value): ?>
+                <a href="<?= URL::to('events/'.$value->event_alias."#bookingform") ?>">
+                <div class="featured-pwa ripple">
+                    <div class="row">
+                <div class="col-4">
+
+                    <img class="img-fluid mx-auto d-block" src="<?= URL::to('public/uploads/featured_app/'.$value->featured_app) ?>" alt="slide 1">
+                </div>  
+                <div class="col-8">
+                     <span class="title"><?= $value->event_name ?></span><br />
+                     <span class="desc"><?= $value->teaser_line_1 ?> <?= $value->teaser_line_2 ?></span><br />
+                      <span class="prices"><?= date('l, F j Y',strtotime($value->start_date)) ?> (<?= $value->start_time ?>)</span>
+                </div>
+                </div>
+                </div>
+            </a>
+                <?php if($i == count($events) - 1): ?>
+                <?php else: ?>
+                    <hr />
+                <?php endif; ?>
+                
+
+                <?php 
+                   $i++;
+                ?>
+
+            <?php endforeach; ?>
+        <?php endif; ?>
         </div>
         
     </div>
+
 <section class="hero careers">
 <div class="container">
 	<div class="row">
