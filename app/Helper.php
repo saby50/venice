@@ -1499,6 +1499,10 @@ class Helper
       $db = DB::table('services')->where('id', $service_id)->get();
       return $db;
     }
+    public static function get_event_details($order_id) {
+      $db = DB::table('booking_events')->where('order_id', $order_id)->get();
+      return $db;
+    }
     public static function get_taxes($tax_id) {
       $db = DB::table('taxes')->where('id', $tax_id)->get();
       return $db;

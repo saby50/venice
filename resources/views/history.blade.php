@@ -81,7 +81,7 @@ $segment = Request::segment(2);
 
                                                 <div class="clearfix"></div>
                                                 <p><span class="text-muted">Booked on:</span> <strong><?= date('d M Y, h:i A', strtotime($value->updated_at)) ?></strong></p>
-                                                Refunded
+                                                
                                                 
                                             </div>
                                             <div>
@@ -94,11 +94,11 @@ $segment = Request::segment(2);
                                             
                                             <p>
                                                 <?php 
-                                                   $services = Helper::get_order_items($value->order_id);
-                                                   foreach ($bookings as $key => $value) {
-                                                       echo '<strong>Services:</strong> '.$value->event_name."<br />";
-                                                       echo '<strong>Arrival Time:</strong> '.$value->time."<br />";
-                                                       echo '<strong>Date:</strong> ';
+                                                   $events = Helper::get_event_details($value->order_id);
+                                                    foreach ($events as $key => $value) {
+                                                       echo '<strong>Event Name:</strong> '.$value->event_name."<br />";
+                                                       echo '<strong>Event Time:</strong> '.$value->time."<br />";
+                                                       echo '<strong>Event Date:</strong> ';
                                                        list($a, $b, $c) = explode('-', $value->date); 
                                                        $newdate = $b."-".$a."-".$c;
                                                        echo date('d F Y', strtotime($value->date));

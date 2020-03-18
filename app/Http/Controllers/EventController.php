@@ -204,7 +204,7 @@ class EventController extends Controller
             $platform = Helper::get_device_platform();
            $query3 = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $orderid,'identifier' => 'event','trans_id' => $trans_id,'payment_method' => 'wallet','platform' => $platform,'created_at' => $date2, 'updated_at' => $date2]);
 
-              $contentwallet = "You paid Rs. ".$amount." ".$purpose.", Order ID: ".$orderid.", GV Pay balance is Rs. ".$updated_bal.". Install the iPhone/Android App: https://l.ead.me/29Ev";
+              $contentwallet = "You paid Rs. ".$amount." Event: ".$purpose.", Order ID: ".$orderid.", GV Pay balance is Rs. ".$updated_bal.". Install the iPhone/Android App: https://l.ead.me/29Ev";
               Helper::send_otp(Auth::user()->phone,$contentwallet);
             }
 

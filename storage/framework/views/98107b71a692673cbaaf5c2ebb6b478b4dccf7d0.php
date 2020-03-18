@@ -3,7 +3,7 @@ Recharge
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-<div class="recyclerview" style="margin-top: 70px;">
+<div class="recyclerview firstbox">
 	<form action="<?php echo e(URL::to('recharge/payment')); ?>" method="post">
 		<?php echo csrf_field(); ?>
 	<div class="row">
