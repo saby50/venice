@@ -93,7 +93,7 @@ Categories
                 <?php 
                    $i++;
                 ?>
-
+  <hr />
             <?php endforeach; ?>
             <?php if(count($events)!=0): ?>
             <div class="row">
