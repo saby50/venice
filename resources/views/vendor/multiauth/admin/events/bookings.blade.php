@@ -85,10 +85,20 @@ $serviceids = "";
     <div id="home" class="tab-pane fade in active">
      <?php if (count($data) != 0): ?>
        <div class="row" style="margin-top: 20px;margin-bottom: 20px;margin-left:auto;margin-right: auto;">
-          <div class="col-md-8">
-            <h4><?= count($data) ?> Records Found</h4>
+          <div class="col-md-4">
+            <label>Filter by event</label>
+            <select class="filter form-control" name="filter">
+               <option value="all">All</option>
+              <?php foreach($events as $key => $value): ?>
+                <?php if($value->id==$filter): ?>
+                <option value="<?= $value->id ?>" selected><?= $value->event_name ?></option>
+                <?php else: ?>
+                 <option value="<?= $value->id ?>"><?= $value->event_name ?></option>
+                <?php endif; ?>
+              <?php endforeach; ?>
+            </select>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-6">
             
           </div>
         <div class="col-md-2">
@@ -247,6 +257,15 @@ $(document).ready(function(){
     $(".refresh-content").click(function() {
            location.reload(true);
      });
+
+    $(".filter").change(function() {
+        var data = $('.filter').find(":selected").val();
+       
+       
+       var url = "<?= URL::to('admin/events_bookings') ?>/"+data;
+    
+    window.location = url;
+    });
 });
 </script>
 <style type="text/css">

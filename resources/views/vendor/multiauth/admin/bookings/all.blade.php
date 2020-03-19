@@ -100,7 +100,7 @@ $serviceids = "";
     <li  class="active"><a  href="{{ URL::to('admin/bookings/s/todays/all') }}">All Bookings</a></li>
     <?php endif; ?>
      <?php if($user_type=="superadmin" || $user_type=="analyst" || $user_type=="lead_manager"): ?>
-    <li  class=""><a  href="{{ URL::to('admin/events_bookings') }}">Events</a></li>
+    <li  class=""><a  href="{{ URL::to('admin/events_bookings/all') }}">Events</a></li>
 
   <?php endif; ?>
     

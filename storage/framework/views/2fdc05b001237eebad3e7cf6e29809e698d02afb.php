@@ -65,7 +65,7 @@ $food_check = Helper::get_unit_by_email_food(Auth::user()->email);
             </ul></li>
         <li class="menu-item-has-children"><a href="<?php echo e(URL::to('admin/events')); ?>"  title=""  class="<?php if($segment=='events' || $segment=='events_bookings') { echo 'item-active'; } ?>"><i class="fa fa-bolt"></i> <span>Events</a>
             <ul>
-               <li><a href="<?php echo e(URL::to('admin/events_bookings')); ?>">Bookings</a></li>
+               <li><a href="<?php echo e(URL::to('admin/events_bookings/all')); ?>">Bookings</a></li>
               <li><a href="<?php echo e(URL::to('admin/events')); ?>">List</a></li>
               
             </ul></li>

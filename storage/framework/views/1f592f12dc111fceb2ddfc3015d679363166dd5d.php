@@ -238,7 +238,7 @@ Categories
                                             </div>
                                             <div class="price" style="text-align: center;margin-top: 20px;">
                                                
-                                                <a href="<?= URL::to('packs/'.$v->event_alias) ?>" class="btn btn-info">Book Now</a>
+                                                <a href="<?= URL::to('events/'.$v->event_alias) ?>" class="btn btn-info">Book Now</a>
                                             </div>
                                         </div>
                                     </div>

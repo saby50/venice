@@ -130,7 +130,7 @@
                 <ul>
                   <li>All sales final, no returns.</li>
                   <li>All disputes are subject to Delhi Courts.</li>
-                  <li>For query, write to booking@veniceindia.com</li>
+                  <li>For queries, contact at info@veniceindia.com or call 8860 666 666</li>
                 </ul>
             </div>
         </div>

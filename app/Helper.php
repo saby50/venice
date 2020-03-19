@@ -21,6 +21,85 @@ class Helper
     }
     return $data;
   }
+   public static function booking_event_process($name,$email,$phone,$purpose,$amount,$payment_method,$payment_id,$currency,$type,$status) {
+       if (Session::get('event')) {
+           $cart = Session::get('event');
+
+            $date2 = date("Y-m-d H:i:s");
+           $orderid = "GV/ON/E/".Helper::generatePIN(6);
+            $finduser = App\User::where('phone', $phone)->first();
+            $pin = Helper::generatePIN();
+            $user_id =0;
+            if (!$finduser) {
+              $user = new App\User;
+              $user->name = $name;
+              $user->email = $email;
+              $user->phone = $phone;
+              $user->password = bcrypt($pin);
+              $user->platform = "web";
+              $user->otp = $pin;
+              $user->type = 'user';
+              $user->save();
+              $content = "Your account with The Grand Venice Mall is successfully registered. Please login with your phone number ".$phone." and PIN: ".$pin." and book services online at www.veniceindia.com";
+              Helper::send_otp($phone,$content);
+              $user_id = $user->id;
+            }else {
+              $user_id = $finduser['id'];
+            }
+
+             foreach ($cart as $key => $value) {
+               $event_name =  $value['event_name'];
+               $event_alias =  $value['event_alias'];
+               $amount =  $value['amount'];
+               $price = $value['price'];
+               $quantity = $value['quantity'];
+               $tax_amount = $value['tax_amount'];
+               $date = $value['date'];
+               $name = $value['name'];
+               $phone = $value['phone'];
+               $email = $value['email'];
+               $event_time = $value['event_time'];
+               $event_id = Helper::get_event_id($event_alias);
+               $data = array('user_id' => $user_id,'name' => $name,'email' => $email,'phone' => $phone, 'event_id' => $event_id,'event_name' => $event_name,'amount' => $amount,'date' => $date,'time' => $event_time,'status' => $status,'quantity' => $quantity,'price'=> $price,'tax' => $tax_amount,'txnid' => $payment_id,'payment_mode' => $type,'platform' =>'web','payment_method' => $payment_method,'order_id' => $orderid,'created_at' => $date2, 'updated_at' => $date2);
+               $db = DB::table('booking_events')->insert($data);
+               $content2 = "Event Confirmation: ".$event_name.", ".date('d F',strtotime($date))."(".$event_time."). Order ID: ".$orderid.", Qty: ".$quantity.", Paid: Rs. ".$amount.". Install the Apps: https://l.ead.me/29Ev";
+            Helper::send_otp($phone,$content2);
+            
+            $ndata[] = $data;
+
+          }
+
+            if ($payment_method=="wallet") {
+               $current_bal = Crypt::decrypt(Auth::user()->wall_am);
+
+           $updated_bal = $current_bal - $amount;
+         
+           $query2 = DB::table('users')->where('id',Auth::user()->id)->update(['wall_am' => Crypt::encrypt($updated_bal)]);
+           $trans_id = uniqid(mt_rand(),true);
+            $platform = Helper::get_device_platform();
+           $query3 = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $orderid,'identifier' => 'event','trans_id' => $trans_id,'payment_method' => 'wallet','platform' => $platform,'created_at' => $date2, 'updated_at' => $date2]);
+
+              $contentwallet = "You paid Rs. ".$amount." Event: ".$purpose.", Order ID: ".$orderid.", GV Pay balance is Rs. ".$updated_bal.". Install the iPhone/Android App: https://l.ead.me/29Ev";
+              Helper::send_otp(Auth::user()->phone,$contentwallet);
+            }
+
+             if ($email != "") {
+             Mail::to($email)->cc(['ravinder.bedi@thebasin.in'])->send(new App\Mail\EventReciept($ndata));
+             }
+            Session::forget('cart');
+
+            
+       } 
+       
+    }
+    public static function get_event_id($event_alias) {
+       $db = DB::table('events')->where('event_alias',$event_alias)->get();
+       $event_id = 0;
+       foreach ($db as $key => $value) {
+         $event_id = $value->id;
+       }
+       return $event_id;
+    }
   public static function get_packs() {   
     $data = DB::table('packs')->where('pack_type', '!=','leads')->where('pack_type', '!=','leads3')->get();
    
@@ -1316,6 +1395,11 @@ class Helper
    
     return $data;
   }
+  public static function get_event_by_id($id) {   
+    $data = DB::table('events')->where('id',$id)->get();
+   
+    return $data;
+  }
   public static function truncate($text, $length) {
    $length = abs((int)$length);
    if(strlen($text) > $length) {
@@ -1337,6 +1421,35 @@ class Helper
     return $data;
   }
    public static function get_rates($service_id, $date, $arrival_time,$quantity,$optional,$type,$occasion_type,$rate_type) {
+
+      $data = array();
+      if ($type=="events") {
+        $db = DB::table('events')->where('id',$service_id)->get();
+        $mainprice = 0; $fprice = 0; $taxprice = 0;
+        $tax_id = 0;  $rate_type = "";
+        foreach ($db as $key => $value) {
+          $tax_id = $value->tax_id;
+          $fprice = $value->event_price * $quantity;
+          $rate_type = $value->rate_type;
+          
+        }
+
+         $taxes = Helper::get_taxes($tax_id);
+         $tax_percent = 0;
+         foreach ($taxes as $key => $value) {
+            $tax_percent = $value->tax_percent;
+         }
+
+          $taxprice = $fprice * $tax_percent/100;
+          if ($rate_type=="yes") {
+            $mainprice = $fprice - $taxprice;
+          }else {
+            $mainprice = $fprice + $taxprice;
+          }
+          
+        $data[] = array('price' => round($mainprice), 'final_price' => round($fprice),'tax_amount' => round($taxprice));
+      }else {
+
       $time_from = $arrival_time;
       $time_to = date('h:i A',strtotime('+15 minutes',strtotime($time_from)));
       $holidays = DB::table('holidays')->where('date',$date)->get();
@@ -1482,7 +1595,8 @@ class Helper
      $data = array();
 
       $data[] = array('price' => round($mainprice), 'final_price' => round($fprice),'tax_amount' => round($taxprice));
-      
+       
+      }
       return $data;
     }
    public static function get_order_items($orderid) {
@@ -2464,10 +2578,10 @@ class Helper
 
         if ($email != "") {
            $emailers = array_values(array_unique($emailers));
-         // Mail::to($email)->cc($emailers)->send(new App\Mail\OrderReciept($orderid));
+          Mail::to($email)->cc($emailers)->send(new App\Mail\OrderReciept($orderid));
         }else {
            $emailers = array_values(array_unique($emailers));
-         //  Mail::to($emailers)->send(new App\Mail\OrderReciept($orderid));
+           Mail::to($emailers)->send(new App\Mail\OrderReciept($orderid));
         }
     if ($pack_type=="occasional") {
           $occassion_text = " - ".$occassion_text;

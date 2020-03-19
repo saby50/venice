@@ -20,8 +20,9 @@ class EventsController extends Controller
       $type = "web";
     	return view('vendor.multiauth.admin.events.index', compact('data','type'));
     }
-    function events_bookings() {
-      $data = DB::table('booking_events')
+    function events_bookings($filter) {
+      if ($filter=="all") {
+         $data = DB::table('booking_events')
               ->join('events','events.id','=','booking_events.event_id')
               ->select(DB::raw('booking_events.*'),
                 DB::raw('events.event_name as event_name'),
@@ -29,8 +30,22 @@ class EventsController extends Controller
              DB::raw('events.start_time as event_time'))
               ->orderBy('booking_events.id','desc')
               ->get();
+      }else {
+         $data = DB::table('booking_events')
+              ->join('events','events.id','=','booking_events.event_id')
+              ->select(DB::raw('booking_events.*'),
+                DB::raw('events.event_name as event_name'),
+             DB::raw('events.start_date as event_date'),
+             DB::raw('events.start_time as event_time'))
+              ->where('events.id',$filter)
+              ->orderBy('booking_events.id','desc')
+              ->get();
+      }
+     
+
+        $events = DB::table('events')->get();      
         $type = 'web';     
-	      return view('vendor.multiauth.admin.events.bookings', compact('data','type'));
+	      return view('vendor.multiauth.admin.events.bookings', compact('data','type','events','filter'));
     }
     function create() {
     	 $taxes = DB::table('taxes')->get();

@@ -45,11 +45,11 @@ class EventController extends Controller
        $name = $request['name'];
        $email = $request['email'];
        $phone = $request['phone'];
-       $eventcart = Session::get('event');
+       //$cart = Session::get('event');
 
-       $eventcart = array('event_name' => $event_name,'event_alias' => $event_alias,'amount' => $amount,'price' => $price,'quantity' => $quantity, 'tax_amount' => $taxamount,'date' => $date,'name' => $name, 'phone' => $phone, 'email' => $email,'event_time' => $event_time);
+       $cart[] = array('event_name' => $event_name,'event_alias' => $event_alias,'amount' => $amount,'price' => $price,'quantity' => $quantity, 'tax_amount' => $taxamount,'date' => $date,'name' => $name, 'phone' => $phone, 'email' => $email,'event_time' => $event_time);
 
-        Session::put('event', $eventcart);
+        Session::put('event', $cart);
         Session::flash('success','barang berhasil ditambah ke keranjang!');
        
         return redirect('cart');
@@ -57,7 +57,18 @@ class EventController extends Controller
     }
     function checkout($payment_method) {
        $event_cart = Session::get('event');
-       
+        $name = "";
+         $email = "";
+         $phone = "";
+         $event_name = "";
+         $amount = 0;
+         foreach ($event_cart as $key => $value) {
+          $name = $value['name'];
+          $email = $value['email'];
+          $phone = $value['phone'];
+          $event_name = $value['event_name'];
+          $amount = $value['amount'];
+         }
      
       if ($payment_method=="instamojo") {
           $api = new \Instamojo\Instamojo(
@@ -68,13 +79,13 @@ class EventController extends Controller
  
     try {
         $response = $api->paymentRequestCreate(array(
-            "purpose" => "Event: ".$event_cart['event_name'],
-            "amount" => $event_cart['amount'],
-            "buyer_name" => $event_cart['name'],
+            "purpose" => "Event: ".$event_name,
+            "amount" => $amount,
+            "buyer_name" => $name,
             "payment_method" => $payment_method,
             "send_email" => true,
-            "email" => $event_cart['email'],
-            "phone" => $event_cart['phone'],
+            "email" => $email,
+            "phone" => $phone,
             "redirect_url" => URL::to('event/status')
             ));
              
@@ -89,7 +100,20 @@ class EventController extends Controller
          $currency = "INR";
          $status = "success";
          $type = "wallet";
-         $this->booking_process($event_cart['name'],$event_cart['email'],$event_cart['phone'],$event_cart['event_name'],$event_cart['amount'],$payment_method,$trans_id,$currency,$type,$status); 
+         $name = "";
+         $email = "";
+         $phone = "";
+         $event_name = "";
+         $amount = 0;
+         foreach ($event_cart as $key => $value) {
+          $name = $value['name'];
+          $email = $value['email'];
+          $phone = $value['phone'];
+          $event_name = $value['event_name'];
+          $amount = $value['amount'];
+         }
+         Helper::booking_event_process($name,$email,$phone,$event_name,$amount,$payment_method,$trans_id,$currency,$type,$status); 
+        
 
           return redirect('status_s');
 
@@ -137,7 +161,7 @@ class EventController extends Controller
             $type  = $response['payments'][0]['instrument_type'];
             
            if ($status=="success") {
-             $this->booking_process($name,$email,$phone,$response['purpose'],$amount,'instamojo',$payment_id,$currency,$type,$status); 
+             Helper::booking_event_process($name,$email,$phone,$response['purpose'],$amount,'instamojo',$payment_id,$currency,$type,$status); 
 
              return redirect('status_s');
 
@@ -148,74 +172,7 @@ class EventController extends Controller
     }
 
 
-    function booking_process($name,$email,$phone,$purpose,$amount,$payment_method,$payment_id,$currency,$type,$status) {
-       if (Session::get('event')) {
-       	   $cart = Session::get('event');
-
-       	    $date2 = date("Y-m-d H:i:s");
-           $orderid = "GV/ON/E/".Helper::generatePIN(6);
-            $finduser = User::where('phone', $phone)->first();
-            $pin = Helper::generatePIN();
-            $user_id =0;
-            if (!$finduser) {
-              $user = new User;
-              $user->name = $name;
-              $user->email = $email;
-              $user->phone = $phone;
-              $user->password = bcrypt($pin);
-              $user->platform = "web";
-              $user->otp = $pin;
-              $user->type = 'user';
-              $user->save();
-              $content = "Your account with The Grand Venice Mall is successfully registered. Please login with your phone number ".$phone." and PIN: ".$pin." and book services online at www.veniceindia.com";
-              Helper::send_otp($phone,$content);
-              $user_id = $user->id;
-            }else {
-              $user_id = $finduser['id'];
-            }
-
-           
-             	 $event_name =  $cart['event_name'];
-             	 $event_alias =  $cart['event_alias'];
-             	 $amount =  $cart['amount'];
-             	 $price = $cart['price'];
-             	 $quantity = $cart['quantity'];
-               $tax_amount = $cart['tax_amount'];
-               $date = $cart['date'];
-               $name = $cart['name'];
-               $phone = $cart['phone'];
-               $email = $cart['email'];
-               $event_time = $cart['event_time'];
-               $event_id = $this->get_event_id($event_alias);
-               $data = array('user_id' => $user_id,'name' => $name,'email' => $email,'phone' => $phone, 'event_id' => $event_id,'event_name' => $event_name,'amount' => $amount,'date' => $date,'time' => $event_time,'status' => $status,'quantity' => $quantity,'price'=> $price,'tax' => $tax_amount,'txnid' => $payment_id,'payment_mode' => $type,'platform' =>'web','payment_method' => $payment_method,'order_id' => $orderid,'created_at' => $date2, 'updated_at' => $date2);
-               $db = DB::table('booking_events')->insert($data);
-               $content2 = "Event Confirmation: ".$event_name.", ".date('d F',strtotime($date))."(".$event_time."). Order ID: ".$orderid.", Qty: ".$quantity.", Paid: Rs. ".$amount.". Install the Apps: https://l.ead.me/29Ev";
-            Helper::send_otp($phone,$content2);
-
-            $ndata[] = $data;
-
-            if ($payment_method=="wallet") {
-               $current_bal = Crypt::decrypt(Auth::user()->wall_am);
-
-           $updated_bal = $current_bal - $amount;
-         
-           $query2 = DB::table('users')->where('id',Auth::user()->id)->update(['wall_am' => Crypt::encrypt($updated_bal)]);
-           $trans_id = uniqid(mt_rand(),true);
-            $platform = Helper::get_device_platform();
-           $query3 = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $orderid,'identifier' => 'event','trans_id' => $trans_id,'payment_method' => 'wallet','platform' => $platform,'created_at' => $date2, 'updated_at' => $date2]);
-
-              $contentwallet = "You paid Rs. ".$amount." Event: ".$purpose.", Order ID: ".$orderid.", GV Pay balance is Rs. ".$updated_bal.". Install the iPhone/Android App: https://l.ead.me/29Ev";
-              Helper::send_otp(Auth::user()->phone,$contentwallet);
-            }
-
-             if ($email != "") {
-             Mail::to($email)->cc(['ravinder.bedi@thebasin.in'])->send(new EventReciept($ndata));
-             }
-            Session::flush('event');
-
-            
-       } 
-    }
+  
     function get_event_id($event_alias) {
        $db = DB::table('events')->where('event_alias',$event_alias)->get();
        $event_id = 0;
@@ -243,7 +200,7 @@ class EventController extends Controller
       $type = "NULL";
       $purpose = "NULL";
       $status = "success";
-      $this->booking_process($name,$email,$phone,$purpose,$amount,'NULL',$payment_id,$currency,$type,$status); 
+      Helper::booking_event_process($name,$email,$phone,$purpose,$amount,'NULL',$payment_id,$currency,$type,$status); 
       return redirect()->back()->withInput()->with('status','You have success booked!');
 
     }

@@ -108,6 +108,7 @@ $seconds = time();
                     
                   <td style="color: red;"><input type="radio" name="transtype" class="transtype" checked="checked" value="offline"> POS(Offline) &nbsp;&nbsp;&nbsp;<input type="radio" name="transtype" class="transtype" value="online"> BMS(Online)</td>
                 </tr>
+
 							<?php foreach ($services as $key => $value): ?>
                 
 								
@@ -223,6 +224,42 @@ $seconds = time();
                                        $i++;
 									?>								
 							<?php endforeach; ?>
+                <?php foreach ($events as $key => $value): ?>
+                
+                  <tr style="border-bottom: solid 1px #ccc;">
+                    <td><input type="checkbox" name="serviceid[]" class="serviceid" value="<?= "e_".$value->id ?>" data="<?= 'e_'.$i ?>">&nbsp;&nbsp; <strong><?= $value->event_name ?></strong><br />  <br />  
+                     </td>
+                       <td style="text-align: center;width: 200px;padding-top: 20px;"><div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="<?= "e_".$i ?>" data="<?= $value->id ?>">
+                                        <span class="fa fa-minus"></span>
+                                    </button>
+                                </span>
+                               
+                               <input type="text"  name="quantity[]" data-quantity="<?= "e_".$i ?>" class="form-control input-number quantity" value="<?= $value->minimum_quantity ?>" min="<?= $value->minimum_quantity ?>" max="10" disabled="disabled"  style="background: #FFF;" id="<?= "c_".$value->id ?>">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="plus" data-field="<?= "e_".$i ?>" data="<?= $value->id ?>">
+                                        <span class="fa fa-plus"></span>
+                                    </button>
+                                </span>
+                            </div><br />
+                            
+                
+                </div>
+
+                
+            
+                        <span class="price_total datappe_<?= $value->id ?>" id="<?= "e_".$i ?>"></span>
+                        <input type="hidden" name="type[]" value="events" class="service_type datate_<?= $value->id ?>" id="<?= "typee_".$i ?>">
+                        <input type="hidden" name="serviceid1[]" value="<?= "e_".$value->id ?>">
+                       <input type="hidden" name="amount[]" value="" id="<?= "amounte_".$i ?>" class="amounts  dataaae_<?= $value->id ?>">
+                        <input type="hidden" name="price[]" value="" id="<?= "pricepe_".$i ?>" class="datapppe_<?= $value->id ?>">
+                        <input type="hidden" name="tax[]" value="" id="<?= "taxpe_".$i ?>" class="datattpe_<?= $value->id ?>"><br /></td>
+                  </tr>
+                <?php 
+                      $i++;
+                  ?>                
+              <?php endforeach; ?>
 							</table>
 								</div>
 							
@@ -385,6 +422,7 @@ $(document).ready(function(){
 });
 var i = 1;
 $(".serviceid").click(function() {
+  //alert();
      setTimeout( function() { $('#loader').show(); }, 100 );
         setTimeout( function() { $('#loader').hide(); }, 600 );
    var s_id = $(this).attr('data');
@@ -405,19 +443,32 @@ $(".serviceid").click(function() {
  }
  
   var service_id = $(this).val().split('_');
-  var datepicker = "<?= date('d-m-Y') ?>";
-  var timepicker3 = "<?= $currenttime ?>";
+  var type = $(this).closest('td').next('td').find('input.service_type').val();
+  var datepicker = "";
+  var timepicker3 = "";
+  if (type=="events") {
+       datepicker = "04-04-2020";
+       timepicker3 = "6:00 PM";
+       $(".serviceid").prop('disabled',true);
+       $(this).prop('disabled',false);
+    }else {
+         datepicker = "<?= date('d-m-Y') ?>";
+         timepicker3 = "<?= $currenttime ?>";
+    }
+
+  
   var occasion_type = $(this).closest('td').next('td').find(".occasion_type option:checked").val();
   if (occasion_type=="undefined" || occasion_type==null) {
     occasion_type = "0";
   }
 
-  var type = $(this).closest('td').next('td').find('input.service_type').val();
+  
   var canal = $(this).closest('td').next('td').find('.canals:checked').val();
   var famount = parseInt($(".famount").val());
   var famount2 = 0;
   var transvalue = $(".transvalue").val();
    var url = "<?= URL::to('booking/get_rates/"+service_id[1]+"/"+datepicker+"/"+timepicker3+"/"+quantity+"/"+canal+"/"+type+"/"+occasion_type+"/"+transvalue+"') ?>";
+   
 
    $.ajax({
        url: url,
@@ -495,8 +546,7 @@ $(".payment_method").on('change', function() {
         setTimeout( function() { $('#loader').hide(); }, 600 );
         var service_id = $(this).attr('data');
 
-        var datepicker = "<?= date('d-m-Y') ?>";
-        var timepicker3 = "<?= $currenttime ?>";
+      
         var quantity = 1;
        if (!isNaN(currentVal)) {
             if (type == 'minus') {
@@ -527,6 +577,16 @@ $(".payment_method").on('change', function() {
             input.val(0);
         }
         var type = $("#type"+fieldName).val();
+
+        var datepicker = "";
+        var timepicker3 = "";
+        if (type=="events") {
+          datepicker = "04-04-2020";
+          timepicker3 = "6:00 PM";
+        }else {
+         datepicker = "<?= date('d-m-Y') ?>";
+         timepicker3 = "<?= $currenttime ?>";
+         }
         var canal = 0;
         if (type=="service") {
           var canal_name = "canals"+service_id;
@@ -547,7 +607,7 @@ $(".payment_method").on('change', function() {
         var transvalue = $(".transvalue").val();
         var url = "<?= URL::to('booking/get_rates/"+service_id+"/"+datepicker+"/"+timepicker3+"/"+quantity+"/"+canal+"/"+type+"/"+occasion_type+"/"+transvalue+"') ?>";
 
-      
+     
     var famount2 = parseInt($(".famount").val());
     var famount3 = 0;
    $.ajax({
@@ -561,6 +621,7 @@ $(".payment_method").on('change', function() {
            $('#price').attr('value', "0");
            $(".nextbtn").prop("disabled", true);
         }else {
+          console.log(result);
 
               $("#"+fieldName).html('<h5 style="color:red;text-align:left;"><i class="fa fa-rupee"></i> '+result[0]['final_price']+' (Price: <i class="fa fa-rupee"></i> '+result[0]['price']+' + GST: <i class="fa fa-rupee"></i> '+result[0]['tax_amount']+')</h5>');
               $("#amount"+fieldName).attr('value',result[0]['final_price']);

@@ -202,7 +202,7 @@
      Route::post('/shops/cat_update', 'ShopController@cat_update');
 
      //Events
-     Route::get('events_bookings', 'EventsController@events_bookings');
+     Route::get('events_bookings/{id}', 'EventsController@events_bookings');
      Route::get('/events/', 'EventsController@index');
     
      Route::get('/events/create/', 'EventsController@create');

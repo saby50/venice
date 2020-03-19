@@ -102,7 +102,7 @@ $serviceids = "";
     <li  class=""><a  href="<?php echo e(URL::to('admin/bookings/s/todays/all')); ?>">All Bookings</a></li>
     <?php endif; ?>
      <?php if($user_type=="superadmin" || $user_type=="analyst" || $user_type=="lead_manager" || $user_type=="pos" || $user_type=="leadanalyst" || $user_type=="editor"): ?>
-    <li  class=""><a  href="<?php echo e(URL::to('admin/events_bookings')); ?>">Events</a></li>
+    <li  class=""><a  href="<?php echo e(URL::to('admin/events_bookings/all')); ?>">Events</a></li>
 
   <?php endif; ?>
 

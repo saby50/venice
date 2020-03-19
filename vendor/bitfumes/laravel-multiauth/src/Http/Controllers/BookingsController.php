@@ -383,7 +383,9 @@ class BookingsController extends Controller
 		           ->whereDate('bookings.created_at',Carbon::today())
 		           ->count();
 
-	    return view('vendor.multiauth.admin.cash.index',compact('type','services','packs','totalamount','monthamount','todayamount','occasion_type','menu_type','payment_mode','venue','foc','foc_reasons','focamount','checksp','checkgc'));
+		$events = DB::table('events')->where('status','published')->get();
+
+	    return view('vendor.multiauth.admin.cash.index',compact('type','services','packs','totalamount','monthamount','todayamount','occasion_type','menu_type','payment_mode','venue','foc','foc_reasons','focamount','checksp','checkgc','events'));
 	}
 	function changeassignment(Request $request) {
 		$order_id = $request['order_id'];
@@ -422,6 +424,7 @@ class BookingsController extends Controller
        $bookmyshow = $request['bookmyshow'];
        $transtype = $request['transtype'];
        $services = "";
+       $ptype = "";
 
        foreach ($serviceid as $key => $value) {
         list($a, $b) = explode("_", $value);
@@ -448,7 +451,30 @@ class BookingsController extends Controller
           $cart[] = array('service_name' => $v->service_name,'service_id' => $b,'quantity' => $quantity[$key],
         'time' => $time,'date' => $date,'canal' => $get_canals,'canal_id' => $canal_id,'type' => 'service','amount' => $famount,'price' => $nprice,'tax' => $ntax,'icon' => $v->icon,'pack_type' => $pack_type,'occasion_type' => $occasion_type,'occassion_text' => $occasiontext);
         }
+        $ptype = "service";
+        }elseif($a=="e") {
+        	 $events = Helper::get_event_by_id($b);
+        	 $event_name = "";
+        	 foreach ($events as $k => $v) {
+        	 	$event_name = $v->event_name;
+        	 	$get_rates = Helper::get_rates($b, $date, $time,$quantity[$key],'0','events','0',$transtype);
+          
+             $nprice = $get_rates[0]['price'];
+             $ntax = $get_rates[0]['tax_amount'];
+             
+         
+        	 	  $cart[] = array('event_name' => $event_name,'event_alias' => $v->event_alias,'service_id' => $b,'quantity' => $quantity[$key],
+        'event_time' => $v->start_time,'date' => $v->start_date,'canal' => '','canal_id' => '','type' => 'events','amount' => $famount,'price' => $nprice,'tax_amount' => $ntax,'icon' => '','pack_type' => '','occasion_type' => '','occassion_text' => '', 'name' => $name,'email' => $email,'phone' => $phone);
+        	 	 
+        	 }
+        	
+         $ptype = "events";
+
+       
+
+
         }else {
+        	$ptype = "packs";
           $service = Helper::get_packs_details($b);
           $canal_id = $request['canalp'.$b];
            $get_canals = Helper::get_canals($canal_id);
@@ -484,12 +510,31 @@ class BookingsController extends Controller
         'time' => $time,'date' => $date,'canal' => $get_canals,'canal_id' => $canal_id,'type' => 'packs','amount' => $famount,'price' => $nprice,'tax' => $ntax,'icon' => $v->icon,'pack_type' => $pack_type,'occasion_type' => $occasion_type,'occassion_text' => $occasiontext);
         }
       }
+        
       }
-       $purpose = rtrim($services,',');
+
+
+      if ($ptype=="events") {
+
+      	   Session::put('event', $cart);  
+          $status = "success";
+      	  $payment_id = md5(microtime(true).mt_Rand());
+      	  $event_name = "";
+      	  foreach ($cart as $key => $value) {
+      	  	 $event_name = $value['event_name'];
+      	  }
+
+          $status = "success";
+      	 $payment_id = md5(microtime(true).mt_Rand());
+         Helper::booking_event_process($name,$email,$phone,$event_name,$amount,'cash',$payment_id,'INR','events',$status); 
+
+
+      }else {
+      	 $purpose = rtrim($services,',');
        Session::put('cart', $cart);  
        $payment_id = md5(microtime(true).mt_Rand());
         
-  
+      
       $order_id =  Helper::booking_process($name,$email,"+91".$phone,$purpose,$famount,$payment_method,$payment_id,'INR',$payment_method,'success',$foccheckbox,$authorised,$foc_reason,$percent);
 
       if (isset($bookmyshow) || $bookmyshow != "") {
@@ -512,7 +557,11 @@ class BookingsController extends Controller
         Mail::to($focemail)->send(new FocMail($order_id, $authorised,$percent,$foc_reason,$prevamount));          
         Helper::send_otp($fophone,$focontent);
       }
+      }
+
+
       return redirect('admin/status_s');
+     
   }
   public function get_url() {
   	$url = env('APP_URL').'/public/admin/foc/approve/'.Crypt::encrypt($order_id);
