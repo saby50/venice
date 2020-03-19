@@ -331,11 +331,12 @@ class UnitsController extends Controller
 	   $categories = $request['categories'];
      $tags = $request['tags'];
      $price_for_two = $request['price_for_two'];
+     $prep_time = $request['prep_time'];
      $suspended = $request['suspended'];
      $order_food = $request['order_food'];
 	   $date = date("Y-m-d H:i:s");
 	   $unit_id = $request['unit_id'];
-	   $db = DB::table('units')->where('id',$unit_id)->update(['unit_name' => $unit_name, 'unit_phone' => $unit_phone,'unit_email' => $unit_email,'floor_level' => $floor_level,'unit_category_id' => $categories,'order_food' => $order_food,'tags' => $tags,'price_for_two' => $price_for_two,'menu_id' => '0','suspended' => $suspended,'created_at' => $date, 'updated_at' => $date]);
+	   $db = DB::table('units')->where('id',$unit_id)->update(['unit_name' => $unit_name, 'unit_phone' => $unit_phone,'unit_email' => $unit_email,'floor_level' => $floor_level,'unit_category_id' => $categories,'order_food' => $order_food,'tags' => $tags,'price_for_two' => $price_for_two,'prep_time' => $prep_time,'menu_id' => '0','suspended' => $suspended,'created_at' => $date, 'updated_at' => $date]);
 	   if ($db) {
 	   	return redirect('admin/units')->withInput()->with('status','Unit Updated');
 	   }

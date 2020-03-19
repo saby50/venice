@@ -206,7 +206,7 @@ Home
 
 		</div>
 		<?php if(Helper::get_menu_item_count()!=0): ?>
-		<div class="col-md-12" style="display: none;">
+		<div class="col-md-12">
 		<!-- Start RecyclerView -->
 			<div class="recyclerview">
 				<div class="row">
@@ -228,7 +228,7 @@ Home
 					<div class="featured-pwa ripple">
 						<div class="row">
 							<div class="col-4">
-								<img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>">
+								<img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>"><span style="color: #000;">Prep: <?= $value->prep_time ?></span>
 							</div>	
 							<div class="col-8">
 								<span class="title"><?= $value->unit_name ?></span><br />

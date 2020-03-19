@@ -38,6 +38,7 @@ Units
 </div><!-- Top Bar Chart -->
 
 <?php 
+$prep_time = "";
 foreach ($data as $key => $value) {
   $unit_name = $value->unit_name;
   $unit_email = $value->unit_email;
@@ -48,6 +49,7 @@ foreach ($data as $key => $value) {
   $tags = $value->tags;
   $price_for_two = $value->price_for_two;
   $suspended = $value->suspended;
+  $prep_time = $value->prep_time;
 }
 $units = Helper::get_category($unit_category_id);
 
@@ -142,6 +144,11 @@ $units = Helper::get_category($unit_category_id);
                <div class="col-md-12">
                 <label>Tags (Seperated by comma)</label>
                 <input type="text" name="tags"  value="<?= $tags ?>" class="form-control">
+                
+              </div>
+              <div class="col-md-12">
+                <label>Prep Time</label>
+                <input type="text" name="prep_time"  value="<?= $prep_time ?>" class="form-control">
                 
               </div>
                <div class="col-md-12">
