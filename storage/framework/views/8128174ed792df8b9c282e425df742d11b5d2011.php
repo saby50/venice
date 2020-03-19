@@ -294,29 +294,7 @@ $serviceids = "";
               
               <?php foreach($value as $k => $v): ?>
               <div class="col-md-8">
-            <span style="text-transform: uppercase;font-size: 14px;font-weight: 600" class="bluecode"><?= $v['service_name'] ?> (<?php
-                   $o_id = "";
-                   if (empty($value[0]['order_id'])) {
-                     $o_id = $value[0]['order_id'];
-                   }
-                   $s_id = "";
-                    if (isset($value[0]['service_id'])) {
-                     $s_id = $value[0]['service_id'];
-                   }
-                  $ratingdata = Helper::get_reviews($o_id,$s_id);
-                  $rating = 0; $comment = "N/A";
-                  foreach ($ratingdata as $key => $value) {
-                    $rating = $value->rating;
-                    $comment = $value->comments;
-                  }
-                  echo $rating." ";
-                 
-                  if ($rating==0) {
-                      echo '<i class="fa fa-star fa-lg" style="color:#ccc;"></i>';
-                  }else {
-                      echo '<i class="fa fa-star fa-lg" style="color:#FFD700;"></i>';
-                  }
-              ?>)<br /> 
+            <span style="text-transform: uppercase;font-size: 14px;font-weight: 600" class="bluecode"><?= $v['service_name'] ?> <br /> 
            
              <?php if($v['option_name'] != ""): ?>
             (<?= $v['option_name'] ?>)<br />
@@ -374,7 +352,7 @@ $serviceids = "";
 
                }
               ?>
-              <br /><strong>Comment: </strong> <?= $comment ?>
+             
             </div>
               
 

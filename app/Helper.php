@@ -2184,6 +2184,7 @@ class Helper
       }else if($type=="choose") {
 
         list($from, $to) = explode('_', $parameter);
+        $to = date('Y-m-d', strtotime("+1 day", strtotime($to)));
 
             $db = DB::table('bookings')
         ->leftjoin('service_options','bookings.optional','=','service_options.id')  
