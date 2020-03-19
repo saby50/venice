@@ -110,7 +110,7 @@ $serviceids = "";
         
         
       </div>
-             <table class="table allTable" id="example">
+             <table class="table allTable">
           <thead>
             <tr>
               
@@ -160,6 +160,10 @@ $serviceids = "";
               <h4 style="margin-top: 40px;">  No Bookings</h4>
             <?php endif; ?>
     </div>
+
+
+
+   
     
    
     <div id="menu3" class="tab-pane fade">
@@ -179,7 +183,34 @@ $serviceids = "";
 	</div>
 </div><!-- Panel Content -->
 </div>
-
+ <table id="example" class="table" style="display: none;">
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>Email</td>
+          <td>Phone</td>
+           <td>Event Name</td>
+          <td>Quantity</td>
+          <td>Event Date</td>
+          <td>Event Time</td>
+          <td>Amount</td>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($data as $key => $value): ?>
+       <tr>
+          <td><?= $value->name ?></td>
+          <td><?= $value->email ?></td>
+          <td><?= $value->phone ?></td>
+           <td><?= $value->event_name ?></td>
+          <td><?= $value->quantity ?></td>
+          <td><?= $value->event_date ?></td>
+          <td><?= $value->event_time ?></td>
+          <td><?= $value->amount ?></td>
+        </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
 <script type="text/javascript" src="{{ asset('js/jquery.table2excel.js') }}"></script>
 <script type="text/javascript" src="https://staging.striker.academy/crm/public/js/dirPagination.js"></script>
     <script>
