@@ -212,13 +212,13 @@ Home
 				<div class="row">
 
 					<div class="col-12">
-						<div class="recyclerviewhead">
+						<div class="recyclerviewhead" style="color: #EE0000;">
 							
 							Order Food
 							
 						</div>
 						<div class="recyclerviewhead2">
-							<a href="<?= URL::to('foodorder') ?>">View All</a>
+							<a href="<?= URL::to('foodorder#restaurants') ?>">View All</a>
 						</div>		
 					</div>
 				</div>

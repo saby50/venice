@@ -14,7 +14,8 @@ Food
                 <div class="row">
 
                     <div class="col-12">
-                        <div class="recyclerviewhead">
+                        <a name="restaurants"></a>
+                        <div class="recyclerviewhead" style="color: #EE0000;">
                             
                             All Restaurants
                             
