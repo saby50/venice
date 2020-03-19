@@ -108,7 +108,42 @@ $seconds = time();
                     
                   <td style="color: red;"><input type="radio" name="transtype" class="transtype" checked="checked" value="offline"> POS(Offline) &nbsp;&nbsp;&nbsp;<input type="radio" name="transtype" class="transtype" value="online"> BMS(Online)</td>
                 </tr>
+ <?php foreach ($events as $key => $value): ?>
+                
+                  <tr style="border-bottom: solid 1px #ccc;">
+                    <td><input type="checkbox" name="serviceid[]" class="serviceid" value="<?= "e_".$value->id ?>" data="<?= 'e_'.$i ?>">&nbsp;&nbsp; <strong style="color: #337ab7;">Event: <?= $value->event_name ?></strong><br />  <br />  
+                     </td>
+                       <td style="text-align: center;width: 200px;padding-top: 20px;"><div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="<?= "e_".$i ?>" data="<?= $value->id ?>">
+                                        <span class="fa fa-minus"></span>
+                                    </button>
+                                </span>
+                               
+                               <input type="text"  name="quantity[]" data-quantity="<?= "e_".$i ?>" class="form-control input-number quantity" value="<?= $value->minimum_quantity ?>" min="<?= $value->minimum_quantity ?>" max="10" disabled="disabled"  style="background: #FFF;" id="<?= "c_".$value->id ?>">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="plus" data-field="<?= "e_".$i ?>" data="<?= $value->id ?>">
+                                        <span class="fa fa-plus"></span>
+                                    </button>
+                                </span>
+                            </div><br />
+                            
+                
+                </div>
 
+                
+                       
+                        <span class="price_total datappe_<?= $value->id ?>" id="<?= "e_".$i ?>"></span>
+                        <input type="hidden" name="type[]" value="events" class="service_type datate_<?= $value->id ?>" id="<?= "typee_".$i ?>">
+                        <input type="hidden" name="serviceid1[]" value="<?= "e_".$value->id ?>">
+                       <input type="hidden" name="amount[]" value="" id="<?= "amounte_".$i ?>" class="amounts  dataaae_<?= $value->id ?>">
+                        <input type="hidden" name="price[]" value="" id="<?= "pricepe_".$i ?>" class="datapppe_<?= $value->id ?>">
+                        <input type="hidden" name="tax[]" value="" id="<?= "taxpe_".$i ?>" class="datattpe_<?= $value->id ?>"><br /></td>
+                  </tr>
+                <?php 
+                      $i++;
+                  ?>                
+              <?php endforeach; ?>
 							<?php foreach ($services as $key => $value): ?>
                 
 								
@@ -224,42 +259,7 @@ $seconds = time();
                                        $i++;
 									?>								
 							<?php endforeach; ?>
-                <?php foreach ($events as $key => $value): ?>
-                
-                  <tr style="border-bottom: solid 1px #ccc;">
-                    <td><input type="checkbox" name="serviceid[]" class="serviceid" value="<?= "e_".$value->id ?>" data="<?= 'e_'.$i ?>">&nbsp;&nbsp; <strong><?= $value->event_name ?></strong><br />  <br />  
-                     </td>
-                       <td style="text-align: center;width: 200px;padding-top: 20px;"><div class="input-group">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="<?= "e_".$i ?>" data="<?= $value->id ?>">
-                                        <span class="fa fa-minus"></span>
-                                    </button>
-                                </span>
-                               
-                               <input type="text"  name="quantity[]" data-quantity="<?= "e_".$i ?>" class="form-control input-number quantity" value="<?= $value->minimum_quantity ?>" min="<?= $value->minimum_quantity ?>" max="10" disabled="disabled"  style="background: #FFF;" id="<?= "c_".$value->id ?>">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="plus" data-field="<?= "e_".$i ?>" data="<?= $value->id ?>">
-                                        <span class="fa fa-plus"></span>
-                                    </button>
-                                </span>
-                            </div><br />
-                            
-                
-                </div>
-
-                
-                       
-                        <span class="price_total datappe_<?= $value->id ?>" id="<?= "e_".$i ?>"></span>
-                        <input type="hidden" name="type[]" value="events" class="service_type datate_<?= $value->id ?>" id="<?= "typee_".$i ?>">
-                        <input type="hidden" name="serviceid1[]" value="<?= "e_".$value->id ?>">
-                       <input type="hidden" name="amount[]" value="" id="<?= "amounte_".$i ?>" class="amounts  dataaae_<?= $value->id ?>">
-                        <input type="hidden" name="price[]" value="" id="<?= "pricepe_".$i ?>" class="datapppe_<?= $value->id ?>">
-                        <input type="hidden" name="tax[]" value="" id="<?= "taxpe_".$i ?>" class="datattpe_<?= $value->id ?>"><br /></td>
-                  </tr>
-                <?php 
-                      $i++;
-                  ?>                
-              <?php endforeach; ?>
+               
 							</table>
 								</div>
 							

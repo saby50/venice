@@ -161,7 +161,7 @@ class EventController extends Controller
             $type  = $response['payments'][0]['instrument_type'];
             
            if ($status=="success") {
-             Helper::booking_event_process($name,$email,$phone,$response['purpose'],$amount,'instamojo',$payment_id,$currency,$type,$status); 
+             Helper::booking_event_process($name,$email,"+91".$phone,$response['purpose'],$amount,'instamojo',$payment_id,$currency,$type,$status); 
 
              return redirect('status_s');
 
@@ -200,7 +200,7 @@ class EventController extends Controller
       $type = "NULL";
       $purpose = "NULL";
       $status = "success";
-      Helper::booking_event_process($name,$email,$phone,$purpose,$amount,'NULL',$payment_id,$currency,$type,$status); 
+      Helper::booking_event_process($name,$email,"+91".$phone,$purpose,$amount,'NULL',$payment_id,$currency,$type,$status); 
       return redirect()->back()->withInput()->with('status','You have success booked!');
 
     }

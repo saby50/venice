@@ -27,7 +27,7 @@
           $price = 0;
           $tax_amount = 0;
           $alias = "";
-         
+         $payment_method = "";
       foreach ($data as $key => $value) {
           $order_id = $value->order_id;
           $name = $value->name;
@@ -41,6 +41,7 @@
           $amount = $value->amount;
           $price += $value->price;
           $tax_amount += $value->tax;
+          $payment_method = $value->payment_method;
          
           
       }
@@ -118,7 +119,23 @@
                  <p class="mt-2"><strong>Subtotal: </strong> <span class="price">Rs <?= $price ?></span></p>
                 <p><strong>GST: </strong> <span class="price"> Rs <?= $tax_amount ?></span></p>
                 <p>.........................................................................................................</p>
-                <p class="my-4" style="font-size: 18px;"><strong>Total: </strong> <span class="price total-price">Rs <?= $amount ?></span></p>
+                <p class="my-4" style="font-size: 18px;"><strong>Total: </strong> <span class="price total-price">Rs <?= $amount ?></span> <?php 
+            if ($payment_method=="instamojo") {
+             echo "EC(Instamojo)";
+            }else if($payment_method=="cash") {
+              echo "POS(Cash)";
+
+            }else if($payment_method=="card") {
+              echo "POS(CARD)";
+
+            } else if($payment_method=="paytm_qr") {
+              echo "POS(Paytm QR)";
+
+            }else if($payment_method=="wallet") {
+              echo "(GV Pay)";
+
+            }   
+            ?></p>
                 
                
            

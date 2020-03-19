@@ -85,7 +85,7 @@ $serviceids = "";
     <div id="home" class="tab-pane fade in active">
      <?php if (count($data) != 0): ?>
        <div class="row" style="margin-top: 20px;margin-bottom: 20px;margin-left:auto;margin-right: auto;">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label>Filter by event</label>
             <select class="filter form-control" name="filter">
                <option value="all">All</option>
@@ -98,6 +98,9 @@ $serviceids = "";
               <?php endforeach; ?>
             </select>
           </div>
+          <div class="col-md-1" style="margin-top: 20px;">
+            <button class="btn btn-success">Export</button>
+          </div>
           <div class="col-md-6">
             
           </div>
@@ -107,7 +110,7 @@ $serviceids = "";
         
         
       </div>
-             <table class="table allTable" >
+             <table class="table allTable" id="example">
           <thead>
             <tr>
               
@@ -177,7 +180,7 @@ $serviceids = "";
 </div><!-- Panel Content -->
 </div>
 
-
+<script type="text/javascript" src="{{ asset('js/jquery.table2excel.js') }}"></script>
 <script type="text/javascript" src="https://staging.striker.academy/crm/public/js/dirPagination.js"></script>
     <script>
 $(document).ready(function(){
@@ -276,4 +279,17 @@ $(document).ready(function(){
     color: #1c94dc;
   }
 </style>
+<script type="text/javascript">
+$("button.btn-success").click(function(){
+  $("#example").table2excel({
+    // exclude CSS class
+    exclude: ".noExl",
+    name: "Worksheet Name",
+    filename: "event", //do not include extension
+    fileext: ".xls" // file extension
+  }); 
+});
+</script>
+
+
 @endsection

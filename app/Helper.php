@@ -275,6 +275,8 @@ class Helper
           }
           $updatedate = date("d F Y, h:i A");
           $updateemail = DB::table('users')->where('id',$user_id)->update(['email' => $email,'name' => $name,'updated_at' => $updatedate]); 
+          
+
       }
 
       $itemdetails = "";

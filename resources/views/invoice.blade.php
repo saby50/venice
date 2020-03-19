@@ -194,6 +194,9 @@
             } else if($payment_method=="paytm_qr") {
               echo "POS(Paytm QR)";
 
+            }else if($payment_method=="wallet") {
+              echo "(GV Pay)";
+
             }   
             ?></p>
                 

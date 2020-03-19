@@ -128,6 +128,9 @@ $segment = Request::segment(2);
                                               POS(CARD)
                                                  <?php elseif($value->payment_method=="paytm_qr"): ?>
                                               POS(Paytm QR)
+                                                  <?php elseif($value->payment_method=="wallet"): ?>
+                                              (GV Pay)
+
 
 
                                             <?php endif; ?>
@@ -246,6 +249,9 @@ $segment = Request::segment(2);
                                               POS(CARD)
                                                  <?php elseif($value->payment_method=="paytm_qr"): ?>
                                               POS(Paytm QR)
+                                               <?php elseif($value->payment_method=="wallet"): ?>
+                                              (GV Pay)
+
 
 
                                             <?php endif; ?>
@@ -397,6 +403,9 @@ $segment = Request::segment(2);
                                               POS(CARD)
                                                  <?php elseif($value->payment_method=="paytm_qr"): ?>
                                               POS(Paytm QR)
+                                               <?php elseif($value->payment_method=="wallet"): ?>
+                                              (GV Pay)
+
 
 
                                             <?php endif; ?>
