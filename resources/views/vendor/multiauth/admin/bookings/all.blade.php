@@ -352,7 +352,7 @@ $serviceids = "";
 
                }
               ?>
-              <br /><strong>Comment: </strong> <?= $comment ?>
+             
             </div>
               
 
