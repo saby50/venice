@@ -526,7 +526,7 @@ class BookingsController extends Controller
 
           $status = "success";
       	 $payment_id = md5(microtime(true).mt_Rand());
-         Helper::booking_event_process($name,$email,$phone,$event_name,$amount,'cash',$payment_id,'INR','events',$status); 
+         Helper::booking_event_process($name,$email,,"+91".$phone,$event_name,$amount,'cash',$payment_id,'INR','events',$status); 
 
 
       }else {

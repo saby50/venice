@@ -112,7 +112,7 @@ class EventController extends Controller
           $event_name = $value['event_name'];
           $amount = $value['amount'];
          }
-         Helper::booking_event_process($name,$email,$phone,$event_name,$amount,$payment_method,$trans_id,$currency,$type,$status); 
+         Helper::booking_event_process($name,$email,"+91".$phone,$event_name,$amount,$payment_method,$trans_id,$currency,$type,$status); 
         
 
           return redirect('status_s');
