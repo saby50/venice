@@ -9,12 +9,14 @@ Food
         <img data-u="image" src="<?= URL::to("public/images/pages/foodcourtm.jpg") ?>" class="mobile">
       </div>
 
+      <a name="restaurants"></a>
+
         <!-- Start RecyclerView -->
             <div class="recyclerview">
                 <div class="row">
 
                     <div class="col-12">
-                        <a name="restaurants"></a>
+
                         <div class="recyclerviewhead" style="color: #EE0000;">
                             
                             All Restaurants
