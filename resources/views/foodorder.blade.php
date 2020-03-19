@@ -34,7 +34,7 @@ Food
                     <div class="featured-pwa ripple">
                         <div class="row">
                             <div class="col-4">
-                                <img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>">
+                                <img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>"><span style="color: #000;">Prep: 25 Mins</span>
                             </div>  
                             <div class="col-8">
                                 <span class="title"><?= $value->unit_name ?></span><br />
