@@ -227,7 +227,7 @@ $seconds = time();
                 <?php foreach ($events as $key => $value): ?>
                 
                   <tr style="border-bottom: solid 1px #ccc;">
-                    <td><input type="checkbox" name="serviceid[]" class="serviceid" value="<?= "e_".$value->id ?>" data="<?= 'e_'.$i ?>" data-date="<?= $value->event_date ?>" data-time="<?= $value->start_time ?>">&nbsp;&nbsp; <strong><?= $value->event_name ?></strong><br />  <br />  
+                    <td><input type="checkbox" name="serviceid[]" class="serviceid" value="<?= "e_".$value->id ?>" data="<?= 'e_'.$i ?>">&nbsp;&nbsp; <strong><?= $value->event_name ?></strong><br />  <br />  
                      </td>
                        <td style="text-align: center;width: 200px;padding-top: 20px;"><div class="input-group">
                                 <span class="input-group-btn">
