@@ -206,7 +206,7 @@ Home
 
 		</div>
 		<?php if(Helper::get_menu_item_count()!=0): ?>
-		<div class="col-md-12" style="display: none;">
+		<div class="col-md-12">
 		<!-- Start RecyclerView -->
 			<div class="recyclerview">
 				<div class="row">
