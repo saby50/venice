@@ -226,7 +226,7 @@ Home
 					<div class="featured-pwa ripple">
 						<div class="row">
 							<div class="col-4">
-								<img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>"><span style="color: #000;">Prep: <?= $value->prep_time ?></span>
+								<img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>"><span style="color: #000;margin-left: 7px;">Prep: <?= $value->prep_time ?></span>
 							</div>	
 							<div class="col-8">
 								<span class="title"><?= $value->unit_name ?></span><br />
