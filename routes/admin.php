@@ -306,6 +306,7 @@
     //Reports
     Route::get('reports/{type}/{date_type}','ReportController@index');
     Route::get('settings','AdminController@settings');
+    Route::post('update_food_order','AdminController@update_food_order');
     Route::get('download-reports/{datetype}','ReportController@downloadreports');
     Route::get('maintenance','AdminController@maintenance');
     Route::post('update_version','AdminController@update_version');

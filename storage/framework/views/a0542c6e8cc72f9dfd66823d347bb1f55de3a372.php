@@ -83,11 +83,11 @@ Settings
                            <span class="slider round"></span>
                          </label>                            
 						</div>
-							<div class="col-md-6" style="margin-top: 40px;;display: none;">
+							<div class="col-md-6" style="margin-top: 40px;">
 								<h4>IOS</h4>
 
 								</div>
-						<div class="col-md-6 sf-align-right" style="margin-top: 40px;display: none;">
+						<div class="col-md-6 sf-align-right" style="margin-top: 40px;">
 							<!-- Rounded switch -->
                         <label class="switch">
                         	 	<?php if($ios_maintenance=="true"): ?>

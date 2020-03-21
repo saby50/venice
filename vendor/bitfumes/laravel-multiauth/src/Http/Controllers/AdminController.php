@@ -1208,7 +1208,8 @@ class AdminController extends Controller
       $version = DB::table('versions')->get();
       $packs = DB::table('packs')->get();
       $data = DB::table('mailers')->get();
-      return view('vendor.multiauth.admin.settings.index', compact('type','services','packs','data','version'));
+      $food_order = DB::table('food_order_status')->get();
+      return view('vendor.multiauth.admin.settings.index', compact('type','services','packs','data','version','food_order'));
     }
     function update_version(Request $request) {
       $version = $request['version'];
@@ -1216,6 +1217,7 @@ class AdminController extends Controller
       return redirect()->back()->withInput()->with('status','Version updated!');
 
     }
+
     function maintenance() {
        $data = DB::table('maintenance')->get();
        $type = 'web';
@@ -1252,6 +1254,7 @@ class AdminController extends Controller
 
       return redirect('admin/settings')->withInput()->with('status','Email Updated');
     }
+
      function main_update(Request $request) {
     $android_maintenance = $request['android_maintenance'];
     $ios_maintenance = $request['ios_maintenance'];
@@ -1274,5 +1277,18 @@ class AdminController extends Controller
       }
 
 
+  }
+  function update_food_order(Request $request) {
+     $food_order = $request['food_order'];
+  
+    if ($food_order=="no") {
+      $fstatus = "yes";     
+     
+    }else {
+      $fstatus = "no";
+    }
+    $db = DB::table('food_order_status')->where('id','1')->update(['status' => $fstatus]);
+    $notification = "status";
+    return redirect('admin/settings')->withInput()->with($notification,'Food Order Updated');
   }
 }

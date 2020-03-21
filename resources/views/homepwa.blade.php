@@ -206,7 +206,19 @@ Home
 
 		</div>
 		<?php if(Helper::get_menu_item_count()!=0): ?>
-		<div class="col-md-12" style="display: none;">
+			<?php 
+$fstatus = "";
+foreach ($enable_food_order as $key => $value) {
+	$fstatus = $value->status;
+
+}
+
+?>
+        <?php if($fstatus=="yes"): ?>
+		<div class="col-md-12" >
+			<?php else: ?>
+				<div class="col-md-12" style="display: none;">
+			<?php endif; ?>
 		<!-- Start RecyclerView -->
 			<div class="recyclerview">
 				<div class="row">
