@@ -32,7 +32,7 @@
         
       </div>
       <?php 
-         $menu_items = Helper::get_menu_items_category_id($value,'all');
+         $menu_items = Helper::get_menu_items_category_id($value,'all',$unit_id);
          foreach($menu_items as $k => $v):
 
        ?>
