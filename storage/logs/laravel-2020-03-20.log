@@ -611,3 +611,8 @@ xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\
 xampp\\htdocs\\venice\\public\\index.php(60): Illuminate\\Foundation\\Http\\Kernel->terminate(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\Response))
 #16 {main}
 "} 
+[2020-03-20 14:04:59] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 1): Maximum execution time of 30 seconds exceeded at C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\misterphilip\\maintenance-mode\\src\\MisterPhilip\\MaintenanceMode\\MaintenanceModeServiceProvider.php:7)
+[stacktrace]
+#0 {main}
+"} 

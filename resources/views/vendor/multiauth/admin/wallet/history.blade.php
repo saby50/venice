@@ -164,7 +164,7 @@ $amount = 0;
 											<td><i class="fa fa-rupee"></i> <?= $value->mainamount ?>
 
                                             <?php 
-                                              $amount+= $value->final_amount;
+                                              $amount+= $value->mainamount;
                                             ?>
 										</td>
 										<td><i class="fa fa-rupee"></i> <?= $value->extra ?></td>
