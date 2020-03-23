@@ -84,9 +84,7 @@ class ApiController extends Controller
     $to = $request['to_time'];
     $unit_id = $request['unit_id'];
     $db = DB::table('units')->where('id',$unit_id)->update(['from_time' => $from, 'to_time' => $to]);
-    if ($db) {
-      return redirect()->back();
-    }
+   return redirect('admin/api/food_items_status/'.$unit_id);
   }
 	function get_app_managers_date_access($email,$type,$parameter2) {
 		$type2 = "choose";
