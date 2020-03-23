@@ -446,14 +446,15 @@ class ApiController extends Controller
 
          $refund = DB::table('wall_history')->where('order_id', $order_id)->where('unit_id', $unit_id)->update(['refund' => 'yes','refund_amount' => $amount,'final_amount' => '0', 'mainamount' => '0','extra' => '0']);
 
-         $payment_id = rand(10,100);
+         $payment_id = uniqid(mt_rand(),true);
          $date = date("Y-m-d H:i:s");
-         $insert = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $order_id, 'identifier' => 'refund','unit_id' => $unit_id,'trans_id' => $payment_id,'payment_method' => 'gv_pocket','platform' => 'android','created_at' => $date, 'updated_at' => $date]);
+         $platform = Helper::get_device_platform();
+         $insert = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $order_id, 'identifier' => 'refund','unit_id' => $unit_id,'trans_id' => $payment_id,'payment_method' => 'gv_pocket','platform' => $platform,'created_at' => $date, 'updated_at' => $date]);
 
          $data = array('status' => 'failed');
-         if ($refund) {
+         if ($insert) {
 
-          $content = "Your payment of Rs.".$amount." is refunded from ".$unit_name.", The Grand Venice Mall, Now updated balance is Rs.".$updated_balance.".";
+           $content = "Your Order ID:".$order_id." for Rs. ".$amount." is refunded by ".$unit_name." to GV Pay. Your GV Pay balance is".$updated_balance.". Install the iPhone/Android App: https://l.ead.me/29Ev";
             Helper::send_otp($phone,$content);
            $data = array('status' => 'success');
          }
