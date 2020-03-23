@@ -283,7 +283,7 @@ $seconds = time();
 						</div>
 						<div class="form-group">
 							<label>Customer Phone</label>
-						<input type="text" name="phone" class="form-control phone" required="required" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" maxlength="10">
+						<input type="text" name="phone" class="form-control phone" required="required" onkeypress="return event.charCode >= 48 && event.charCode <= 57" minlength="10" maxlength="10">
             
 						</div>
 							 <div class="form-group">
