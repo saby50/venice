@@ -54,7 +54,8 @@ class ApiController extends Controller
 	}
 	function food_items_status($unit_id) {
       $data = DB::table('unit_menu_items')->where('unit_id', $unit_id)->get();
-      return view('vendor.multiauth.admin.food_item_status', compact('data','unit_id'));
+       $units = DB::table('units')->where('id', $unit_id)->get();
+      return view('vendor.multiauth.admin.food_item_status', compact('data','unit_id','units'));
   }
   function change_status(Request $request) {
       $item_id = $request['item_id'];
@@ -66,6 +67,26 @@ class ApiController extends Controller
         $status = "success";
       }
       return $status;
+  }
+    function change_food_orders(Request $request) {
+      $unit_id = $request['unit_id'];
+      $itemstatus = $request['status'];
+     
+      $db = DB::table('units')->where('id', $unit_id)->update(["enable_food_order" => $itemstatus]);
+      $status = "failed";
+      if ($db) {
+        $status = "success";
+      }
+      return $status;
+  }
+  function update_restuarant_time(Request $request) {
+    $from = $request['from_time'];
+    $to = $request['to_time'];
+    $unit_id = $request['unit_id'];
+    $db = DB::table('units')->where('id',$unit_id)->update(['from_time' => $from, 'to_time' => $to]);
+    if ($db) {
+      return redirect()->back();
+    }
   }
 	function get_app_managers_date_access($email,$type,$parameter2) {
 		$type2 = "choose";

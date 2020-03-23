@@ -262,6 +262,8 @@
     Route::POST('/api/forgotpin', 'ApiController@forgotpin');
     Route::GET('/api/food_items_status/{unit_id}', 'ApiController@food_items_status');
     Route::POST('/api/change_status', 'ApiController@change_status');
+    Route::POST('/api/update_restuarant_time', 'ApiController@update_restuarant_time');
+    Route::POST('/api/change_food_orders', 'ApiController@change_food_orders');
     Route::POST('/api/checkin', 'ApiController@checkin');
     Route::POST('/api/getdata', 'ApiController@get_data');
     Route::POST('/api/get_food_data', 'ApiController@get_food_data');
