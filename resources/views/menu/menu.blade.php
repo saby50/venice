@@ -5,11 +5,17 @@
 $unit_details = Helper::get_unit_info($getid);
 $unit_name = NULL; $foodstore = NULL;
 $tags = NULL; $price_for_two = NULL;
+$from_time = "";
+$to_time = "";
+$enable_food_order = "";
 foreach ($unit_details as $key => $value) {
 	$unit_name = $value->unit_name;
 	$foodstore = $value->foodstore;
 	$tags = $value->tags;
+  $enable_food_order = $value->enable_food_order;
   $price_for_two = $value->price_for_two;
+  $from_time = $value->from_time;
+  $to_time = $value->to_time;
 	
 }
 echo $unit_name."<p style='font-size:11px;margin-left: 42px;margin-top:-5px;'>".$tags."</p>";
@@ -39,6 +45,9 @@ foreach ($cart as $key => $value) {
   $p = 0;
 }
 
+$food_order = "";
+$current_time = date('g:i A');
+
 
 ?>
 @endsection
@@ -50,7 +59,7 @@ foreach ($cart as $key => $value) {
    	
     <div class="recyclerview firstbox recommended">
       <div class="row">
-        <div class="col-6" style="font-size: 12px;padding-left: 19px;">
+        <div class="col-4" style="font-size: 12px;padding-left: 19px;">
           <label class="switch">
             <?php if($view=="veg"): ?>
              <input type="checkbox" name="veg" value="all" class="vegonly" checked="checked">
@@ -60,7 +69,25 @@ foreach ($cart as $key => $value) {
             <span class="slider round"></span>
           </label> Veg
         </div>
-          <div class="col-6" style="font-size: 12px;text-align: right;padding-right: 16px;">
+        <div class="col-4">
+          <?php 
+            
+            if($enable_food_order=="no") {
+               echo "<span style='color:red;font-size:11px;'>Closed for order</span>";
+               //$food_order = "no";
+            }else {
+              if (strtotime($current_time) > strtotime($from_time) && strtotime($current_time) < strtotime($to_time)) {
+              $food_order = "yes";
+              
+            }else {
+              echo "<span style='color:red;font-size:11px;'>Closed for order</span>";
+              $food_order = "no";
+            }
+            }
+            
+          ?>
+        </div>
+          <div class="col-4" style="font-size: 12px;text-align: right;padding-right: 16px;">
            <i class='fa fa-rupee'></i> <?= $price_for_two ?> For Two
         </div>
       </div>
@@ -89,7 +116,7 @@ foreach ($cart as $key => $value) {
                     <img src="{{ asset('public/images/veg.png') }}" width="15" height="auto" style="margin-top: -5px;">
                     <?php else: ?>
                         <img src="{{ asset('public/images/nonveg.png') }}" width="15" height="auto" style="margin-top: -5px;">
-                  <?php endif; ?> <?= $value->item_name ?><br />
+                  <?php endif; ?> <?= ucfirst($value->item_name) ?><br />
                   <div class="NCPX7"><?= Helper::get_food_category_name($value->food_category_id); ?></div></div>
           <div class="f5-yn"><i class="fa fa-rupee"></i> <?= $value->price ?></div>
           <div>
@@ -107,6 +134,8 @@ foreach ($cart as $key => $value) {
                 
               
              ?>
+              <?php if($enable_food_order=="yes"): ?>
+              <?php if($food_order=="yes"): ?>
              <?php if($quantity!=0): ?>
               
                <div class="addButton btnmargintop hided addbutton_<?= $value->id ?>" data-addon="<?= Helper::checkaddonfields($value->id) ?>"  data-price="<?= $value->price ?>" data="<?= $value->id ?>">Add</div>
@@ -126,10 +155,15 @@ foreach ($cart as $key => $value) {
             
           </div>
            <?php else: ?>
-             <div class="unavailable">Currently Unavailable</div>
+             <div class="unavailable btnmarginright">Currently Unavailable</div>
           <?php endif; ?>
-              <?php endif; ?>
-          
+        <?php endif; ?>
+        <?php else: ?>
+          <div class="unavailable btnmarginright">Currently Unavailable</div>
+      <?php endif; ?>
+           <?php else: ?>
+         <div class="unavailable btnmarginright">Currently Unavailable</div>
+      <?php endif; ?>
          
           <?php else: ?>
             <div class="unavailable">Currently Unavailable</div>
@@ -177,7 +211,7 @@ foreach ($cart as $key => $value) {
               	</div>
 				<div class="col-6">
 
-					<div class="Bn7DA title"> <?= $value->item_name ?></div>
+					<div class="Bn7DA title"> <?= ucfirst($value->item_name) ?></div>
 					<div class="f5-yn2"><i class="fa fa-rupee"></i> <?= $value->price ?></div>
 					
 				</div>
@@ -196,6 +230,8 @@ foreach ($cart as $key => $value) {
                 
               
              ?>
+             <?php if($enable_food_order=="yes"): ?>
+             <?php if($food_order=="yes"): ?>
              <?php if($quantity!=0): ?>
            
               <div class="foodquantity btnmarginright quantitybox_<?= $value->id ?>" data="<?= $value->id ?>" data-price="<?= $value->price ?>">
@@ -224,6 +260,12 @@ foreach ($cart as $key => $value) {
              <div class="unavailable btnmarginright">Currently Unavailable</div>
           <?php endif; ?>
         <?php endif; ?>
+        <?php else: ?>
+          <div class="unavailable btnmarginright">Currently Unavailable</div>
+      <?php endif; ?>
+      <?php else: ?>
+         <div class="unavailable btnmarginright">Currently Unavailable</div>
+      <?php endif; ?>
             
 					
 

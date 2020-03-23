@@ -39,6 +39,9 @@ Units
 
 <?php 
 $prep_time = "";
+$from_time = "";
+$to_time = "";
+$enable_food_order = "";
 foreach ($data as $key => $value) {
   $unit_name = $value->unit_name;
   $unit_email = $value->unit_email;
@@ -50,6 +53,9 @@ foreach ($data as $key => $value) {
   $price_for_two = $value->price_for_two;
   $suspended = $value->suspended;
   $prep_time = $value->prep_time;
+  $from_time = $value->from_time;
+  $to_time = $value->to_time;
+  $enable_food_order = $value->enable_food_order;
 }
 $units = Helper::get_category($unit_category_id);
 
@@ -86,6 +92,15 @@ $units = Helper::get_category($unit_category_id);
                <label>Unit Phone</label>
                <input type="number" class="form-control" name="unit_phone" autocomplete="off" value="<?= $unit_phone ?>"  required="">
               </div>
+               <div class="col-md-6">
+                    <label>From</label>
+
+                      <input type="text" class="form-control from" name="from" value="" autocomplete="off" id="from" required="">
+                    </div>
+                    <div class="col-md-6">
+                      <label>To</label>
+                      <input type="text" class="form-control to" name="to" value="" id="to" autocomplete="off" required="">
+                    </div>
               <div class="col-md-6">
            
               <label>Unit Email</label>
@@ -157,7 +172,15 @@ $units = Helper::get_category($unit_category_id);
                 <input type="text" name="price_for_two"  value="<?= $price_for_two ?>" class="form-control">
                 
               </div>
-              
+               <div class="col-md-12">
+                 <br />
+                <label>Enable Food Order</label><br />
+                <?php if($enable_food_order=="yes"): ?>
+                <input type="radio" name="enable_food_order" value="yes" checked="checked"> Enable &nbsp;&nbsp; <input type="radio" name="enable_food_order" value="no"> Disable
+                <?php else: ?>
+                  <input type="radio" name="enable_food_order" value="yes"> Enable &nbsp;&nbsp; <input type="radio" name="enable_food_order" value="no" checked="checked"> Disable 
+                <?php endif; ?> 
+              </div>
               </div>
               <div class="col-md-12">
                <br /> <br />
@@ -236,6 +259,29 @@ $units = Helper::get_category($unit_category_id);
   
 });
   });
+</script>
+    <script>
+$(document).ready(function() {
+  $('.from').timepicker({
+    timeFormat: 'h:mm p',
+    interval: 60,
+    defaultTime: '<?= $from_time ?>',
+    startTime: '<?= $from_time ?>',
+    dynamic: false,
+    dropdown: false,
+    scrollbar: true
+});
+$('.to').timepicker({
+  timeFormat: 'h:mm p',
+  interval: 60,
+  defaultTime: '<?= $to_time ?>',
+  startTime:  '<?= $to_time ?>',
+  dynamic: false,
+  dropdown: false,
+  scrollbar: true
+});
+});
+
 </script>
 <?php $__env->stopSection(); ?>
 

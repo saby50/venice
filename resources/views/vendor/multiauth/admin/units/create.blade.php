@@ -69,6 +69,15 @@ Units
                <input type="number" class="form-control" name="unit_phone" autocomplete="off" value=""  required="">
               </div>
               <div class="col-md-6">
+                    <label>From</label>
+
+                      <input type="text" class="form-control from" name="from" value="" autocomplete="off" id="from" required="">
+                    </div>
+                    <div class="col-md-6">
+                      <label>To</label>
+                      <input type="text" class="form-control to" name="to" value="" id="to" autocomplete="off" required="">
+                    </div>
+              <div class="col-md-6">
            
               <label>Unit Email</label>
               <input type="text" class="form-control" name="unit_email" autocomplete="off" value="" required="">
@@ -111,7 +120,12 @@ Units
                 <input type="text" name="price_for_two"  value="" class="form-control">
                 
               </div>
-              
+             <div class="col-md-12">
+                 <br />
+                <label>Enable Food Order</label><br />
+                <input type="radio" name="enable_food_order" value="yes"> Enable &nbsp;&nbsp; <input type="radio" name="enable_food_order" value="no" checked="checked"> Disable
+                
+              </div>
               </div>
               <div class="col-md-12">
                <br />
@@ -148,5 +162,28 @@ Units
     });
   
   });
+</script>
+    <script>
+$(document).ready(function() {
+  $('.from').timepicker({
+    timeFormat: 'h:mm p',
+    interval: 60,
+    defaultTime: '11',
+    startTime: '11:00',
+    dynamic: false,
+    dropdown: false,
+    scrollbar: true
+});
+$('.to').timepicker({
+  timeFormat: 'h:mm p',
+  interval: 60,
+  defaultTime: '22:30',
+  startTime: '10:30',
+  dynamic: false,
+  dropdown: false,
+  scrollbar: true
+});
+});
+
 </script>
 @endsection

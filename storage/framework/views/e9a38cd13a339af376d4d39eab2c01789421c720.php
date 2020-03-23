@@ -83,8 +83,12 @@ Home
 				<div class="featured-pwa ripple">
 					<div class="row">
 						<div class="col-4">
+						<?php if(file_exists('public/uploads/featured_app/'.$value->featured_app)): ?>	
 
 							<img class="img-fluid mx-auto d-block" src="<?= URL::to('public/uploads/featured_app/'.$value->featured_app) ?>"  alt="<?= $value->featured_image ?>">
+						<?php else: ?>
+								<img class="img-fluid mx-auto d-block feature" src="<?= asset('public/images/placeholder.jpg') ?>">
+								<?php endif; ?>	
 						</div>	
 						<div class="col-8" style="padding-left: 24px;">
 							<span class="title"><?= $value->pack_name ?></span><br />
@@ -166,8 +170,11 @@ Home
 					<div class="featured-pwa ripple">
 						<div class="row">
 							<div class="col-4">
-
+								<?php if(file_exists('public/uploads/featured_app/'.$value->featured_app)): ?>
 								<img class="img-fluid mx-auto d-block" src="<?= URL::to('public/uploads/featured_app/'.$value->featured_app) ?>" alt="<?= $value->featured_image ?>">
+								<?php else: ?>
+								<img class="img-fluid mx-auto d-block feature" src="<?= asset('public/images/placeholder.jpg') ?>">
+								<?php endif; ?>
 							</div>	
 							<div class="col-8">
 								<span class="title"><?= $value->service_name ?></span><br />
@@ -238,7 +245,11 @@ foreach ($enable_food_order as $key => $value) {
 					<div class="featured-pwa ripple">
 						<div class="row">
 							<div class="col-4">
-								<img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>"><span style="color: #000;margin-left: 7px;">Prep: <?= $value->prep_time ?></span>
+								<?php if(file_exists('public/uploads/foodstore/'.$value->foodstore)): ?>
+								<img class="img-fluid mx-auto d-block feature" src="<?= asset('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>">
+								<?php else: ?>
+									<img class="img-fluid mx-auto d-block feature" src="<?= asset('public/images/placeholder.jpg') ?>">
+								<?php endif; ?><span style="color: #000;margin-left: 7px;">Prep: <?= $value->prep_time ?></span>
 							</div>	
 							<div class="col-8">
 								<span class="title"><?= $value->unit_name ?></span><br />
