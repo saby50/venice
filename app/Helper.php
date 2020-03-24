@@ -175,6 +175,8 @@ class Helper
         ));
           $status =  $response['status'];
            $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['refund' => 'yes','refund_amount' => $refund_amount,'final_amount' => '0', 'mainamount' => '0','extra' => '0']);
+            $content = "our Order ID: ".$order_id."for Rs. ".$refund_amount." is refunded by ".$unit_name." to Instamojo. Install the iPhone/Android App: https://l.ead.me/29Ev";
+            Helper::send_otp($phone,$content);
         }
        catch (Exception $e) {
           print('Error: ' . $e->getMessage());
@@ -205,7 +207,7 @@ class Helper
          }
           
           
-      $content = "Your payment of Rs.".$refund_amount." is refunded from ".$unit_name.", The Grand Venice Mall, Now updated balance is Rs.".$updated_balance.".";
+      $content = "our Order ID: ".$order_id."for Rs. ".$refund_amount." is refunded by ".$unit_name.", to GV Pay. Your GV Pay balance is ".$updated_balance.". Install the iPhone/Android App: https://l.ead.me/29Ev";
             Helper::send_otp($phone,$content);
       $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
       
