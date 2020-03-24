@@ -27,10 +27,11 @@ class WebController extends Controller
          $featured2 = DB::table('packs')->inRandomOrder()->where('pack_type','!=','leads')->where('pack_type','!=','leads2')->where('pack_type','!=','leads3')->take(2)->get();
          $slider = DB::table('slides')->where('visibility','1')->orderBy('position','ASC')->take(2)->get();
          $movies = DB::table('movies')->inRandomOrder()->take(2)->get();
-         $foodorder = DB::table('units')->where('order_food','yes')->where('suspended','no')->inRandomOrder()->take(6)->get();
+         $foodorder = DB::table('units')->where('order_food','yes')->where('enable_food_order','yes')->where('suspended','no')->inRandomOrder()->take(6)->get();
+          $offlineres = DB::table('units')->where('order_food','yes')->where('enable_food_order','no')->where('suspended','no')->inRandomOrder()->take(6)->get();
           $events = DB::table('events')->where('status','published')->inRandomOrder()->take(6)->get();
           $enable_food_order = DB::table('food_order_status')->where('id','1')->get();
-         return view('homepwa', compact('featured','featured2','slider','movies','foodorder','events','enable_food_order'));
+         return view('homepwa', compact('featured','featured2','slider','movies','foodorder','events','enable_food_order','offlineres'));
       }else {
          $featured = DB::table('services')->inRandomOrder()->take(4)->get();
          $featured2 = DB::table('packs')->inRandomOrder()->where('pack_type','!=','leads')->where('pack_type','!=','leads2')->where('pack_type','!=','leads3')->take(4)->get();
