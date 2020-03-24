@@ -174,7 +174,7 @@ class Helper
             'body'=>'Customer is not satified.'
         ));
           $status =  $response['status'];
-           $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
+           $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['refund' => 'yes','refund_amount' => $refund_amount,'final_amount' => '0', 'mainamount' => '0','extra' => '0']);
         }
        catch (Exception $e) {
           print('Error: ' . $e->getMessage());
@@ -194,7 +194,8 @@ class Helper
 
         $update = DB::table('users')->where('email',$email)->update(['wall_am' => Crypt::encrypt($updated_balance)]);
         $date = date("Y-m-d H:i:s");
-         $insert = DB::table('wall_history')->insert(['final_amount' => 0, 'mainamount' => 0, 'extra' => 0,'user_id' => $user_id,'order_id' => $order_id, 'expiry' => '', 'identifier' => 'refund', 'unit_id' => $unit_id,'trans_id' => $payment_id, 'platform' => 'android','refund' => 'yes','refund_amount' => $amount,'created_at' => $date, 'updated_at' => $date]);
+        $platform = Helper::get_device_platform();
+         $insert = DB::table('wall_history')->insert(['final_amount' => $refund_amount, 'mainamount' => 0, 'extra' => 0,'user_id' => $user_id,'order_id' => $order_id, 'expiry' => '', 'identifier' => 'refund', 'unit_id' => $unit_id,'trans_id' => $payment_id, 'platform' => $platform,'created_at' => $date, 'updated_at' => $date]);
        $unit_info = Helper::get_unit_info($unit_id);
 
          $unit_name = "";
