@@ -79,12 +79,12 @@ Wallet
 				
 			</div>
              <div class="col-4" style="text-align: right;">
-              <?php if($value->identifier=="refund"): ?>
-             	<strong class="gv-price">+ <i class="fa fa-rupee"></i> <?= $value->refund_amount ?></span>
+               <?php if($value->identifier=="refund"): ?>
+             	<strong class="gv-price">+ <i class="fa fa-rupee"></i> <?= $value->final_amount ?></span>
              		
              </strong>
-             <?php elseif($value->identifier=="payment" || $value->identifier=="foodorder"  && $value->refund=="yes"): ?>
-             <strong class="gv-price2">- <i class="fa fa-rupee"></i> <?= $value->final_amount ?>
+             <?php elseif($value->identifier=="payment" && $value->refund=="yes"): ?>
+             <strong class="gv-price2">- <i class="fa fa-rupee"></i> <?= $value->refund_amount ?>
              </strong>
              <?php else: ?>
              	<strong class="gv-price2">- <i class="fa fa-rupee"></i> <?= $value->final_amount ?>
