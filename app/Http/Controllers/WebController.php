@@ -43,9 +43,10 @@ class WebController extends Controller
 
     }
     function foodorder() {
-      $foodorder = DB::table('units')->where('order_food','yes')->where('suspended','no')->inRandomOrder()->get();
+       $foodorder = DB::table('units')->where('order_food','yes')->where('enable_food_order','yes')->where('suspended','no')->inRandomOrder()->take(6)->get();
+          $offlineres = DB::table('units')->where('order_food','yes')->where('enable_food_order','no')->where('suspended','no')->inRandomOrder()->take(6)->get();
       $categories = DB::table('food_categories')->get();
-      return view('foodorder', compact('foodorder','categories'));
+      return view('foodorder', compact('foodorder','categories','offlineres'));
     }
     function getaddonfields($item_id) {
      $db = DB::table('unit_menu_items_add_ons')->where('item_id', $item_id)->get();
