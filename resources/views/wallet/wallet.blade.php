@@ -147,7 +147,7 @@ Wallet
              	<strong class="gv-price">+ <i class="fa fa-rupee"></i> <?= $value->final_amount ?></span>
              		
              </strong>
-             <?php elseif($value->refund=="yes"): ?>
+             <?php elseif($value->identifier=="payment" && $value->refund=="yes"): ?>
              <strong class="gv-price2">- <i class="fa fa-rupee"></i> <?= $value->refund_amount ?>
              </strong>
              <?php else: ?>
