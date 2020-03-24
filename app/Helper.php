@@ -150,6 +150,7 @@ class Helper
       $refund_amount = 0;
       $status = "failed";
       $email = ""; $payment_id = 0; $unit_id = 0; $payment_id = 0;
+      $phone = "";
       foreach ($data as $key => $value) {
         $refund_amount = $value->amount;
         $email = $value->email;
@@ -180,7 +181,16 @@ class Helper
           print('Error: ' . $e->getMessage());
         }
          $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
+           
+          $unit_info = Helper::get_unit_info($unit_id);
+
+         $unit_name = "";
+
+         foreach ($unit_info as $key => $value) {
+           $unit_name = $value->unit_name;
+         }
             $content = "Your Order ID: ".$order_id." for Rs. ".$refund_amount." is refunded by ".$unit_name." to Instamojo. Install the iPhone/Android App: https://l.ead.me/29Ev";
+           
             Helper::send_otp($phone,$content);
             $status = "Refunded";
       }else {
