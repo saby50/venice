@@ -15,6 +15,7 @@ Notifications
 				
 			</div>
           	</div>
+          		<?php if(count($data) != 0): ?>
 			<?php $i=0; foreach($data as $key => $value): ?>
 				
 				<div class="featured-pwa ripple">
@@ -48,6 +49,9 @@ Notifications
 				?>
 
 			<?php endforeach; ?>
+			<?php else: ?>
+				<center><img src="{{ asset('public/images/oops2.png') }}"><br /><br /><p style="color: #000;">No Notifications Yet!</p></center>
+			<?php endif; ?>
 		</div>
 </div>
 </div>
