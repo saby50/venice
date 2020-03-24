@@ -292,7 +292,7 @@ foreach ($enable_food_order as $key => $value) {
 					?>
 
 				<?php endforeach; ?>
-			
+			<hr />
 	<?php $i=0; foreach($offlineres as $key => $value): ?>
 				
 				<a href="<?= URL::to('show-menu/all/'.Crypt::encrypt($value->id)) ?>">
