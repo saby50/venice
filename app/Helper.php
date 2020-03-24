@@ -151,6 +151,7 @@ class Helper
       $status = "failed";
       $email = ""; $payment_id = 0; $unit_id = 0; $payment_id = 0;
       $phone = "";
+      $response = array();
       foreach ($data as $key => $value) {
         $refund_amount = $value->amount;
         $email = $value->email;
@@ -192,7 +193,7 @@ class Helper
             $content = "Your Order ID: ".$order_id." for Rs. ".$refund_amount." is refunded by ".$unit_name." to Instamojo. Install the iPhone/Android App: https://l.ead.me/29Ev";
            
             Helper::send_otp($phone,$content);
-            $status = "Refunded";
+            $response = array("status" => 'success', 'message' => 'amount refunded');
       }else {
         $checkuser = App\User::where('email',$email)->get();
 
@@ -223,10 +224,10 @@ class Helper
             Helper::send_otp($phone,$content);
       $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
       
-      $status = "Refunded";
+      $response = array("status" => 'success', 'message' => 'amount refunded');
       
       }
-      return $status;
+      return $response;
   }
    public static function get_item_addons_list($item_addon_id) {   
     $data = DB::table('unit_menu_items_add_ons_list')->where('item_addon_id', $item_addon_id)->get();
