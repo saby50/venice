@@ -82,7 +82,7 @@
 		
 	</div>
 
-	<div class="col-6 sf-align-right" style="text-align: right;">
+	<div class="col-6 sf-align-right" style="text-align: right;margin-bottom: 10px;">
 
 		<label class="switch">
             <?php if($v->status=="active"): ?>
