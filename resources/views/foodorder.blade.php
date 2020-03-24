@@ -138,6 +138,21 @@ Food
 	p {
 		text-align: justify;
 	}
+  .image-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+.image-container .after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+     display: block;
+    background: rgba(0,0,0,.6);
+    color: #FFF;
+}
        #hero2 {
   width: 100%;
   height: 346px;

@@ -36,14 +36,11 @@ if (Auth::check()) {
             $foodstore = $v->foodstore;
           }
       ?>
-    <div class="col-2" style="background: url(<?= URL::to('public/uploads/foodstore/'.$foodstore) ?>);width: 100%;height: 40px;background-position: center;background-size: contain;margin-left: 10px">
+    <div class="col-2" style="background: url(<?= URL::to('public/uploads/foodstore/'.$foodstore) ?>);width: 100%;height: 40px;background-position: center;background-size: contain;margin-left: 10px;border: solid 1px #ccc;">
      
     </div>
     <div class="col-4" style="margin-top: 10px;">
-      <?php 
-
-         echo $unit_name;
-      ?>
+     
     </div>
   </div>
       
