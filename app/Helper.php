@@ -173,14 +173,16 @@ class Helper
             'type'=>'QFL',
             'body'=>'Customer is not satified.'
         ));
-          $status =  $response['status'];
-           $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['refund' => 'yes','refund_amount' => $refund_amount,'final_amount' => '0', 'mainamount' => '0','extra' => '0']);
-            $content = "our Order ID: ".$order_id."for Rs. ".$refund_amount." is refunded by ".$unit_name." to Instamojo. Install the iPhone/Android App: https://l.ead.me/29Ev";
-            Helper::send_otp($phone,$content);
+          
+          
         }
        catch (Exception $e) {
           print('Error: ' . $e->getMessage());
         }
+         $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['refund' => 'yes','refund_amount' => $refund_amount,'final_amount' => '0', 'mainamount' => '0','extra' => '0']);
+            $content = "Your Order ID: ".$order_id." for Rs. ".$refund_amount." is refunded by ".$unit_name." to Instamojo. Install the iPhone/Android App: https://l.ead.me/29Ev";
+            Helper::send_otp($phone,$content);
+            $status = "Refunded";
       }else {
         $checkuser = App\User::where('email',$email)->get();
 
