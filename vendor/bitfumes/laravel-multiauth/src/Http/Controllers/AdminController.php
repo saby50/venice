@@ -1172,7 +1172,7 @@ class AdminController extends Controller
           Helper::send_otp($phone,$content);
 
       }else {
-         $checkuser = App\User::where('phone',$phone)->get();
+         $checkuser = User::where('phone',$phone)->get();
          $wall_amount = 0;
          $user_id = 0;
          foreach ($checkuser as $key => $value) {
