@@ -220,11 +220,11 @@ class Helper
          }
           
           
-      $content = "our Order ID: ".$order_id."for Rs. ".$refund_amount." is refunded by ".$unit_name.", to GV Pay. Your GV Pay balance is ".$updated_balance.". Install the iPhone/Android App: https://l.ead.me/29Ev";
-            Helper::send_otp($phone,$content);
-      $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
+       $content = "Your Order ID: ".$order_id." for Rs. ".$refund_amount." is refunded by ".$unit_name.", to GV Pay. Your GV Pay balance is ".$updated_balance.". Install the iPhone/Android App: https://l.ead.me/29Ev";
+        Helper::send_otp($phone,$content);
+        $refund = DB::table('food_orders')->where('order_id', $order_id)->update(['amount' => '0','refund' => 'yes', 'refund_amount' => $refund_amount]); 
       
-      $response = array("status" => 'success', 'message' => 'amount refunded');
+        $response = array("status" => 'success', 'message' => 'amount refunded');
       
       }
       return $response;

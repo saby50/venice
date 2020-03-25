@@ -1138,21 +1138,62 @@ class AdminController extends Controller
       $checkid = DB::table('bookings')
         ->where('order_id',$order_id)
         ->get();
-      $phone = ""; $amount = 0;
+      $phone = ""; $amount = 0; $payment_method = "";
+      $payment_id = ""; $user_id = 0;
       foreach ($checkid as $key => $value) {
           $book_pack_id = $value->id;
           $updated_at = $value->updated_at;
           $phone  = $value->phone;
+          $payment_id = $value->txnid;
           $amount = $value->amount;
+          $payment_method = $value->payment_method;
+          $user_id = $value->user_id;
+      }
+
+      if ($payment_method=="instamojo") {
+         $api = new \Instamojo\Instamojo(
+            config('services.instamojo.api_key'),
+            config('services.instamojo.auth_token'),
+            config('services.instamojo.url')
+        );
+        try {
+            $response = $api->refundCreate(array(
+            'payment_id'=> $payment_id,
+            'type'=>'QFL',
+            'body'=>'Customer is not satified.'
+        ));
+          
+          
+        }
+       catch (Exception $e) {
+          print('Error: ' . $e->getMessage());
+        }
+        $content = "Your order ".$order_id." dated ".date('d M, Y',strtotime($updated_at))." for Rs. ".$amount." is initiated for refund. It would take 7-10 working days for the processing. Regards";
+          Helper::send_otp($phone,$content);
+
+      }else {
+         $checkuser = App\User::where('phone',$phone)->get();
+         $wall_amount = 0;
+         $user_id = 0;
+         foreach ($checkuser as $key => $value) {
+            $wall_amount = $value->wall_am;
+            $user_id = $value->id;
+         }
+         $updated_balance = Crypt::decrypt($wall_amount) + $amount;
+         $update = DB::table('users')->where('email',$email)->update(['wall_am' => Crypt::encrypt($updated_balance)]);
+
+         $date = date("Y-m-d H:i:s");
+         $platform = Helper::get_device_platform();
+         $insert = DB::table('wall_history')->insert(['final_amount' => $amount, 'mainamount' => 0, 'extra' => 0,'user_id' => $user_id,'order_id' => $order_id, 'expiry' => '', 'identifier' => 'refund','trans_id' => $payment_id, 'platform' => $platform,'created_at' => $date, 'updated_at' => $date]);
+
+      $content = "Your Order ID: ".$order_id." for Rs. ".$amount." is refunded to GV Pay. Your GV Pay balance is ".$updated_balance.". Install the iPhone/Android App: https://l.ead.me/29Ev";
+
+        Helper::send_otp($phone,$content);
       }
 
        $db = DB::table('bookings')->where('order_id',$order_id)->update(['refund' => 'yes','refund_id' => $refund_id, 'amount' => '0','price' => '0','tax' =>'0','refund_reason' => $reason,'created_at' => $updated_at,'updated_at' => $updated_at]);
        $db2 = DB::table('bookings_packs')->where('order_id',$order_id)->update(['refund' => 'yes','refund_id' => $refund_id, 'amount' => '0','price' => '0','tax' =>'0','refund_reason' => $reason,'created_at' => $updated_at,'updated_at' => $updated_at]);
-       if ($db) {
-          $content = "Your order ".$order_id." dated ".date('d M, Y',strtotime($updated_at))." for Rs. ".$amount." is initiated for refund. It would take 7-10 working days for the processing. Regards";
-          Helper::send_otp($phone,$content);
-         
-       }
+     
 
        return redirect()->back()->withInput()->with('status','Refund Initiated');
     }
