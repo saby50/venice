@@ -704,7 +704,11 @@ $serviceids = "";
             <div class="content">
               
               <label>Refund ID</label>
-              <input type="text" class="form-control" name="refund_id" required="required"><br />
+              <?php 
+                 $random = rand(0,100);
+                 $refundid = "GV/REF/".$random."".date('hs');
+              ?>
+              <input type="text" class="form-control" name="refund_id" required="required" value="<?= $refundid ?>" readonly><br />
               <label>Reason</label>
               <textarea class="form-control reason" name="reason" required="required" maxlength="160"></textarea>
               <span id="charNum"></span>
