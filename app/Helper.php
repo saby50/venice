@@ -363,7 +363,7 @@ class Helper
             $trans_id = uniqid(mt_rand(),true);
             $platform = Helper::get_device_platform();
            $query3 = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $orderid,'identifier' => 'foodorder','trans_id' => $trans_id,'payment_method' => 'wallet','platform' => $platform,'created_at' => $date, 'updated_at' => $date]);
-          $contentwallet = "You have paid Rs. ".$amount." to ".$purpose.", Order ID: ".$orderid.", Now current balance is Rs. ".$updated_bal.".";
+          $contentwallet = "You have paid Rs. ".$amount." to ".$purpose.", Order ID: ".$orderid.", GV . ".$updated_bal.".";
            Helper::send_otp(Auth::user()->phone,$contentwallet);
        }
 
@@ -2595,7 +2595,7 @@ class Helper
             $platform = Helper::get_device_platform();
            $query3 = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $orderid,'identifier' => 'service','trans_id' => $trans_id,'payment_method' => 'wallet','platform' => $platform,'created_at' => $date, 'updated_at' => $date]);
 
-           $contentwallet = "You have paid Rs. ".$amount." to ".$purpose.", Order ID: ".$orderid.", Now current balance is Rs. ".$updated_bal.".";
+           $contentwallet = "You have paid Rs. ".$amount." to ".$purpose.", Order ID: ".$orderid.", GV Pay Balance is Rs. ".$updated_bal.".";
            Helper::send_otp(Auth::user()->phone,$contentwallet);
         }
 
