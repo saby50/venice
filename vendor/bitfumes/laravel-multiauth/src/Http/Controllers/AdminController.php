@@ -1180,7 +1180,7 @@ class AdminController extends Controller
             $user_id = $value->id;
          }
          $updated_balance = Crypt::decrypt($wall_amount) + $amount;
-         $update = DB::table('users')->where('email',$email)->update(['wall_am' => Crypt::encrypt($updated_balance)]);
+         $update = DB::table('users')->where('phone',$phone)->update(['wall_am' => Crypt::encrypt($updated_balance)]);
 
          $date = date("Y-m-d H:i:s");
          $platform = Helper::get_device_platform();
