@@ -38,15 +38,26 @@ class WebController extends Controller
          $slider = DB::table('slides')->where('visibility','1')->orderBy('position','ASC')->take(4)->get();
          $movies = DB::table('movies')->inRandomOrder()->take(4)->get();
           $events = DB::table('events')->where('status','published')->inRandomOrder()->take(6)->get();
-         return view('home', compact('featured','featured2','slider','movies','events'));
+           $foodorder = DB::table('units')->where('order_food','yes')->where('enable_food_order','yes')->where('suspended','no')->inRandomOrder()->take(6)->get();
+          $offlineres = DB::table('units')->where('order_food','yes')->where('enable_food_order','no')->where('suspended','no')->inRandomOrder()->take(6)->get();
+          $enable_food_order = DB::table('food_order_status')->where('id','1')->get();
+         return view('home', compact('featured','featured2','slider','movies','foodorder','events','enable_food_order','offlineres'));
        }
 
     }
     function foodorder() {
+        if (Helper::check_mobile()=="1") {
        $foodorder = DB::table('units')->where('order_food','yes')->where('enable_food_order','yes')->where('suspended','no')->inRandomOrder()->take(6)->get();
           $offlineres = DB::table('units')->where('order_food','yes')->where('enable_food_order','no')->where('suspended','no')->inRandomOrder()->take(6)->get();
       $categories = DB::table('food_categories')->get();
       return view('foodorder', compact('foodorder','categories','offlineres'));
+
+    }else {
+      $foodorder = DB::table('units')->where('order_food','yes')->where('enable_food_order','yes')->where('suspended','no')->inRandomOrder()->take(6)->get();
+          $offlineres = DB::table('units')->where('order_food','yes')->where('enable_food_order','no')->where('suspended','no')->inRandomOrder()->take(6)->get();
+      $categories = DB::table('food_categories')->get();
+      return view('foodorderdesk', compact('foodorder','categories','offlineres'));
+    }
     }
     function getaddonfields($item_id) {
      $db = DB::table('unit_menu_items_add_ons')->where('item_id', $item_id)->get();
@@ -329,8 +340,13 @@ class WebController extends Controller
     }
 
     function showmenu($view,$id) {
+      if (Helper::check_mobile()=="1") {
        $getid = Crypt::decrypt($id);
        return view('menu/menu', compact('getid','view'));
+     }else {
+       $getid = Crypt::decrypt($id);
+       return view('menu/menudesk', compact('getid','view'));
+      }
     }
 
     function offline() {

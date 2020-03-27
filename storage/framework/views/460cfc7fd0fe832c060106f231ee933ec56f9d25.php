@@ -116,6 +116,100 @@ $(document).ready(function(){
       featured Section
     ============================-->
   <?php endif; ?>
+  <section id="foodarea">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 featured_content">
+                        <div class="section-header">
+                            <h2 class="section-title">Delicious</h2>
+                            <h3 style="text-align: center;">Food Order</h3>
+                           
+                          
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                 <div class="col-12">
+                       
+                          
+                              <?php foreach($foodorder as $key => $value): ?>
+                              <a href="<?= URL::to('show-menu/all/'.Crypt::encrypt($value->id)) ?>"> <div class="foodbox row">
+                                <div class="col-5">
+                                 <?php if(file_exists('public/uploads/foodstore/'.$value->foodstore)): ?>
+                <img class="img-fluid mx-auto d-block feature  food-img" src="<?= asset('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>">
+                
+                <?php else: ?>
+                  <img class="img-fluid mx-auto d-block feature" src="<?= asset('public/images/placeholder.jpg') ?>">
+                <?php endif; ?><br />
+                <div style="font-size: 11px;color:#666;text-align: center;">Prep Time: <?= $value->prep_time ?></div>
+                                  
+                                </div>
+                                <div class="col-7">
+                                <span class="title"><?= $value->unit_name ?></span><br />
+                <span class="desc"><?= $value->tags ?></span>
+                <hr />
+                 <div class="col-12" style="font-size: 8px;">
+                                      <?php 
+                                $nonveg = Helper::get_veg_non($value->id);
+                      ?>
+                      <?php if(in_array('veg', $nonveg)): ?>
+                                        <img src="<?php echo e(asset('public/images/veg.png')); ?>" style="width: 15px;height: 15px;">
+                                      <?php endif; ?>
+                                      <?php if(in_array('nonveg', $nonveg)): ?>
+                                         <img src="<?php echo e(asset('public/images/nonveg.png')); ?>" style="width: 15px;height: 15px;">
+                                      <?php endif; ?>
+                                       <div style="text-align: right;margin-top: -15px;color: #000;"> <i class='fa fa-rupee'></i> <?= $value->price_for_two ?> For Two</div>
+                                    </div>
+
+                                </div>
+                                 
+                                   
+                               </div></a>
+                            <?php endforeach; ?>
+                             <?php foreach($offlineres as $key => $value): ?>
+                              <a href="<?= URL::to('show-menu/all/'.Crypt::encrypt($value->id)) ?>">  <div class="foodbox row">
+                                <div class="col-5">
+                                 <?php if(file_exists('public/uploads/foodstore/'.$value->foodstore)): ?>
+                <img class="img-fluid mx-auto d-block feature  food-img" src="<?= asset('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>">
+                
+                <?php else: ?>
+                  <img class="img-fluid mx-auto d-block feature" src="<?= asset('public/images/placeholder.jpg') ?>">
+                <?php endif; ?><br />
+                <div style="font-size: 11px;color:#666;text-align: center;">Prep Time: <?= $value->prep_time ?></div>
+                                  
+                                </div>
+                                <div class="col-7">
+                                <span class="title"><?= $value->unit_name ?></span><br />
+                <span class="desc"><?= $value->tags ?></span>
+                <hr />
+                 <div class="col-12" style="font-size: 8px;">
+                                      <?php 
+                                $nonveg = Helper::get_veg_non($value->id);
+                      ?>
+                      <?php if(in_array('veg', $nonveg)): ?>
+                                        <img src="<?php echo e(asset('public/images/veg.png')); ?>" style="width: 15px;height: 15px;">
+                                      <?php endif; ?>
+                                      <?php if(in_array('nonveg', $nonveg)): ?>
+                                         <img src="<?php echo e(asset('public/images/nonveg.png')); ?>" style="width: 15px;height: 15px;">
+                                      <?php endif; ?>
+                                       <div style="text-align: right;margin-top: -15px;"> <i class='fa fa-rupee'></i> <?= $value->price_for_two ?> For Two</div>
+                                    </div>
+
+                                </div>
+                                 
+                                   
+                               </div></a>
+                            <?php endforeach; ?>
+
+                               
+                    </div>        
+                     <div class="col-md-12" style="margin-top: 40px;text-align: center;">
+                              <a href="<?= URL::to('foodorder#restaurants') ?>" style="color: blue;font-size: 16px;text-decoration: underline;">View All</a>
+                              
+                            </div>   
+                 </div>
+            </div>
+        </section><!-- #featured -->
          <section id="featured" class="">
             <div class="container">
                 <div class="row">
@@ -403,6 +497,32 @@ $(document).ready(function(){
 
   background-size: contain;
   position: relative;
+}
+.food-img {
+  border: solid 1px #ccc;
+}
+.foodbox {
+     width: 330px;
+    padding: 10px;
+    border: solid 1px #ccc;
+    box-shadow: 0px 2px 2px #ccc;
+    float: left;
+    margin: 5px;
+    height: 150px;
+}
+#foodarea {
+  margin-bottom:60px !important;
+  width: 1050px;
+  margin: 0 auto;
+}
+.title {
+  font-size: 14px;
+  font-weight: bold;
+color: #000;
+}
+.desc {
+    font-size: 11px;
+    color: #666;
 }
 #myModal iframe  {
   width: 100%;

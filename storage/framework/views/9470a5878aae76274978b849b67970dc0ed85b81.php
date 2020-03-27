@@ -32,7 +32,7 @@ Food
                     <div class="featured-pwa ripple">
                         <div class="row">
                             <div class="col-4">
-                                <img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>"><span style="color: #000;">Prep: 25 Mins</span>
+                                <img class="img-fluid mx-auto d-block feature" src="<?= URL::to('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>"><span style="color: #000;margin-left: 7px;">Prep: <?= $value->prep_time ?></span>
                             </div>  
                             <div class="col-8">
                                 <span class="title"><?= $value->unit_name ?></span><br />
@@ -73,6 +73,60 @@ Food
                     ?>
 
                 <?php endforeach; ?>
+                <hr />
+  <?php $i=0; foreach($offlineres as $key => $value): ?>
+        
+        <a href="<?= URL::to('show-menu/all/'.Crypt::encrypt($value->id)) ?>">
+          <div class="featured-pwa ripple">
+            <div class="row">
+              <div class="col-4">
+                <?php if(file_exists('public/uploads/foodstore/'.$value->foodstore)): ?>
+                <div class="image-container"><img class="img-fluid mx-auto d-block feature" src="<?= asset('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>"><div class="after"></div></div>
+                
+                <?php else: ?>
+                  <img class="img-fluid mx-auto d-block feature" src="<?= asset('public/images/placeholder.jpg') ?>">
+                <?php endif; ?><span style="color: #000;margin-left: 7px;">Prep: <?= $value->prep_time ?></span>
+              </div>  
+              <div class="col-8">
+                <span class="title"><?= $value->unit_name ?></span><br />
+                <span class="desc"><?= $value->tags ?></span><br />
+                <hr />
+                                <div class="desc"  style="margin-top: 10px;">
+                                    <div class="row">
+                                    <div class="col-6" style="font-size: 8px;">
+                                      <?php 
+                                $nonveg = Helper::get_veg_non($value->id);
+                      ?>
+                      <?php if(in_array('veg', $nonveg)): ?>
+                                        <img src="<?php echo e(asset('public/images/veg.png')); ?>" style="width: 15px;height: 15px;">
+                                      <?php endif; ?>
+                                      <?php if(in_array('nonveg', $nonveg)): ?>
+                                         <img src="<?php echo e(asset('public/images/nonveg.png')); ?>" style="width: 15px;height: 15px;">
+                                      <?php endif; ?>
+                                        
+                                    </div>
+
+                                     <div class="col-6" style="text-align: right;">
+                                        <i class='fa fa-rupee'></i> <?= $value->price_for_two ?> For Two
+                                    </div></div>
+                                    </div>
+                                
+                            </div>
+            </div>
+          </div>
+        </a>
+        <?php if($i == count($offlineres) - 1): ?>
+          <?php else: ?>
+            <hr />
+          <?php endif; ?>
+          
+
+          <?php 
+          $i++;
+          ?>
+
+        <?php endforeach; ?>
+     
             </div>
 
             <!-- End RecyclerView -->
@@ -82,6 +136,21 @@ Food
 	p {
 		text-align: justify;
 	}
+  .image-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+.image-container .after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+     display: block;
+    background: rgba(0,0,0,.6);
+    color: #FFF;
+}
        #hero2 {
   width: 100%;
   height: 346px;

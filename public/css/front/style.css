@@ -11,6 +11,9 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+html {
+  scroll-behavior: smooth;
+}
 body {
   background: #fff;
   color: #666666;
@@ -21,6 +24,7 @@ body {
 .slick-slide {
     margin: 0px 20px;
 }
+
 .recyclerview {
   display: none;
 }
