@@ -27,3 +27,45 @@ xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Col
 [stacktrace]
 #0 {main}
 "} 
+[2020-03-30 10:16:04] laravel.EMERGENCY: Unable to create configured logger. Using emergency logger. {"exception":"[object] (Error(code: 0): Class 'Monolog\\Handler\\RotatingFileHandler' not found at C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php:254)
+[stacktrace]
+#0 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(178): Illuminate\\Log\\LogManager->createDailyDriver(Array)
+#1 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(102): Illuminate\\Log\\LogManager->resolve('daily')
+#2 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(90): Illuminate\\Log\\LogManager->get('daily')
+#3 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(79): Illuminate\\Log\\LogManager->driver('daily')
+#4 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(217): Illuminate\\Log\\LogManager->channel('daily')
+#5 [internal function]: Illuminate\\Log\\LogManager->Illuminate\\Log\\{closure}('daily', 0)
+#6 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Collection.php(1120): array_map(Object(Closure), Array, Array)
+#7 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Collection.php(1215): Illuminate\\Support\\Collection->map(Object(Closure))
+#8 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(218): Illuminate\\Support\\Collection->flatMap(Object(Closure))
+#9 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(178): Illuminate\\Log\\LogManager->createStackDriver(Array)
+#10 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(102): Illuminate\\Log\\LogManager->resolve('stack')
+#11 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(90): Illuminate\\Log\\LogManager->get('stack')
+#12 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(500): Illuminate\\Log\\LogManager->driver()
+#13 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(114): Illuminate\\Log\\LogManager->error('Maximum executi...', Array)
+#14 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(81): Illuminate\\Foundation\\Exceptions\\Handler->report(Object(Symfony\\Component\\Debug\\Exception\\FatalErrorException))
+#15 C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(123): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleException(Object(Symfony\\Component\\Debug\\Exception\\FatalErrorException))
+#16 [internal function]: Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#17 {main}
+"} 
+[2020-03-30 10:16:04] local.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\Debug\\Exception\\FatalErrorException(code: 1): Maximum execution time of 30 seconds exceeded at C:\\xampp\
+xampp\\htdocs\\venice\\vendor\\monolog\\monolog\\src\\Monolog\\Handler\\RotatingFileHandler.php:25)
+[stacktrace]
+#0 {main}
+"} 

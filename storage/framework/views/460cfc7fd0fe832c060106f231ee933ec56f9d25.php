@@ -135,12 +135,22 @@ $(document).ready(function(){
                               <?php foreach($foodorder as $key => $value): ?>
                               <a href="<?= URL::to('show-menu/all/'.Crypt::encrypt($value->id)) ?>"> <div class="foodbox row">
                                 <div class="col-5">
+                                  <?php if($value->enable_food_order=="yes"): ?>
                                  <?php if(file_exists('public/uploads/foodstore/'.$value->foodstore)): ?>
                 <img class="img-fluid mx-auto d-block feature  food-img" src="<?= asset('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>">
                 
                 <?php else: ?>
                   <img class="img-fluid mx-auto d-block feature" src="<?= asset('public/images/placeholder.jpg') ?>">
-                <?php endif; ?><br />
+                <?php endif; ?>
+                <?php else: ?>
+                  <?php if(file_exists('public/uploads/foodstore/'.$value->foodstore)): ?>
+                <div class="image-container"><img class="img-fluid mx-auto d-block feature  food-img" src="<?= asset('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>"><div class="after"></div></div>
+                
+                <?php else: ?>
+                  <div class="image-container"><img class="img-fluid mx-auto d-block feature" src="<?= asset('public/images/placeholder.jpg') ?>"><div class="after"></div></div>
+                <?php endif; ?>
+                <?php endif; ?>
+                <br />
                 <div style="font-size: 11px;color:#666;text-align: center;">Prep Time: <?= $value->prep_time ?></div>
                                   
                                 </div>
@@ -166,40 +176,7 @@ $(document).ready(function(){
                                    
                                </div></a>
                             <?php endforeach; ?>
-                             <?php foreach($offlineres as $key => $value): ?>
-                              <a href="<?= URL::to('show-menu/all/'.Crypt::encrypt($value->id)) ?>">  <div class="foodbox row">
-                                <div class="col-5">
-                                 <?php if(file_exists('public/uploads/foodstore/'.$value->foodstore)): ?>
-                <img class="img-fluid mx-auto d-block feature  food-img" src="<?= asset('public/uploads/foodstore/'.$value->foodstore) ?>" alt="<?= $value->foodstore ?>">
-                
-                <?php else: ?>
-                  <img class="img-fluid mx-auto d-block feature" src="<?= asset('public/images/placeholder.jpg') ?>">
-                <?php endif; ?><br />
-                <div style="font-size: 11px;color:#666;text-align: center;">Prep Time: <?= $value->prep_time ?></div>
-                                  
-                                </div>
-                                <div class="col-7">
-                                <span class="title"><?= $value->unit_name ?></span><br />
-                <span class="desc"><?= $value->tags ?></span>
-                <hr />
-                 <div class="col-12" style="font-size: 8px;">
-                                      <?php 
-                                $nonveg = Helper::get_veg_non($value->id);
-                      ?>
-                      <?php if(in_array('veg', $nonveg)): ?>
-                                        <img src="<?php echo e(asset('public/images/veg.png')); ?>" style="width: 15px;height: 15px;">
-                                      <?php endif; ?>
-                                      <?php if(in_array('nonveg', $nonveg)): ?>
-                                         <img src="<?php echo e(asset('public/images/nonveg.png')); ?>" style="width: 15px;height: 15px;">
-                                      <?php endif; ?>
-                                       <div style="text-align: right;margin-top: -15px;"> <i class='fa fa-rupee'></i> <?= $value->price_for_two ?> For Two</div>
-                                    </div>
-
-                                </div>
-                                 
-                                   
-                               </div></a>
-                            <?php endforeach; ?>
+                           
 
                                
                     </div>        
@@ -497,6 +474,21 @@ $(document).ready(function(){
 
   background-size: contain;
   position: relative;
+}
+.image-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+.image-container .after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+     display: block;
+    background: rgba(0,0,0,.6);
+    color: #FFF;
 }
 .food-img {
   border: solid 1px #ccc;
