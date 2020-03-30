@@ -110,14 +110,22 @@ $(document).ready(function(){
           <img src="<?= URL::to('public/uploads/foodstore/'.$foodstore) ?>" style="width: 200px;margin-top: 30px;">
           
         </div>
-          <div class="col-8" style="margin-top: 30px;">
+          <div class="col-9" style="margin-top: 30px;">
+            <div class="row">
             <div class="col-md-12" style="border-bottom: solid 1px #ccc;padding-bottom: 10px;">
              <strong class="title"><?= $unit_name ?></strong><br />
              <strong class="desc"><?= $tags ?></strong>
            </div>
+           <div class="col-sm-2" style="font-size: 14px;color: #FFF;margin-top: 20px;border-right: solid 1px #fff;">
+            <?= $prep_time ?><br /><span style="font-size: 11px;">Delivery Time</span>
+             
+           </div>
       
-         
-          
+          <div class="col-2" style="font-size: 14px;color: #FFF;margin-top: 20px;">
+           <?= $price_for_two ?><br /><span style="font-size: 11px;">Cost for Two</span>
+             
+           </div>
+          </div>
         </div>
       </div>
      </div>
@@ -125,7 +133,7 @@ $(document).ready(function(){
     </div>
     <div class="container mainarea">
       <div class="row">
-        <div class="col-2 sidebar-left">
+        <div class="col-2 sidebar-left" id="sidebar">
           <ul class="sidebar-items">
           <?php 
             foreach ($categories as $key => $value) {
@@ -158,11 +166,25 @@ $(document).ready(function(){
           <div class="f5-yn2"><i class="fa fa-rupee"></i> <?= $value->price ?></div>
           
         </div>
+          <div class="col-5" style="text-align: right;">
+          <div class="addButton btnmargintop  addbutton_<?= $value->id ?>" data-addon="<?= Helper::checkaddonfields($value->id) ?>"  data-price="<?= $value->price ?>" data="<?= $value->id ?>">Add</div>
+          <?php if(Helper::checkaddonfields($value->id)==1): ?>
+           <div class="_1gDO3">Customisable</div>
+          
+         <?php endif; ?>
+          <div class="foodquantity btnmargintop quantitybox_<?= $value->id ?> hided" data="<?= $value->id ?>" data-price="<?= $value->price ?>">
+           <button class="decrease"  data="<?= $value->id ?>" data-price="<?= $value->price ?>">-</button> <input type="number" value="1" name="quantity" class="quantity_<?= $value->id ?> q" readonly><button class="increase" data="<?= $value->id ?>" data-price="<?= $value->price ?>">+</button>
+          </div>
+        </div>
       </div>
        <?php endforeach; ?>
          <?php endforeach; ?>
         </div>
-        <div class="col-2 sidebar-right">
+        <div class="col-3 sidebar-right" id="sidebar2">
+          <h3>Cart</h3>
+          <div class="cart_empty">
+            <img src="{{ URL::to('public/images/cart_empty.png') }}" style="width: 100%;">
+          </div>
           
         </div>
       </div>
@@ -193,10 +215,94 @@ $(document).ready(function(){
        $(".sidebar-left li").removeClass("current-item");
       $(this).parent("li").addClass("current-item");
     });
+     $(".addButton").click(function() {
+              setTimeout( function() { $('.loader').show(); }, 300 );
+            setTimeout( function() { $('.loader').hide(); }, 800 );
+           var data = $(this).attr('data');
+           var addon = $(this).attr('data-addon');         
+           var price = parseInt($(this).attr('data-price'));
+           var unit_id = "<?= $getid ?>";
+              $(this).next('.foodquantity').show();
+                  $(".bottomcart").show();
+           
+                  $(this).hide();
+           
+
+            var formData = {
+                '_token':'{{ csrf_token()}}',
+                'item_id': data,
+                'quantity': "1",
+                'unit_id': unit_id,
+                'price': price,
+                'identifier': 'plus'
+            };
+            var url = '<?= URL::to("menu/foodcart") ?>'; 
+             var url2 = '<?= URL::to("getaddonfields") ?>/'+data; 
+             var unit_name = "<?php $units = Helper::get_unit($getid); echo $units['unit_name']; ?>";
+             $(".unit_name").html(unit_name);
+
+              $.post(url,  formData,
+            function (resp,textStatus, jqXHR) {
+
+                console.log(resp);
+            if (resp.length==0) {
+               $(".bottomcart").hide();
+            }else {
+              $(".bottomcart").show();
+              $(".itemcount").html(resp['quantity']);
+              $(".itemprice").html(resp['price']);
+              $(".unit_name").html(resp['unit_name']);
+                if (resp['sameunit']==1) {
+                    
+                  $("#myModalSame").modal("show");
+                  $(".sitem_id").val(data);
+                  $(".sprice").val(price);
+                  $(".addon").val(addon);
+
+                  
+                  $("#no").attr("data-no",data);
+                }else {
+               
+                  if (addon=="1") {
+                 window.location = "<?= URL::to('menu/addons/') ?>/"+data;
+                }
+            }
+              
+              }
+                
+            });
+           
+         });
   });
-  $( window ).scroll(function() {
-  $(".sidebar-left").css("top","20px");
+ 
+</script>
+<script>
+var sidebar = document.getElementById("sidebar2");
+var stickyCart = sidebar.offsetTop;
+function myCart() {
+  if (window.pageYOffset >= stickyCart) {
+    sidebar.classList.add("sticky")
+  } else {
+    sidebar.classList.remove("sticky");
+  }
+}
+
+$(window).scroll(function() {
+   myCart();
 });
+
+window.onscroll = function() {myFunction()};
+
+var navbar = document.getElementById("sidebar");
+var sticky = navbar.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
 </script>
     <style type="text/css">
         #hero {
@@ -211,12 +317,42 @@ $(document).ready(function(){
   color: #ee9e11 !important;
   
 }
+._1gDO3 {
+        position: absolute;
+    right: 0;
+    left: 0;
+    bottom: -1px;
+    font-size: 9px;
+    font-weight: 500;
+    color: #7e808c;
+    text-align: center;
+       margin-left: 157px;
+}
+._1gDO32 {
+   position: absolute;
+    right: 0;
+    left: 0;
+    bottom: -15px;
+    font-size: 9px;
+    font-weight: 500;
+    color: #7e808c;
+    text-align: center;
+    margin-left: 95px;
+}
 .current-item {
   color: #ee9e11;
   border-right: solid 4px #ee9e11;
 }
 .mainarea {
   padding: 20px;
+}
+.sidebar-right  {
+  position: fixed;
+  z-index: 1;
+  top: 400px;
+  right: 70px;
+   width: auto;
+
 }
 .sidebar-left  {
   position: fixed;
@@ -226,18 +362,65 @@ $(document).ready(function(){
    width: 130px;
 
 }
+.addButton {
+  width: 70px;
+    border: 1px solid #d4d5d9;
+    text-align: center;
+    float: right;
+    text-transform: uppercase;
+    color: #f3a423;
+    font-weight: 500;
+    font-size: .93rem;
+    height: 30px;
+    padding-top: 3px;
+    cursor: pointer;
+}
+.foodquantity {
+  width: 70px;
+    border: 1px solid #d4d5d9;
+    text-align: center;
+    float: right;
+    text-transform: uppercase;
+    color: #f3a423;
+    font-weight: 500;
+    font-size: .93rem;
+    border-radius: 5px;
+    height: 30px;
+    padding-top: 3px;
+        z-index: 9999;
+    
+}
+.hided {
+  display: none;
+}
+.foodquantity input {
+      width: 20px;
+    text-align: center;
+    border: none;
+    top: -2px;
+    position: relative;
+    color: #f3a423;
+}
+.foodquantity button {
+      width: 15px;
+    text-align: center;
+    padding: 1px;
+    background: transparent;
+    border: none;
+    color: #f3a423;
+}
 .sticky {
-   position: fixed;
-  z-index: 1;
-  top: 10px;
-  left: 70px;
+   top: 20px;
+}
+.sticky2 {
+   top: 20px;
 }
 ul.sidebar-items {
 width: 200px;
 }
 ul.sidebar-items li {
   list-style: none;
-  width: 150px;
+  width: 100%;
 }
 .restaurant-banner {
   width: 100%;
@@ -256,6 +439,7 @@ ul.sidebar-items li {
 .itemsarea {
   margin-left: 220px;
   border-left:solid 1px #ccc;
+  
 }
 .foodrow {
   border-bottom: solid 1px #ccc;
