@@ -6,7 +6,12 @@ Cart
 
 @section('content')
  <?php 
-   $wall_amount = Crypt::decrypt(Auth::user()->wall_am);
+ if (Auth::check()) {
+  $wall_amount = Crypt::decrypt(Auth::user()->wall_am);
+ }else {
+  $wall_amount = 0;
+ }
+   
     $amount = 0;
     if (count($cart)==0) {
       $getid=0;
