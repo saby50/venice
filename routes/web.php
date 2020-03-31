@@ -42,6 +42,7 @@ Route::get('packs/get_packs_price/{quantity}/{pack_id}', 'PackController@get_pac
 Route::get('profile', 'WebController@profile');
 Route::get('history/{type}', 'WebController@history');
 Route::get('invoice/{id}', 'WebController@invoice');
+Route::get('food_invoice/{id}', 'WebController@food_invoice');
 Route::get('event_invoice/{id}', 'WebController@event_invoice');
 Route::post('profile/update', 'WebController@update_profile');
 Route::get('profile/pin', 'WebController@pin');

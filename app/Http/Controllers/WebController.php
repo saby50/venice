@@ -468,6 +468,12 @@ class WebController extends Controller
           ->groupBy('bookings.order_id')
           ->orderBy('bookings.id','desc')
           ->simplePaginate(2);
+        }else if($type=="food_orders") {
+          $bookings = DB::table('food_orders')
+          ->where('food_orders.phone',Auth::user()->phone)
+          ->groupBy('food_orders.order_id')
+          ->orderBy('food_orders.id','desc')
+          ->simplePaginate(2);
         }else if($type=="events") {
           $bookings = DB::table('booking_events')
           ->where('booking_events.user_id',$userid)
@@ -500,6 +506,15 @@ class WebController extends Controller
       $phone = Auth::user()->phone;
       $pdfname = date('dmyhis')."_bookings";
       $pdf = PDF::loadView('invoice',['orderid' => $getorderid]);
+      return $pdf->download($pdfname.'.pdf');
+    }
+    function food_invoice($order_id) {
+      $getorderid = Crypt::decrypt($order_id);
+      $name = Auth::user()->name;
+      $email = Auth::user()->email;
+      $phone = Auth::user()->phone;
+      $pdfname = date('dmyhis')."_bookings";
+      $pdf = PDF::loadView('food_invoice',['orderid' => $getorderid]);
       return $pdf->download($pdfname.'.pdf');
     }
     function careers() {

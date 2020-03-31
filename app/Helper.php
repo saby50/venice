@@ -265,6 +265,10 @@ class Helper
     }
     return $customize;
   }
+  public static function get_food_orders($order_id) { 
+    $data = DB::table('food_orders')->where('order_id', $order_id)->get();
+    return $data;
+  }
     public static function get_item_array($itemids) {
     $itemsarray = array();   
     $itemids = explode(",", $itemids);

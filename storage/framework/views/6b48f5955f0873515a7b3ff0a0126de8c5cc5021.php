@@ -44,6 +44,9 @@ $segment = Request::segment(2);
                          <li class="nav-item active">
                             <a class="nav-link <?php if($segment=="events") { echo 'active'; } ?>" href="<?= URL::to('history/events') ?>">Events</a>
                         </li>
+                        <li class="nav-item active">
+                            <a class="nav-link <?php if($segment=="food_orders") { echo 'active'; } ?>" href="<?= URL::to('history/food_orders') ?>">Food Orders</a>
+                        </li>
                          <li class="nav-item" id="tab02">
                             <a class="nav-link" id="" href="<?= URL::to('profile') ?>">My Profile</a>
                         </li>
@@ -139,6 +142,96 @@ $segment = Request::segment(2);
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
+
+                                <?php elseif($type=="food_orders"): ?>
+
+                                  <!-- Else History -->
+                                          <?php foreach($bookings as $key => $value): ?>
+                                    <tr>
+                                        <td style="width: 30%;">
+                                            <div class="ride">
+                                                <?php if($value->status=="pending"): ?>
+                                                <img src="<?php echo e(asset('public/images/Green-Symbol.jpg')); ?>">
+                                                <?php else: ?>
+                                                    <img src="<?php echo e(asset('public/images/Red-Symbol.jpg')); ?>">
+                                                <?php endif; ?>
+                                                <h4><strong><?= $value->order_id ?></strong></h4>
+                                               
+
+                                                <div class="clearfix"></div>
+                                                <p><span class="text-muted">Booked on:</span> <strong><?= date('d M Y, h:i A', strtotime($value->updated_at)) ?></strong></p>
+                                                
+                                            </div>
+                                            <?php if($value->refund=="yes"): ?>
+                                           <div class="col-md-12" style="text-align: center;margin-top: 10px;color:red;">(Refunded)</div>
+                                           <?php endif; ?> 
+                                            <div>
+
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </td>
+                                        <td>
+                                            
+                                            <p>
+                                                <?php 
+                                                   $food_orders = Helper::get_food_orders($value->order_id);
+                                                   foreach ($food_orders as $key => $value) {
+                                                       echo '<strong>Item Name:</strong> '.Helper::get_menu_item_name($value->item_id)."<br />";
+                                                      
+                                                      
+                                                        echo '<strong>Quantity:</strong> '.$value->quantity."<br />";
+                                                       echo "<br />";
+                                                   }
+
+                                                ?>
+                                                 
+
+                                            </p>
+
+                                            
+                                        </td>
+                                        <td>
+                                             <p>
+                                               
+
+                                            </p>
+                                           
+                                        </td>
+                                        <td>
+                                           
+                                            
+                                            
+                                          
+                                        </td>
+                                        <td style="width: 25%;">
+                                            <div class="price-box">
+                                                <p class=""><strong>&#x20B9; <?= $value->amount ?></strong></p>
+                                            </div>
+                                            <a href="<?= URL::to('food_invoice/'.Crypt::encrypt($value->order_id)) ?>"><button type="button" class="btn-invoice" style="cursor: pointer;">Download Invoice</button></a>
+                                            <br />
+                                            <br />
+                                            <h5 style="text-align: center;text-transform: uppercase;color: red;">
+                                              <?php if($value->payment_method=="instamojo"): ?>
+                                              EC(Instamojo)
+                                              <?php elseif($value->payment_method=="cash"): ?>
+                                              POS(Cash)
+                                               <?php elseif($value->payment_method=="card"): ?>
+                                              POS(CARD)
+                                                 <?php elseif($value->payment_method=="paytm_qr"): ?>
+                                              POS(Paytm QR)
+                                               <?php elseif($value->payment_method=="wallet"): ?>
+                                              (GV Pay)
+
+
+
+                                            <?php endif; ?>
+                                                
+                                              </h5>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+
 
                               <?php elseif($type=="packs"): ?>
 

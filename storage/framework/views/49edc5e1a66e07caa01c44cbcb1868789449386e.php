@@ -4,7 +4,12 @@ Cart
 
 <?php $__env->startSection('content'); ?>
  <?php 
-   $wall_amount = Crypt::decrypt(Auth::user()->wall_am);
+ if (Auth::check()) {
+  $wall_amount = Crypt::decrypt(Auth::user()->wall_am);
+ }else {
+  $wall_amount = 0;
+ }
+   
     $amount = 0;
     if (count($cart)==0) {
       $getid=0;
@@ -218,7 +223,7 @@ Cart
   <div class="tab-content">
 
     <div id="home" class="container tab-pane active"><br>
-      <form action="<?php echo e(URL::to('foodcart/checkout')); ?>" method="post" class="checkoutform">
+      <form action="<?php echo e(URL::to('foodcart/checkout')); ?>" method="post" class="checkoutform" id="checkoutform">
        <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
        <div class="form-group">
           <div class="" style="font-size: 13px;">Name<span style="color: red;">*</span></div>
@@ -264,7 +269,11 @@ Cart
       
 
          <div class="form-group">
-       <button type="submit" class="btn checkoutbtn"> Check-out</button>
+          <?php if(Auth::check()): ?>
+       <button type="submit" class="btn checkoutbtn2"> Check-out</button>
+       <?php else: ?>
+        <button type="submit" class="btn checkoutbtn"> Check-out</button>
+       <?php endif; ?>
        </div>
      </form>
       
@@ -360,7 +369,7 @@ Cart
   <!-- Modal content -->
   <div class="modal-content">
     <div class="">
-      <span class="close">&times;</span>
+      <span class="close"  data-dismiss="modal">&times;</span>
       
     </div>
     <div class="modal-body">
@@ -373,7 +382,7 @@ Cart
      <?php endif; ?>
           <?php endif; ?><br /><br />
      
-     <div style="padding-left: 10px;padding-right: 10px;width: 100%;"><button type="submit" class="btn checkoutbtn " style="width: 100%;"> Pay Now</button></div> 
+     <div style="padding-left: 10px;padding-right: 10px;width: 100%;"><button type="submit" class="btn checkoutbtnn " style="width: 100%;"> Pay Now</button></div> 
     
       </div>
       
@@ -398,6 +407,14 @@ Cart
 }
 .payment_method2 {
   width: 60px;
+}
+.checkoutbtnn {
+background-color: #EF9E11;
+    border-color: #EF9E11;
+    width: 100%;
+    font-size: small;
+    color: #FFF;
+    padding: 10px;
 }
 #price {
     font-size:24px;
@@ -430,6 +447,12 @@ Cart
     $(".checkoutbtn2").click(function() {
       $("#myModal2").modal("show");
       return false;
+    });
+    $(".checkoutbtnn").click(function() {
+        var selected = $(".payment_mode:checked").val();  
+         $(".payment_method").attr('value',selected); 
+         $("#checkoutform").attr('action','<?php echo e(URL::to("food_cart/checkout")); ?>');
+          $("#checkoutform").submit();
     });
     $(".checkoutbtn").click(function() {
        var selected = $(".payment_mode:checked").val();

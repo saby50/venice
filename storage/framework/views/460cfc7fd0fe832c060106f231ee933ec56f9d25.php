@@ -116,6 +116,14 @@ $(document).ready(function(){
       featured Section
     ============================-->
   <?php endif; ?>
+<?php 
+$fstatus = "";
+foreach ($enable_food_order as $key => $value) {
+  $fstatus = $value->status;
+}
+
+?>
+  <?php if($fstatus=="yes"): ?>
   <section id="foodarea">
             <div class="container">
                 <div class="row">
@@ -187,6 +195,7 @@ $(document).ready(function(){
                  </div>
             </div>
         </section><!-- #featured -->
+      <?php endif; ?>
          <section id="featured" class="">
             <div class="container">
                 <div class="row">

@@ -15,63 +15,17 @@
 <body>
     <?php 
 
-       $data = Helper::get_service_details($orderid);
-       $services2 = Helper::get_pack_details($orderid);
+       $data = Helper::get_food_orders($orderid);
+      
 
-        $order_id = "";
-          $name = "";
-          $email = "";
-          $phone = "";
-          $service_name = "";
-          $date = "";
-          $time = "";
-          $quantity = "";
-          $order_date = "";
-          $amount = "";
-          $price = 0;
-          $tax_amount = 0;
-          $alias = "";
-          $option_name = "";
-          $payment_method = "";
-       if (count($data)==0) {
-         foreach ($services2 as $key => $value) {
-           $order_id = $value->order_id;
-          $name = $value->name;
-          $email = $value->email;
-          $phone = $value->phone;
-          $date = $value->date;
-          $time = $value->time;
-          $quantity = $value->quantity;
-          $order_date = $value->created_at;
-          $amount = $value->amount;
-          $price += $value->price;
-          $tax_amount += $value->tax;
-          $refund = $value->refund;
-          $payment_method = $value->payment_method;
-
-      }
-       }else {
-         foreach ($data as $key => $value) {
-          $order_id = $value->order_id;
-          $name = $value->name;
-          $email = $value->email;
-          $phone = $value->phone;
-          $service_name = $value->service_name;
-          $date = $value->date;
-          $time = $value->time;
-          $quantity = $value->quantity;
-          $order_date = $value->created_at;
-          $amount = $value->amount;
-          $price += $value->price;
-          $tax_amount += $value->tax;
-          $alias = $value->alias;
-          $option_name = $value->option_name;
-          $refund = $value->refund;
-          $payment_method = $value->payment_method;
-
-      }
+       foreach ($data as $key => $value) {
+         $order_date = $value->created_at;
+         $refund = $value->refund;
+         $name = $value->name;
+         $email = $value->email;
+         $phone = $value->phone;
+         $payment_method = $value->payment_method;
        }
-
      
      
    
@@ -134,46 +88,18 @@
                 <table style="width: 100%">
                   <?php foreach ($data as $key => $value): ?>
                   <tr style="padding: 10px;">
-                    <td style="padding: 10px;"> <span style="text-transform: uppercase;font-weight: bold;"><?= $value->service_name ?>: </span> (Arrival Date:  <?php
-                      list($a, $b, $c) = explode('-', $value->date);
-                      $ndate = $b.'-'.$a.'-'.$c;
-                     echo date('d F Y',strtotime($value->date)); ?>, 
-                Arrival Time: <?= $value->time ?>, 
+                    <td style="padding: 10px;"> <span style="text-transform: uppercase;font-weight: bold;"><?= Helper::get_menu_item_name($value->item_id) ?>: </span> 
                   <?php 
 
                      $mprice += $value->price;
-                     $mtax += $value->tax;
+                     $mtax += round($mprice * 18 /100);
                 ?>
-                <?php if($alias=="gondola"): ?>
-                Canal: <?= $value->option_name ?>,
-              
-                <?php endif; ?>
-                Quantity: <?= $value->quantity ?>)  </td>                
+                
+                (Quantity: <?= $value->quantity ?>)  </td>                
                   </tr>
                 <?php endforeach; ?>
                 
-                <?php foreach ($services2 as $key => $value): ?>
-                  <tr style="padding: 10px;">
-                    <td  style="padding: 10px;">  <span style="text-transform: uppercase;font-weight: bold;"><?= $value->pack_name ?>: </span> (Arrival Date:  <?php
-                      list($a, $b, $c) = explode('-', $value->date);
-                      $ndate = $b.'-'.$a.'-'.$c;
-                     echo date('d F Y',strtotime($value->date)); ?>, 
-                Arrival Time: <?= $value->time ?>,
-                  <?php 
-
-                     $mprice += $value->price;
-                      $mtax += $value->tax;
-                ?>
-                    <?php if($alias=="gondola"): ?>
-                Canal: <?= $value->option_name ?>, 
-                <?php endif; ?>
-                 <?php if($value->occasion_type!=0): ?>
-                 <?= $value->type ?> - <?= $value->cuisine ?>,
-                <?php endif; ?>
-                Quantity: <?= $value->quantity ?>)</td>
-                    
-                  </tr>
-                <?php endforeach; ?>
+                
                 </table>
               
                 
@@ -217,4 +143,4 @@
     </div>
 </body>
 
-</html><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/invoice.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/food_invoice.blade.php ENDPATH**/ ?>

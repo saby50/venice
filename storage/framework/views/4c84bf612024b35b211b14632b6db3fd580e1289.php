@@ -6,6 +6,8 @@ $tags = NULL; $price_for_two = NULL;
 $from_time = "";
 $to_time = "";
 $enable_food_order = "";
+  $selected_unit_name = "";
+$selected_unit_id = 0;
 foreach ($unit_details as $key => $value) {
   $unit_name = $value->unit_name;
   $foodstore = $value->foodstore;
@@ -28,7 +30,18 @@ $cart_json = array();
 $categories = array_unique($categories);
 if (Session::has('food_cart')) {
   $cart = Session::get('food_cart');
-  $cart_json = json_encode($cart);
+  $cart_json = $cart;
+
+
+foreach ($cart as $key => $value) {
+  $selected_unit_id = $value['unit_id'];
+
+}
+$get_unit_info = Helper::get_unit_info($selected_unit_id);
+
+foreach ($get_unit_info as $key => $value) {
+  $selected_unit_name = $value->unit_name;
+}
 
 if (count($cart)==0) {
   $q = 0;
@@ -48,17 +61,7 @@ foreach ($cart as $key => $value) {
 
 $food_order = "";
 $current_time = date('g:i A');
-$selected_unit_name = "";
-$selected_unit_id = 0;
-foreach ($cart as $key => $value) {
-  $selected_unit_id = $value['unit_id'];
 
-}
-$get_unit_info = Helper::get_unit_info($selected_unit_id);
-
-foreach ($get_unit_info as $key => $value) {
-  $selected_unit_name = $value->unit_name;
-}
 
 ?>
 <?php $__env->stopSection(); ?>
@@ -394,7 +397,7 @@ $(document).ready(function(){
     var unit_id = "<?= $getid ?>";
     var selected_unit_id = "";
        
-        var cart_data = <?= $cart_json ?>;
+        var cart_data = <?= json_encode($cart_json) ?>;
 
         if (cart_data.length==0) {
           $(".bottomcart").hide();
