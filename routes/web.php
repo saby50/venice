@@ -19,6 +19,7 @@ Route::get('booking/get_rates/{service_id}/{date}/{arrival_time}/{quantity}/{can
 Route::get('cart', 'CartController@index');
 Route::get('history/fooddetails/{order_id}', 'WebController@foodhistory');
 Route::get('cart/remove_item/{key}', 'CartController@remove_item');
+Route::get('cart/remove_item_food/{key}', 'CartController@remove_item_food');
 Route::get('cart/remove_all', 'CartController@remove_all');
 Route::post('cart/add_item', 'CartController@add_item');
 Route::post('cart/update_quantity', 'CartController@update_quantity');
@@ -108,6 +109,7 @@ Route::post('applynow', 'WebController@applynow');
 Route::post('send/leads', 'WebController@leads');
 Route::post('send/feedback', 'WebController@sendfeedback');
 Route::post('menu/foodcart', 'WebController@foodcart');
+Route::post('menu/foodcartarr', 'WebController@foodcartarr');
 Route::post('menu/foodcart_update', 'WebController@foodcart_update');
 Route::get('menu/get_cart_data/{unit_id}', 'WebController@get_cart_data');
 Route::get('food_cart', 'WebController@food_cart');

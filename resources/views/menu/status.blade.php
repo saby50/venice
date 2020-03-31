@@ -130,6 +130,9 @@ Payment Status
 .timepicker {
         padding: .375rem .75rem !important;
 }
+#hero_login .my-profile {
+  margin-top: 20px;
+}
 #price {
     font-size:24px;
     font-weight: bold;

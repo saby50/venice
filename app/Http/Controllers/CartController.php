@@ -160,6 +160,7 @@ class CartController extends Controller
       return redirect()->back();
 
     }
+    
     function apply_coupon(Request $request){
        $coupon_code = $request['coupon_code'];
        $db = DB::table('coupons')->where('coupon_name',$coupon_code)->get();

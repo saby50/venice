@@ -21,6 +21,30 @@ class Helper
     }
     return $data;
   }
+  public static function get_unit_menu_data($unit_id) {
+    $db = DB::table('unit_menu_items')
+          ->join('unit_menu_items_add_ons','unit_menu_items.id','=','unit_menu_items_add_ons.item_id')
+          ->select(DB::raw('unit_menu_items.*'), 
+            DB::raw('unit_menu_items_add_ons.id as addon_id'),
+             DB::raw('unit_menu_items_add_ons.title as addon_title'),
+           DB::raw('unit_menu_items_add_ons.type as addon_type'),
+         DB::raw('unit_menu_items_add_ons.item_id as addon_item_id'))
+          ->where('unit_menu_items.unit_id',$unit_id)
+          ->get();
+      $data = array();    
+      foreach ($db as $key => $value) {
+        $customize = Helper::get_item_addons_list($value->addon_item_id);
+        if (count($customize)==0) {
+         $data[] = array('item_id' => $value->id, 'item_name'  => $value->item_name,'addon_id' => $value->addon_id, 'addon_title' => $value->addon_title,'addon_type' => $value->addon_type,'addon_item_id' => $value->addon_item_id,'customize' => '');
+        }else {
+          $data[] = array('item_id' => $value->id, 'item_name'  => $value->item_name,'addon_id' => $value->addon_id, 'addon_title' => $value->addon_title,'addon_type' => $value->addon_type,'addon_item_id' => $value->addon_item_id,'customize' => $customize);
+        }
+        
+      }    
+
+    return json_encode($data);
+
+  }
    public static function booking_event_process($name,$email,$phone,$purpose,$amount,$payment_method,$payment_id,$currency,$type,$status) {
        if (Session::get('event')) {
            $cart = Session::get('event');

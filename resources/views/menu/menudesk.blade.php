@@ -1,15 +1,7 @@
 @extends('layouts.main2')
 
 @section('title')
-Fine Dining
-@endsection
-@section('includes')
-     <meta property="og:title" content="The Grand Venice Mall | Fine Dining">
-    <meta property="og:description" content="A Memorable Fine Dining Experience">
-     <meta property="og:image" content="{{ asset('public/images/GV03.jpg') }}">
-@endsection
-@section('content')
-<?php
+<?php 
 $unit_details = Helper::get_unit_info($getid);
 $unit_name = NULL; $foodstore = NULL;
 $tags = NULL; $price_for_two = NULL;
@@ -27,13 +19,58 @@ foreach ($unit_details as $key => $value) {
   $prep_time = $value->prep_time;
   
 }
+echo $unit_name."<p style='font-size:11px;margin-left: 42px;margin-top:-5px;'>".$tags."</p>";
+
 $menu = Helper::get_menu_items($getid,$view);
 $categories = array();
 foreach ($menu as $key => $value) {
   $categories[] = $value->food_category_id;
 }
+$cart_json = array();
 $categories = array_unique($categories);
+if (Session::has('food_cart')) {
+  $cart = Session::get('food_cart');
+  $cart_json = json_encode($cart);
+
+if (count($cart)==0) {
+  $q = 0;
+  $p = 0;
+}else {
+  $q = 0;
+  $p = 0;
+}
+foreach ($cart as $key => $value) {
+  $q += $value['quantity'];
+  $p += $value['price'];
+}
+}else {
+  $q = 0;
+  $p = 0;
+}
+
+$food_order = "";
+$current_time = date('g:i A');
+$selected_unit_name = "";
+$selected_unit_id = 0;
+foreach ($cart as $key => $value) {
+  $selected_unit_id = $value['unit_id'];
+
+}
+$get_unit_info = Helper::get_unit_info($selected_unit_id);
+
+foreach ($get_unit_info as $key => $value) {
+  $selected_unit_name = $value->unit_name;
+}
+
 ?>
+@endsection
+@section('includes')
+     <meta property="og:title" content="The Grand Venice Mall | Fine Dining">
+    <meta property="og:description" content="A Memorable Fine Dining Experience">
+     <meta property="og:image" content="{{ asset('public/images/GV03.jpg') }}">
+@endsection
+@section('content')
+
    <div class="sideicons desktop" style="display: none;">
      <a href="<?= URL::to('food-court') ?>" data-placement="left"  data-toggle="tooltip" title="Food Court"><img src="{{ asset('public/images/pages/foodcourticon.png') }}" onmouseover="this.src='{{ asset('public/images/pages/foodcourticona.png') }}'"  onmouseout="this.src='{{ asset('public/images/pages/foodcourticon.png') }}'"></a>
 
@@ -121,9 +158,27 @@ $(document).ready(function(){
              
            </div>
       
-          <div class="col-2" style="font-size: 14px;color: #FFF;margin-top: 20px;">
+          <div class="col-2" style="font-size: 14px;color: #FFF;margin-top: 20px;border-right: solid 1px #fff;">
            <?= $price_for_two ?><br /><span style="font-size: 11px;">Cost for Two</span>
              
+           </div>
+           <div class="col-3" style="font-size: 14px;color: #FFF;margin-top: 30px;">
+              <?php 
+            
+            if($enable_food_order=="no") {
+               echo "<span style='color:red;font-size:14px;'>Closed for order</span>";
+               //$food_order = "no";
+            }else {
+              if (strtotime($current_time) > strtotime($from_time) && strtotime($current_time) < strtotime($to_time)) {
+              $food_order = "yes";
+              
+            }else {
+              echo "<span style='color:red;font-size:14px;'>Closed for order</span>";
+              $food_order = "no";
+            }
+            }
+            
+          ?>
            </div>
           </div>
         </div>
@@ -143,7 +198,7 @@ $(document).ready(function(){
           ?>
         </ul>
         </div>
-         <div class="col-6 itemsarea">
+         <div class="col-8 itemsarea">
           <?php foreach($categories as $k => $v): ?>
             
             <a name="<?= $v ?>"></a>
@@ -167,31 +222,100 @@ $(document).ready(function(){
           
         </div>
           <div class="col-5" style="text-align: right;">
-          <div class="addButton btnmargintop  addbutton_<?= $value->id ?>" data-addon="<?= Helper::checkaddonfields($value->id) ?>"  data-price="<?= $value->price ?>" data="<?= $value->id ?>">Add</div>
-          <?php if(Helper::checkaddonfields($value->id)==1): ?>
-           <div class="_1gDO3">Customisable</div>
-          
-         <?php endif; ?>
-          <div class="foodquantity btnmargintop quantitybox_<?= $value->id ?> hided" data="<?= $value->id ?>" data-price="<?= $value->price ?>">
+             <?php if($value->status=="active"): ?>
+             <?php
+               $checkcart = Helper::get_cart_data($value->id);
+               $quantity = 0;
+               if (Session::has('food_cart')) {
+                 foreach ($cart as $c => $t) {
+                   if ($t['item_id']==$value->id) {
+                     $quantity =  $t['quantity'];
+                   }
+                }
+               }
+                
+              
+             ?>
+              <?php if($enable_food_order=="yes"): ?>
+             <?php if($food_order=="yes"): ?>
+             <?php if($quantity!=0): ?>
+             <div class="addButton btnmargintop hided addbutton_<?= $value->id ?>" data-addon="<?= Helper::checkaddonfields($value->id) ?>"  data-price="<?= $value->price ?>" data="<?= $value->id ?>">Add</div>
+         
+               <div class="foodquantity btnmargintop quantitybox_<?= $value->id ?>" data="<?= $value->id ?>" data-price="<?= $value->price ?>">
            <button class="decrease"  data="<?= $value->id ?>" data-price="<?= $value->price ?>">-</button> <input type="number" value="1" name="quantity" class="quantity_<?= $value->id ?> q" readonly><button class="increase" data="<?= $value->id ?>" data-price="<?= $value->price ?>">+</button>
           </div>
+      
+         <?php else: ?>
+             
+            <?php if(time() >= strtotime($value->from_time) && time() <= strtotime($value->to_time)): ?>
+              <div class="addButton btnmarginright addbutton_<?= $value->id ?>" data-addon="<?= Helper::checkaddonfields($value->id) ?>" data-price="<?= $value->price ?>" data="<?= $value->id ?>">Add</div>
+          <?php if(Helper::checkaddonfields($value->id)==1): ?>
+           <div class="_1gDO3">Customisable</div>
+         <?php endif; ?>
+           <div class="foodquantity btnmarginright hided quantitybox_<?= $value->id ?>" data="<?= $value->id ?>" data-price="<?= $value->price ?>">
+           <button class="decrease"  data="<?= $value->id ?>" data-price="<?= $value->price ?>">-</button> <input type="number" value="1" name="quantity" class="quantity_<?= $value->id ?> q"  data="<?= $value->id ?>" data-price="<?= $value->price ?>" readonly><button class="increase" data="<?= $value->id ?>" data-price="<?= $value->price ?>">+</button>
+         
+            
+          </div>
+          <?php else: ?>
+             <div class="unavailable btnmarginright">Currently Unavailable</div>
+          <?php endif; ?>
+        <?php endif; ?>
+        <?php else: ?>
+          <div class="unavailable btnmarginright">Currently Unavailable</div>
+      <?php endif; ?>
+      <?php else: ?>
+         <div class="unavailable btnmarginright">Currently Unavailable</div>
+      <?php endif; ?>
+            
+          
+
+          
+          <?php else: ?>
+            <div class="unavailable btnmarginright">Currently Unavailable</div>
+        <?php endif; ?>
+            
+          
+
+          
+          
         </div>
       </div>
        <?php endforeach; ?>
          <?php endforeach; ?>
         </div>
-        <div class="col-3 sidebar-right" id="sidebar2">
+        <div class="col-3 sidebar-right" id="sidebar2" style="display: none;">
           <h3>Cart</h3>
           <div class="cart_empty">
             <img src="{{ URL::to('public/images/cart_empty.png') }}" style="width: 100%;">
           </div>
-          
+            <div class="cart_items">
+            <div class="itemsArray"></div>
+          </div>
         </div>
       </div>
 
       
     </div>
-  
+  <a href="{{ URL::to('food_cart') }}" class="bottomcarta">
+  <?php if(Session::has('food_cart')): ?>
+   <div class="bottomcart">
+    <?php else: ?>
+      <div class="bottomcart hided">
+    <?php endif; ?>
+    <div class="row">
+    <div class="col-6">
+      <div class="mainitem"><span class="itemcount"></span> Items | <i class="fa fa-rupee"></i> <span class="itemprice"></span></div>
+      <div class="restaurant-name">From: <span class="unit_name"><?= $selected_unit_name ?></span></div>
+      
+    </div>
+    <div class="col-6">
+      <span style="text-transform: uppercase;">View Cart <i class="fa fa-shopping-bag" aria-hidden="true"></i></span> 
+      
+    </div> 
+   </div>
+  </div>
+</a>
    <div id="myModal" class="modal fade" role="dialog" aria-hidden="true" style="display: none;">
   <div class="modal-dialog modal-lg">
 
@@ -207,25 +331,183 @@ $(document).ready(function(){
 
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fadeUp" id="customizeModal" data-easein="bounceIn"  tabindex="-1" role="dialog" aria-labelledby="costumModalLabel" aria-hidden="true">
+  <form method="post" action="<?= URL::to('update_cart') ?>">
+  @csrf
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Ons</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="addonfields"></div>
+      </div>
+      <div class="modal-footer">
+        
+        <button type="submit" class="btn btn-primary">Update Cart</button>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="item_id" value="" class="item_id">
+ <input type="hidden" name="titles"  value="" class="titles">
+</form>
+</div>
+<!-- Modal -->
+<div id="myModalSame" class="modal fade" role="dialog">
+  <form method="post" id="sameunit" action="<?= URL::to('menu/add_item_cart') ?>">
+    @csrf
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-body" style="padding: 2px 16px;font-size: 14px;padding-top: 30px;height: 90px;">
+        <p>Do you want to discard the current selection and add dishes from <strong><?php $units = Helper::get_unit($getid); echo $units['unit_name']; ?></strong>?</p>
+        <input type="hidden" name="item_id" class="sitem_id">
+        <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="addon" class="addon">
+        <input type="hidden" name="unit_id" value="<?= $getid ?>" class="funit_id">
+        <input type="hidden" name="price" class="sprice">
+        <input type="hidden" name="identifier" value="plus" class="identifier">
+      </div>
+      <div class="modal-footer" style="padding: 5px;">
+        <button type="button" class="btn btn-default nbtn" id="no" style="color: #f3a423;border: solid 1px #f3a423;background: #FFF;" data-dismiss="modal">NO</button>
+        <button type="submit" class="btn nbtn yes" style="background: #f3a423;color: #FFF;">YES, START FRESH</button>
+      </div>
+    </div>
+
+  </div>
+  </form>
+</div>
 <script src="{{ asset('public/js/jssor.slider.min.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
+
   $(document).ready(function() {
+
      $(".sidebar-left li:first-child").addClass("current-item");
     $(".sidebar-left a").click(function() {
        $(".sidebar-left li").removeClass("current-item");
       $(this).parent("li").addClass("current-item");
     });
+    var unit_id = "<?= $getid ?>";
+    var selected_unit_id = "";
+       
+        var cart_data = <?= $cart_json ?>;
+
+        if (cart_data.length==0) {
+          $(".bottomcart").hide();
+
+        }else {
+          $(".bottomcart").show();
+            $.each(cart_data, function(i, data) {
+             $(".bottomcart").show();
+              $(".itemcount").html(data['quantity']);
+              $(".itemprice").html(data['price']);
+              
+              selected_unit_id = data['unit_id'];
+
+           });
+        }
+
+      
+
+         
+         var i = <?= $q ?>;
+         var mainprice = <?= $p ?>;
+         var initialdata = <?= Helper::get_unit_menu_data($getid) ?>;
+         var addonfields = "";
+     $(".yes").click(function() {
+        var url = $("#sameunit").attr('action');
+        var sitem_id = $(".sitem_id").val();
+        var quantity = "1";
+        var titles = "";
+        var addon = $(".addon").val();
+        var sprice = $(".sprice").val();
+        var funit_id = $(".funit_id").val();
+        var identifier = $(".identifier").val();
+        var formData = {
+           '_token':'{{ csrf_token()}}',
+             'item_id': sitem_id,
+             'quantity': quantity,
+             'addon': addon,
+             'price': sprice,
+             'unit_id': funit_id,
+             'identifier': identifier
+        };
+        $.post(url, formData,
+            function (resp,textStatus, jqXHR) {
+              if (addon=="1") {
+                $("#myModalSame").modal("hide");
+                 addonfields = "";
+                    $.each(initialdata, function(i,v) {
+                       if (v['item_id']==sitem_id) {
+                           addonfields += "<h5>" + v['addon_title'] + "</h5>";
+                           
+                           
+                           titles+=  v['addon_title'];
+
+
+                           var customize = v['customize'];
+                           var type = v['addon_type'];
+                           if (customize=="") {
+
+                           }else {
+                            $.each(customize, function(m,n) {
+                               if (type=="radio") {
+                                if (m==0) {
+                                  addonfields += '<input type="radio"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'" checked="checked"> '+n['addon_name']+' <span style="font-size:11px;"> (Rs. '+n["cost"]+')</span><br />';
+                                }else {
+                                   addonfields += '<input type="radio"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'"> '+n['addon_name']+' <span style="font-size:11px;"> (Rs. '+n["cost"]+')</span><br />';
+                                }
+                                
+                               }else {
+                                if (m==0) {
+                                   addonfields += '<input type="checkbox"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'" checked="checked"> '+n['addon_name']+'<span style="font-size:11px;"> (Rs. '+n["cost"]+')</span><br />';
+                                }else {
+                                    addonfields += '<input type="checkbox"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'"> '+n['addon_name']+'<span style="font-size:11px;">  (Rs. '+n["cost"]+')</span><br />';
+
+                                }
+                               
+                               }
+                               
+                           });
+                             $("#customizeModal .addonfields").html(addonfields);
+                             $("#customizeModal").modal("show");
+                             $(".item_id").val(sitem_id);
+                             $(".titles").val(titles);
+                           }
+                           
+                           
+                       }
+                    });
+
+              }else {
+                window.location = "<?= URL::to('food_cart') ?>";
+              }
+               
+        });
+
+        return false;
+              
+     });    
      $(".addButton").click(function() {
-              setTimeout( function() { $('.loader').show(); }, 300 );
-            setTimeout( function() { $('.loader').hide(); }, 800 );
-           var data = $(this).attr('data');
+         var data = $(this).attr('data');
            var addon = $(this).attr('data-addon');         
            var price = parseInt($(this).attr('data-price'));
+           var titles = "";
            var unit_id = "<?= $getid ?>";
-              $(this).next('.foodquantity').show();
-                  $(".bottomcart").show();
+            setTimeout( function() { $('.loader').show(); }, 300 );
+            setTimeout( function() { $('.loader').hide(); }, 800 );
+            if (cart_data.length!=0) {
+              if (selected_unit_id==unit_id) {
            
-                  $(this).hide();
+              $(".quantitybox_"+data).show();
+              $(".bottomcart").show();
+              $(this).hide();
            
 
             var formData = {
@@ -236,15 +518,15 @@ $(document).ready(function(){
                 'price': price,
                 'identifier': 'plus'
             };
-            var url = '<?= URL::to("menu/foodcart") ?>'; 
-             var url2 = '<?= URL::to("getaddonfields") ?>/'+data; 
+             var url = '<?= URL::to("menu/foodcart") ?>'; 
+              
              var unit_name = "<?php $units = Helper::get_unit($getid); echo $units['unit_name']; ?>";
              $(".unit_name").html(unit_name);
-
+             
               $.post(url,  formData,
             function (resp,textStatus, jqXHR) {
 
-                console.log(resp);
+                  console.log(resp);
             if (resp.length==0) {
                $(".bottomcart").hide();
             }else {
@@ -254,26 +536,256 @@ $(document).ready(function(){
               $(".unit_name").html(resp['unit_name']);
                 if (resp['sameunit']==1) {
                     
-                  $("#myModalSame").modal("show");
-                  $(".sitem_id").val(data);
-                  $(".sprice").val(price);
-                  $(".addon").val(addon);
-
-                  
-                  $("#no").attr("data-no",data);
+                
                 }else {
-               
+                  
                   if (addon=="1") {
-                 window.location = "<?= URL::to('menu/addons/') ?>/"+data;
+                    addonfields = "";
+                    $.each(initialdata, function(i,v) {
+                       if (v['item_id']==data) {
+                           addonfields += "<h5>" + v['addon_title'] + "</h5>";
+                           
+                           
+                           titles+=  v['addon_title'];
+
+
+                           var customize = v['customize'];
+                           var type = v['addon_type'];
+                           if (customize=="") {
+
+                           }else {
+                            $.each(customize, function(m,n) {
+                               if (type=="radio") {
+                                if (m==0) {
+                                  addonfields += '<input type="radio"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'" checked="checked"> '+n['addon_name']+' <span style="font-size:11px;"> (Rs. '+n["cost"]+')</span><br />';
+                                }else {
+                                   addonfields += '<input type="radio"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'"> '+n['addon_name']+' <span style="font-size:11px;"> (Rs. '+n["cost"]+')</span><br />';
+                                }
+                                
+                               }else {
+                                if (m==0) {
+                                   addonfields += '<input type="checkbox"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'" checked="checked"> '+n['addon_name']+'<span style="font-size:11px;"> (Rs. '+n["cost"]+')</span><br />';
+                                }else {
+                                    addonfields += '<input type="checkbox"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'"> '+n['addon_name']+'<span style="font-size:11px;">  (Rs. '+n["cost"]+')</span><br />';
+
+                                }
+                               
+                               }
+                               
+                           });
+                             $("#customizeModal .addonfields").html(addonfields);
+                             $("#customizeModal").modal("show");
+                             $(".item_id").val(data);
+                             $(".titles").val(titles);
+                           }
+                           
+                           
+                       }
+                    });
+                   
                 }
             }
               
               }
                 
             });
+            }else {
+                $("#myModalSame").modal({backdrop: 'static', keyboard: false});
+                  $(".sitem_id").val(data);
+                  $(".sprice").val(price);
+                  $(".addon").val(addon);
+
+                  
+                  $("#no").attr("data-no",data);
+            }
+          }else {
+              var data = $(this).attr('data');
+           var addon = $(this).attr('data-addon');         
+           var price = parseInt($(this).attr('data-price'));
+           var titles = "";
+           var unit_id = "<?= $getid ?>";
+              $(".quantitybox_"+data).show();
+              $(".bottomcart").show();
+              $(this).hide();
+           
+
+            var formData = {
+                '_token':'{{ csrf_token()}}',
+                'item_id': data,
+                'quantity': "1",
+                'unit_id': unit_id,
+                'price': price,
+                'identifier': 'plus'
+            };
+             var url = '<?= URL::to("menu/foodcart") ?>'; 
+              
+             var unit_name = "<?php $units = Helper::get_unit($getid); echo $units['unit_name']; ?>";
+             $(".unit_name").html(unit_name);
+             
+              $.post(url,  formData,
+            function (resp,textStatus, jqXHR) {
+
+                  console.log(resp);
+            if (resp.length==0) {
+               $(".bottomcart").hide();
+            }else {
+              $(".bottomcart").show();
+              $(".itemcount").html(resp['quantity']);
+              $(".itemprice").html(resp['price']);
+              $(".unit_name").html(resp['unit_name']);
+                if (resp['sameunit']==1) {
+                    
+                
+                }else {
+                  
+                  if (addon=="1") {
+                    addonfields = "";
+                    $.each(initialdata, function(i,v) {
+                       if (v['item_id']==data) {
+                           addonfields += "<h5>" + v['addon_title'] + "</h5>";
+                           
+                           
+                           titles+=  v['addon_title'];
+
+
+                           var customize = v['customize'];
+                           var type = v['addon_type'];
+                           if (customize=="") {
+
+                           }else {
+                            $.each(customize, function(m,n) {
+                               if (type=="radio") {
+                                if (m==0) {
+                                  addonfields += '<input type="radio"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'" checked="checked"> '+n['addon_name']+' <span style="font-size:11px;"> (Rs. '+n["cost"]+')</span><br />';
+                                }else {
+                                   addonfields += '<input type="radio"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'"> '+n['addon_name']+' <span style="font-size:11px;"> (Rs. '+n["cost"]+')</span><br />';
+                                }
+                                
+                               }else {
+                                if (m==0) {
+                                   addonfields += '<input type="checkbox"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'" checked="checked"> '+n['addon_name']+'<span style="font-size:11px;"> (Rs. '+n["cost"]+')</span><br />';
+                                }else {
+                                    addonfields += '<input type="checkbox"  name="'+v['addon_title']+'" value="'+n['addon_name']+"_"+n["cost"]+'"> '+n['addon_name']+'<span style="font-size:11px;">  (Rs. '+n["cost"]+')</span><br />';
+
+                                }
+                               
+                               }
+                               
+                           });
+                             $("#customizeModal .addonfields").html(addonfields);
+                             $("#customizeModal").modal("show");
+                             $(".item_id").val(data);
+                             $(".titles").val(titles);
+                           }
+                           
+                           
+                       }
+                    });
+                   
+                }
+            }
+              
+              }
+                
+            });
+          }
+            
+           
            
          });
-  });
+
+     $(".decrease").click(function() {
+                setTimeout( function() { $('.loader').show(); }, 300 );
+            setTimeout( function() { $('.loader').hide(); }, 800 );
+            var data = $(this).attr('data');
+            var unit_id = "<?= $getid ?>";
+            var price = parseInt($(this).attr('data-price'));
+            var currentquantity = parseInt($(this).next('input.q').val());
+            var updatedquantity = 0;
+            if (currentquantity==1) {
+              updatedquantity = 0;
+              price = 0;
+              $(".quantitybox_"+data).hide();
+             $(".addbutton_"+data).show();
+            }else {
+              console.log('hit here');
+              updatedquantity = currentquantity - 1;
+              $(".quantity_"+data).val(updatedquantity);
+
+            }
+           var formData = {
+                '_token':'{{ csrf_token()}}',
+                'item_id': data,
+                'quantity': updatedquantity,
+                'price': price,
+                'identifier': 'minus',
+                'unit_id' : unit_id
+            };
+
+            var url = '<?= URL::to("menu/foodcart_update") ?>'; 
+            
+
+            $.post(url,  formData, function (resp,textStatus, jqXHR) {
+               console.log(resp);
+            if (resp.length==0) {
+               $(".bottomcart").hide();
+            }else {
+              $(".bottomcart").show();
+              $(".itemcount").html(resp['quantity']);
+              $(".itemprice").html(resp['price']);
+              $(".unit_name").html(resp['unit_name']);
+            }
+            });
+
+            var unit_id = "<?= $getid ?>";
+        
+
+            
+            
+         });
+          $(".increase").click(function() {
+            setTimeout( function() { $('.loader').show(); }, 300 );
+            setTimeout( function() { $('.loader').hide(); }, 800 );
+            var unit_id = "<?= $getid ?>";
+            var data = $(this).attr('data');
+            var price = parseInt($(this).attr('data-price'));
+            var unit_id = "<?= $getid ?>";
+           // alert(data);
+            var currentquantity = parseInt($(".quantity_"+data).val());
+            var updatedquantity = currentquantity + 1;
+            $(".quantity_"+data).val(updatedquantity);
+
+            var formData = {
+                '_token':'{{ csrf_token()}}',
+                'item_id': data,
+                'quantity': updatedquantity,
+                'price': price,
+                'identifier': 'plus',
+                'unit_id' : unit_id
+            };
+
+            var url = '<?= URL::to("menu/foodcart_update") ?>'; 
+            
+
+            $.post(url,  formData, function (resp,textStatus, jqXHR) {
+              console.log(resp);
+            if (resp.length==0) {
+               $(".bottomcart").hide();
+            }else {
+              $(".bottomcart").show();
+              $(".itemcount").html(resp['quantity']);
+              $(".itemprice").html(resp['price']);
+              $(".unit_name").html(resp['unit_name']);
+            }
+            });
+              var unit_id = "<?= $getid ?>";
+       
+            
+         });
+          
+ });
+         
+
  
 </script>
 <script>
@@ -326,7 +838,10 @@ function myFunction() {
     font-weight: 500;
     color: #7e808c;
     text-align: center;
-       margin-left: 157px;
+     margin-left: 247px;
+}
+.cart_items {
+  display: none;
 }
 ._1gDO32 {
    position: absolute;
@@ -353,6 +868,31 @@ function myFunction() {
   right: 70px;
    width: auto;
 
+}
+.hided {
+  display: none;
+}
+.bottomcart {
+  width: 600px;
+  height: 45px;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 10px;
+  background: #60b246;
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  color: #fff;
+  padding-left: 10px;
+  padding-right: 10px;
+  left: 50%;
+  margin-left: -300px;
+}
+.bottomcarta {
+font-size: 16px;
+}
+.bottomcart .col-6:nth-child(2) {
+  text-align: right;
 }
 .sidebar-left  {
   position: fixed;
@@ -394,7 +934,7 @@ function myFunction() {
   display: none;
 }
 .foodquantity input {
-      width: 20px;
+      width: 25px;
     text-align: center;
     border: none;
     top: -2px;
@@ -439,7 +979,7 @@ ul.sidebar-items li {
 .itemsarea {
   margin-left: 220px;
   border-left:solid 1px #ccc;
-  
+  border-right:solid 1px #ccc;
 }
 .foodrow {
   border-bottom: solid 1px #ccc;
@@ -462,6 +1002,13 @@ ul.sidebar-items li {
     float: left;
     margin: 5px;
     height: 150px;
+}
+.unavailable {
+  font-size: 10px;
+  line-height: 12px;
+  float: right;
+  width: 60px;
+ 
 }
 .title {
   font-size: 18px;

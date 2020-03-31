@@ -80,7 +80,7 @@ class WebController extends Controller
 
        $cart = Session::get('food_cart');
        unset($cart);
-       $cart[] = array('unit_id' => $unit_id,'item_id' => $item_id,'quantity' => $quantity, 'price' => $price,'custom' => array());
+       $cart[] = array('unit_id' => $unit_id,'item_id' => $item_id,'quantity' => $quantity, 'price' => $price,'item_name' => Helper::get_menu_item_name($item_id),'custom' => array());
       Session::put('food_cart', $cart);
       if ($addon=="1") {
         return redirect('menu/addons/'.$item_id);
@@ -115,19 +115,20 @@ class WebController extends Controller
       $quantity = $request['quantity'];
       $price = $request['price'];
       $unit_id = $request['unit_id'];
+      $item_name = Helper::get_menu_item_name($item_id);
 
       $cart = Session::get('food_cart');
       $sameunit = 0;
       if (Session::has('food_cart')) {
         if (count($cart)==0) {
-          $cart[] = array('unit_id' => $unit_id,'item_id' => $item_id,'quantity' => $quantity, 'price' => $price,'custom' => array());
+          $cart[] = array('unit_id' => $unit_id,'item_id' => $item_id,'quantity' => $quantity, 'price' => $price,'item_name' => $item_name,'custom' => array());
         }else {
           $sunit = "";
           foreach ($cart as &$item) {
             $sunit = $item['unit_id'];
           }
           if ($sunit==$unit_id) {
-           $cart[] = array('unit_id' => $unit_id,'item_id' => $item_id,'quantity' => $quantity, 'price' => $price,'custom' => array());
+           $cart[] = array('unit_id' => $unit_id,'item_id' => $item_id,'quantity' => $quantity, 'price' => $price,'item_name' => $item_name,'custom' => array());
           }else {
             $sameunit = 1;
           }
@@ -135,7 +136,7 @@ class WebController extends Controller
         }
         
       }else {
-        $cart[] = array('unit_id' => $unit_id,'item_id' => $item_id,'quantity' => $quantity, 'price' => $price,'custom' => array());
+        $cart[] = array('unit_id' => $unit_id,'item_id' => $item_id,'quantity' => $quantity, 'price' => $price,'item_name' => $item_name,'custom' => array());
       }
       Session::put('food_cart', $cart);
       $carts = Session::get('food_cart');
@@ -149,13 +150,13 @@ class WebController extends Controller
       foreach ($carts as $key => $value) {
         $q+= $value['quantity'];
         $p+= $value['price'];
-        $data = array('price' => $p,'quantity' => $q, 'unit_name' => $unit_name,'sameunit' => $sameunit);
+        $data = array('price' => $p,'quantity' => $q, 'unit_name' => $unit_name,'item_name' => $item_name,'sameunit' => $sameunit);
          
       }
        return $data;
 
     }
-
+    
     function foodcart_update(Request $request) {
 
       $item_id = $request['item_id'];
@@ -218,7 +219,7 @@ class WebController extends Controller
         if ($unit_id==$item['unit_id']) {
           $quantity+= $item['quantity'];
          $price+= $item['price'];
-         $data = array('price' => $price,'quantity' => $quantity, 'unit_name' => $unit_name);
+         $data = array('price' => $price,'quantity' => $quantity, 'unit_name' => $unit_name,'unit_id' => $item['unit_id']);
         }
         
        }
@@ -229,7 +230,12 @@ class WebController extends Controller
     }
     function food_cart() {
        $cart = Session::get('food_cart');
-       return view('cart/foodcart', compact('cart'));
+       if (Helper::check_mobile()=="1") {
+         return view('cart/foodcart', compact('cart'));
+       }else {
+        return view('cart/foodcartdesk', compact('cart'));
+       }
+       
     }
 
     function remove_item($key) {
