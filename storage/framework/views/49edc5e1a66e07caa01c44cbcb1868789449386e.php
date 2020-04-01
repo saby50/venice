@@ -58,6 +58,7 @@ Cart
                           <?php 
                             $getid = $value['unit_id'];
                             //echo $getid;
+                            $tax_percent = Helper::get_unit_tax($getid);
                           ?>
                           <?php
                               if (count($cart)==1) {
@@ -122,7 +123,8 @@ Cart
 
                                 
                                  $price += $value['price'];
-                                 $tax_amount = round($price * 18 /100);
+                                 
+                                 $tax_amount = round($price * $tax_percent/100);
                                   $amount = $price + $tax_amount + $customprice;
                            ?>
                         <?php endforeach; ?>

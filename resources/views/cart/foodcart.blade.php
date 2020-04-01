@@ -45,7 +45,7 @@ if (Auth::check()) {
   </div>
       
       <?php $i=0; foreach($cart as $key => $value): ?>
-        
+       <?php  $tax_percent = Helper::get_unit_tax($unit_id); ?>
 
         <div class="featured-pwa ripple">
           <div class="row">
@@ -114,7 +114,7 @@ if (Auth::check()) {
        <?php 
          
           $price += $sprice + $customprice;
-          $tax_amount = $price * 18/100;
+          $tax_amount = $price * $tax_percent/100;
 
           $amount = round($price + $tax_amount);
         ?>

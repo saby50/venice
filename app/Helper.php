@@ -45,6 +45,19 @@ class Helper
     return json_encode($data);
 
   }
+  public static function get_unit_tax($unit_id) {
+      $db = DB::table('units')->where('id', $unit_id)->get();
+      $tax_id = 0;
+      foreach ($db as $key => $value) {
+        $tax_id = $value->tax_id;
+      }
+      $taxes = Helper::get_taxes($tax_id);
+      $tax_percent = 0;
+      foreach ($taxes as $key => $value) {
+        $tax_percent = $value->tax_percent;
+      }
+      return $tax_percent;
+  }
    public static function booking_event_process($name,$email,$phone,$purpose,$amount,$payment_method,$payment_id,$currency,$type,$status) {
        if (Session::get('event')) {
            $cart = Session::get('event');

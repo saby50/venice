@@ -17,7 +17,7 @@
 
        $data = Helper::get_food_orders($orderid);
       
-
+       $unit_id = 0;
        foreach ($data as $key => $value) {
          $order_date = $value->created_at;
          $refund = $value->refund;
@@ -25,9 +25,10 @@
          $email = $value->email;
          $phone = $value->phone;
          $payment_method = $value->payment_method;
+         $unit_id = $value->unit_id;
        }
      
-     
+     $tax_percent = Helper::get_unit_tax($unit_id);
    
     ?>
     <div id="invoice" class="container">
@@ -92,7 +93,7 @@
                   <?php 
 
                      $mprice += $value->price;
-                     $mtax += round($mprice * 18 /100);
+                     $mtax += round($mprice * $tax_percent /100);
                 ?>
                 
                 (Quantity: <?= $value->quantity ?>)  </td>                
@@ -105,9 +106,9 @@
                 
                 <p>.........................................................................................................</p>
                  <p class="mt-2"><strong>Subtotal: </strong> <span class="price">Rs <?= $mprice ?></span></p>
-                <p><strong>GST: </strong> <span class="price"> Rs <?= $mtax ?></span></p>
+                <p><strong>GST(<?= $tax_percent ?>%): </strong> <span class="price"> Rs <?= $mtax ?> </span></p>
                 <p>.........................................................................................................</p>
-                <p class="my-4"><strong>Total In INR</strong> <span class="price total-price">Rs <?= $mprice + $mtax ?></span> 
+                <p class="my-4"><strong>Total: </strong> <span class="price total-price">Rs <?= $mprice + $mtax ?></span> 
                   <?php 
             if ($payment_method=="instamojo") {
              echo "EC(Instamojo)";
