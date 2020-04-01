@@ -106,6 +106,7 @@ $units = Helper::get_category($unit_category_id);
               <label>Unit Email</label>
               <input type="text" class="form-control" name="unit_email" autocomplete="off" value="<?= $unit_email ?>" required="">
               </div>
+
              <div class="col-md-6">
               <input type="hidden" name="unit_id" value="<?= $id ?>">
               <label>Floor Level</label>
@@ -126,6 +127,15 @@ $units = Helper::get_category($unit_category_id);
               	<?php endforeach; ?>
               </select>
               </div>
+              <div class="col-md-6">
+               <label>Tax</label>
+                 <select class="form-control" name="tax_id">
+
+                      <?php foreach ($taxes as $key => $value): ?>
+                        <option value="<?= $value->id ?>"><?= $value->tax_name ?> (<?= $value->tax_percent ?>%)</option>
+                      <?php endforeach; ?>
+                  </select>
+              </div>
             <div class="col-md-6">
            
               <label>Suspended</label><br />
@@ -137,7 +147,7 @@ $units = Helper::get_category($unit_category_id);
 
                    <?php endif; ?>
               </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
            
               <label>Food Ordering</label><br />
                <?php if($order_food=="yes"): ?>

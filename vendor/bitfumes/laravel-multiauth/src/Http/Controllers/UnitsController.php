@@ -316,12 +316,14 @@ class UnitsController extends Controller
 	   $data = DB::table('units')->where('id',$id)->get();
 	   $type = 'web';
 	   $categories = DB::table('unit_categories')->get();	
-       return view('multiauth::admin.units.edit', compact('data','type','categories','id'));
+     $taxes = DB::table('taxes')->get(); 
+       return view('multiauth::admin.units.edit', compact('data','type','categories','id','taxes'));
 	}
 	function create() {
 	   $type = 'web';
 	   $categories = DB::table('unit_categories')->get();	
-       return view('multiauth::admin.units.create', compact('type','categories'));
+     $taxes = DB::table('taxes')->get(); 
+       return view('multiauth::admin.units.create', compact('type','categories','taxes'));
 	}
 	function update(Request $request) {
 	   $unit_name = $request['unit_name'];

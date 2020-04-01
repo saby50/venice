@@ -230,14 +230,16 @@ class ApiController extends Controller
 
         $checkunit = DB::table('units')->where('unit_email',$unit_email)->get();
         $suspend = "no";
+        $enable_food_order = "no";
         foreach ($checkunit as $key => $value) {
         	$suspend = $value->suspended;
+          $enable_food_order = $value->enable_food_order;
         }
         if ($suspend=="yes") {
         	$data = array();
         }
 
-        $finaldata = array('unit_id' => $units[0]['unit_id'],'unit_name' => $units[0]['unit_name'],'amount' => $amount,'net_amount' => $net_amount,'refund_amount' => $refund_amount, 'data' => $data,'refund_status' => $refund_status,'suspended' => $suspend);
+        $finaldata = array('unit_id' => $units[0]['unit_id'],'unit_name' => $units[0]['unit_name'],'amount' => $amount,'net_amount' => $net_amount,'refund_amount' => $refund_amount, 'data' => $data,'refund_status' => $refund_status,'suspended' => $suspend,'enable_food_order' => $enable_food_order);
         return array('result' => $finaldata);
 	}
   function get_food_data(Request $request) {

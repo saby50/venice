@@ -59,6 +59,7 @@ Units
               <?php endif; ?>
               </div>
 					<div class="row formarea">
+
               <div class="col-md-6">
                <label>Unit Name</label>
                <input type="text" class="form-control" name="unit_name" value="" required>
@@ -82,6 +83,8 @@ Units
               <label>Unit Email</label>
               <input type="text" class="form-control" name="unit_email" autocomplete="off" value="" required="">
               </div>
+              
+                
              <div class="col-md-6">
            
               <label>Floor Level</label>
@@ -96,6 +99,20 @@ Units
 
               	<?php endforeach; ?>
               </select>
+              </div>
+              <div class="col-md-6">
+               <label>Tax</label>
+                 <select class="form-control" name="tax_id">
+
+                      <?php foreach ($taxes as $key => $value): ?>
+                        <option value="<?= $value->id ?>"><?= $value->tax_name ?> (<?= $value->tax_percent ?>%)</option>
+                      <?php endforeach; ?>
+                  </select>
+              </div>
+            <div class="col-md-6">
+           
+              <label>Suspended</label><br />
+             <input type="radio" name="suspended" class="suspended" value="yes" checked> Yes &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="suspended" class="suspended" value="no"> No
               </div>
           <div class="col-md-6">   
           <label>Food Ordering</label><br />
