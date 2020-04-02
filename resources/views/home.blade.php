@@ -126,7 +126,7 @@ foreach ($enable_food_order as $key => $value) {
 
 ?>
   <?php if($fstatus=="yes"): ?>
-  <section id="foodarea" style="display: none;">
+  <section id="foodarea">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12 featured_content">

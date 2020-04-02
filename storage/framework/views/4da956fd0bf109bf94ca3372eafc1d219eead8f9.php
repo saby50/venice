@@ -144,8 +144,17 @@ Cart
                        echo number_format($amount) 
 
                        ?></span><br /><br />
-                      <div class="form-group" style="display: none;">
-                        <form method="post" action="<?php echo e(URL::to('apply_coupon')); ?>">
+                     
+                      
+                      <?php endif; ?>
+                          </div>
+                          <div class="col-md-6 continueshopping" style="text-align: right;">
+                            <a href="<?php echo e(URL::to('/')); ?>"><button name="addtocart" type="button" class="addtocart btn" style="width: 200px;"> Continue Shopping</button></a>
+                           
+
+                          </div>
+                            <div class="col-md-12">
+                        <form method="post" action="<?php echo e(URL::to('apply_coupon')); ?>" style="margin-left: 0px;margin-right: 0px;margin-top: 60px;">
                           <?php echo csrf_field(); ?>
                           <?php  if (!empty($coupon)): ?>
                         <input type="text" name="coupon_code" placeholder="Enter Coupon" value="<?= $coupon['coupon_code'] ?>" style="text-transform: uppercase;" class="form-control coupon_code"><br />
@@ -157,38 +166,6 @@ Cart
                       </form>
                         
                       </div>
-                      
-                      <?php endif; ?>
-                          </div>
-                          <div class="col-md-6 continueshopping" style="text-align: right;">
-                            <a href="<?php echo e(URL::to('/')); ?>"><button name="addtocart" type="button" class="addtocart btn" style="width: 200px;"> Continue Shopping</button></a>
-                            <div style="margin-top: 20px;width: 220px;float: right;">
-                                 <?php if(session('status')): ?>
-        <div class="widget no-color">
-            <div class="alert alert-success">
-                <div class="notify-content">
-                   <?php echo e(session('status')); ?>!
-
-                </div>
-            </div>
-            </div>
-        </div>
-      <?php endif; ?>
-      <?php if(session('error')): ?>
-        <div class="widget no-color">
-            <div class="alert alert-danger">
-                <div class="notify-content">
-                   <?php echo e(session('error')); ?>!
-
-                </div>
-            </div>
-            </div>
-        </div>
-      <?php endif; ?>
-                            </div>
-
-                          </div>
-                           
                          </div>
                           </td>
                         <td ></td>
