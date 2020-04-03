@@ -13,7 +13,9 @@ if (Auth::check()) {
    $services = "";
    $price = 0;
    $tax_amount = 0;
+   $applied_coupon = 0;
 ?>
+
 <?php if(count($cart)==0): ?>
   <div class="recyclerview firstbox" style="text-align: center;">
     <i class="fa fa-shopping-cart fa-4x"></i><br />
@@ -41,6 +43,74 @@ if (Auth::check()) {
            <span style="font-size: 13px;"><?= $value['date'] ?> | <?= $value['time'] ?></span><br />
            <a href="<?= URL::to('cart/remove_item/'.$key) ?>" class="removeItem">Remove</a>
         </div>
+        <?php 
+                             $type = $value['type'];
+                             $service_id = $value['service_id'];
+                             $first_char = mb_substr($type, 0,1);
+                             $match = $first_char."_".$service_id;
+
+                             $discountamount = 0;
+                             $damount = 0;
+                             $bprice = $value['price'];
+                            
+                             $btax = $value['tax'];
+                             $bamount = $bprice + $btax;
+                             
+                              $coupon = Session::get('coupon');
+
+                           
+                             if (!empty($coupon)) {
+                             //  $cmatch = explode(",", $coupon['match']);
+                               if ($coupon['match']==$match) {
+                                if ($value['quantity']==1) {
+                                  $discountamount = $bamount * $coupon['coupon_percent'] /100;
+                                  $discountprice = $bprice * $coupon['coupon_percent'] /100;
+                                  $discounttax = $btax * $coupon['coupon_percent'] /100;
+                                  $bamount = $value['amount'] - $discountamount;
+                                  $bprice = $value['price'] - $discountprice;
+                                  $btax = $value['tax'] - $discounttax;
+                                  $applied_coupon = 1;
+                                  $damount = $discountamount;
+                                }else {
+                                   $bamount = $value['amount']/$value['quantity'];
+                                   $bprice = $value['price']/$value['quantity'];
+                                   $btax = $value['tax']/$value['quantity'];
+                                    $discountamount = $bamount * $coupon['coupon_percent'] /100;
+                                  $discountprice = $bprice * $coupon['coupon_percent'] /100;
+                                  $discounttax = $btax * $coupon['coupon_percent'] /100;
+                                  $bamount = $value['amount'] - $discountamount;
+                                  $bprice = $value['price'] - $discountprice;
+                                  $btax = $value['tax'] - $discounttax;
+                                  $applied_coupon = 1; 
+                                  
+
+                                }
+                               }
+                               
+
+                             }
+
+                             $eligibilty = 0;
+                             $damount = 0;
+                             if (Auth::check()) {
+                                $count = Helper::check_eligible_coupon(Auth::user()->id, $match);
+                             if ($count==0) {
+                               $eligibilty = 1;
+                               $damount = $discountamount;
+                             }
+                             if ($eligibilty==1) {
+                              $coupondetails = Helper::get_coupon($match);
+                              $coupon = array();
+                              foreach ($coupondetails as $l => $m) {
+                               $coupon = array('coupon_code' => $m->coupon_name,'coupon_percent' => $m->coupon_percent,'match' => $m->uniq_match);
+                              }
+                               
+                                Session::put('coupon', $coupon);
+                             }
+                             }
+                        
+
+                         ?>
          <div class="col-4">
           <?php if($value['pack_type']=="occasional"): ?>
                             <input type="number" name="quantity" value="<?= $value['quantity'] ?>" class="quantity" min="2">
@@ -62,10 +132,9 @@ if (Auth::check()) {
                           
 
 
-
-                                 $amount += $value['amount'];
-                                 $price += $value['price'];
-                                 $tax_amount += $value['tax'];
+ $amount += $bamount;
+                                 $price += $bprice;
+                                 $tax_amount += $btax;
                            ?>
         <?php if($i == count($cart) - 1): ?>
         <?php else: ?>

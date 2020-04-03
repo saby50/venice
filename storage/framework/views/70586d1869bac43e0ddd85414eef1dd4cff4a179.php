@@ -17,9 +17,9 @@ if (Auth::check()) {
 		  <li><a href="<?= URL::to('/') ?>"><img src="<?php echo e(asset('public/images/pwa/footerhome.png')); ?>" onmouseover="this.src='<?= URL::to("public/images/pwa/footerhomea.png") ?>'" onmouseout="this.src='<?= URL::to("public/images/pwa/footerhome.png") ?>'"></a><br />Home</li>
 		<?php endif; ?>
 		<?php if (Request::is('foodorder')): ?>
-		<li><a href="<?= URL::to('foodorder') ?>"><img src="<?php echo e(asset('public/images/pwa/fooda.png')); ?>"> <br /></a>Pay</li>
+		<li><a href="<?= URL::to('foodorder') ?>"><img src="<?php echo e(asset('public/images/pwa/fooda.png')); ?>"> <br /></a>Food</li>
 		<?php else: ?>
-		<li><a href="<?= URL::to('foodorder') ?>"><img src="<?php echo e(asset('public/images/pwa/food.png')); ?>"> <br /></a>Pay</li>
+		<li><a href="<?= URL::to('foodorder') ?>"><img src="<?php echo e(asset('public/images/pwa/food.png')); ?>"> <br /></a>Food</li>
 		<?php endif; ?>
 		<?php if (Request::is('cart')): ?>
           <li class="cart-area"><a href="<?= URL::to('cart') ?>"><img src="<?php echo e(asset('public/images/pwa/carts.PNG')); ?>"></a></li>

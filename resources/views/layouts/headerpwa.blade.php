@@ -267,7 +267,13 @@
         <?php if($count != 0): ?>
         <span class="notify-bubble"><?= $count ?></span>
         <?php endif; ?></a></li>
-       <li class="profile"><a href="{{ URL::to('profile') }}" class="ripple"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+        <?php 
+        $profile = "login";
+        if (Auth::check()) {
+           $profile = "profile";
+         }
+        ?>
+       <li class="profile"><a href="<?= URL::to($profile) ?>" class="ripple"><i class="fa fa-user" aria-hidden="true"></i></a></li>
     </ul>
     <?php endif; ?>
 <?php endif; ?>
