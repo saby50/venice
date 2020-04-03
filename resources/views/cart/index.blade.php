@@ -111,7 +111,8 @@ $applied_coupon = 0;
 
                              $eligibilty = 0;
                              $damount = 0;
-                             $count = Helper::check_eligible_coupon(Auth::user()->id, $match);
+                             if (Auth::check()) {
+                                $count = Helper::check_eligible_coupon(Auth::user()->id, $match);
                              if ($count==0) {
                                $eligibilty = 1;
                                $damount = $discountamount;
@@ -125,6 +126,8 @@ $applied_coupon = 0;
                                
                                 Session::put('coupon', $coupon);
                              }
+                             }
+                            
                            
 
 
