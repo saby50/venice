@@ -131,8 +131,8 @@ foreach ($enable_food_order as $key => $value) {
                 <div class="row">
                     <div class="col-sm-12 featured_content">
                         <div class="section-header">
-                            <h2 class="section-title">Delicious</h2>
-                            <h3 style="text-align: center;">Food Order</h3>
+                            <h2 class="section-title">Order</h2>
+                            <h3 style="text-align: center;">Delicious Food</h3>
                            
                           
                         </div>
