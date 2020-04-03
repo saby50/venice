@@ -157,7 +157,7 @@ $(document).ready(function(){
              <strong class="desc"><?= $tags ?></strong>
            </div>
            <div class="col-sm-2" style="font-size: 14px;color: #FFF;margin-top: 20px;border-right: solid 1px #fff;">
-            <?= $prep_time ?><br /><span style="font-size: 11px;">Delivery Time</span>
+            <?= $prep_time ?><br /><span style="font-size: 11px;">Prep Time</span>
              
            </div>
       
