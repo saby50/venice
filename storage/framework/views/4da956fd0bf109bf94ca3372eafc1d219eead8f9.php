@@ -67,7 +67,7 @@ $applied_coupon = 0;
                              $match = $first_char."_".$service_id;
 
                              $discountamount = 0;
-                          
+                             $damount = 0;
                              $bprice = $value['price'];
                             
                              $btax = $value['tax'];
@@ -87,6 +87,7 @@ $applied_coupon = 0;
                                   $bprice = $value['price'] - $discountprice;
                                   $btax = $value['tax'] - $discounttax;
                                   $applied_coupon = 1;
+                                  $damount = $discountamount;
                                 }else {
                                    $bamount = $value['amount']/$value['quantity'];
                                    $bprice = $value['price']/$value['quantity'];
@@ -106,10 +107,30 @@ $applied_coupon = 0;
 
                              }
 
+                             $eligibilty = 0;
+                             $damount = 0;
+                             $count = Helper::check_eligible_coupon(Auth::user()->id, $match);
+                             if ($count==0) {
+                               $eligibilty = 1;
+                               $damount = $discountamount;
+                             }
+                             if ($eligibilty==1) {
+                              $coupondetails = Helper::get_coupon($match);
+                              $coupon = array();
+                              foreach ($coupondetails as $l => $m) {
+                               $coupon = array('coupon_code' => $m->coupon_name,'coupon_percent' => $m->coupon_percent,'match' => $m->uniq_match);
+                              }
+                               
+                                Session::put('coupon', $coupon);
+                             }
+                           
+
+
+
 
 
                          ?></td><td><div class="col-md-4"><img src="<?= $value['icon'] ?>" width="65px" style="border: solid 1px #ccc;"></div><br /><div class="mobiletxt"><strong>
-                             <?= $value['service_name'] ?><?php if($value['canal']): ?>
+                         <?= $value['service_name']  ?><?php if($value['canal']): ?>
                            
                          (<?= $value['canal'] ?>)
                          <?php endif; ?></strong><br />
@@ -181,9 +202,9 @@ $applied_coupon = 0;
                          <?php 
                           if ($applied_coupon==1) {
                              
-                            echo ' <span style="font-size: 14px;">Discount('.$coupon['coupon_percent'].'%):</span> <span class="orangetext">&nbsp; <i class="fa fa-inr"></i> ';
+                            echo ' <span style="font-size: 14px;">Coupon:</span> <span class="orangetext"> ';
 
-                            echo $discountamount;
+                            echo $coupon['coupon_code'];
 
                             echo ' </span> <a href="'.URL::to('remove_coupon').'">remove</a><br />';
 
@@ -213,6 +234,7 @@ $applied_coupon = 0;
                     
                         <form method="post" action="<?php echo e(URL::to('apply_coupon')); ?>" style="margin-left: 0px;margin-right: 0px;margin-top: 40px;">
                           <?php echo csrf_field(); ?>
+                          <label><strong>Coupon Code</strong></label>
                        <?php  if ($applied_coupon==1): ?>
                         <input type="text" name="coupon_code" placeholder="Enter Coupon" value="<?= $coupon['coupon_code'] ?>" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
                         <?php else: ?>

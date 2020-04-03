@@ -52,6 +52,22 @@ class Helper
               ->count();
      return $count;
   }
+  public static function check_eligible_coupon($user_id,$match) {
+     $db = DB::table('coupons')
+           ->where('uniq_match',$match)
+           ->get();
+     if (count($db)==0) {
+          $count = 1;
+     }else {
+      $coupon_id = 0;
+     foreach ($db as $key => $value) {
+        $coupon_id = $value->id;
+        $count = Helper::check_if_coupon_applied(Auth::user()->id,$coupon_id);
+     }
+     }      
+     
+     return $count;
+  }
   public static function get_coupon_id($coupon_code) {
     $db = DB::table('coupons')->where('coupon_name',$coupon_code)->get();
     $coupon_id = 0;
@@ -59,6 +75,11 @@ class Helper
       $coupon_id = $value->id;
     }
     return $coupon_id;
+  }
+  public static function get_coupon($match) {
+    $db = DB::table('coupons')->where('uniq_match',$match)->get();
+    
+    return $db;
   }
   public static function get_unit_tax($unit_id) {
       $db = DB::table('units')->where('id', $unit_id)->get();
