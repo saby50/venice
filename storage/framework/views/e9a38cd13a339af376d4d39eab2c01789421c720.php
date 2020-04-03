@@ -206,10 +206,12 @@ Home
 			</div>
 			<!-- End RecyclerView -->
 		</div>
+		<?php foreach($bottom_slider as $key => $value): ?>
 		<div class="col-12 commercial-area">
-			<img src="<?php echo e(asset('public/images/pwa/commercial.JPG')); ?>" alt="commercial.JPG">
+			<img src="<?= asset('public/images/pwa/'.$value->banner_mobile) ?>" alt="<?= $value->banner_mobile ?>">
 
 		</div>
+	<?php endforeach; ?>
 		<?php if(Helper::get_menu_item_count()!=0): ?>
 			<?php 
 $fstatus = "";
