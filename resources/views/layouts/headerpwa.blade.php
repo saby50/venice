@@ -380,7 +380,11 @@ $(document).ready(function() {
     top: 12px;
     display: none;
    }
- 
+ ul.notifications {
+  
+  width: 140px;
+  
+}
     
    .search {
      border: none;
