@@ -189,7 +189,7 @@ foreach ($enable_food_order as $key => $value) {
                                
                     </div>        
                      <div class="col-md-12" style="margin-top: 40px;text-align: center;">
-                              <a href="<?= URL::to('foodorder#restaurants') ?>" style="color: blue;font-size: 16px;text-decoration: underline;">View All</a>
+                              <a href="<?= URL::to('foodorder#restaurants') ?>" class="btn btn-info">View All</a>
                               
                             </div>   
                  </div>
