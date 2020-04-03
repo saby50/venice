@@ -6,6 +6,10 @@ Cart
 
 @section('content')
 
+<?php 
+$applied_coupon = 0;
+?>
+
 <section id="hero_login" class="cartarea">
         <div class="hero-container">
 
@@ -18,7 +22,9 @@ Cart
                     <div class="loader"></div>
                     <div class="head row">
                         <div class="col-md-8" style="padding-top: 20px;padding-left: 40px;">
-                            <h3>Your Cart</h3>
+                            <h3>Your Cart</h3><br />
+
+                       
 
                         </div>
                          <div class="col-md-4" style="padding-top: 20px;padding-left: 40px;">
@@ -54,8 +60,58 @@ Cart
                               }
                              
                           ?>
+                          
                     			<tr>
-                    			<td><table><tr><td><a href="<?= URL::to('cart/remove_item/'.$key) ?>" style="top: 10px;position: relative;"><img src="{{ asset('public/images/cross.jpg') }}" class="remove" data="<?= $key ?>"></a></td><td><div class="col-md-4"><img src="<?= $value['icon'] ?>" width="65px" style="border: solid 1px #ccc;"></div><br /><div class="mobiletxt"><strong><?= $value['service_name'] ?><?php if($value['canal']): ?>
+                    			<td><table><tr><td><a href="<?= URL::to('cart/remove_item/'.$key) ?>" style="top: 10px;position: relative;"><img src="{{ asset('public/images/cross.jpg') }}" class="remove" data="<?= $key ?>"></a> <?php 
+                             $type = $value['type'];
+                             $service_id = $value['service_id'];
+                             $first_char = mb_substr($type, 0,1);
+                             $match = $first_char."_".$service_id;
+
+                             $discountamount = 0;
+                          
+                             $bprice = $value['price'];
+                            
+                             $btax = $value['tax'];
+                             $bamount = $bprice + $btax;
+                             
+                              $coupon = Session::get('coupon');
+
+                           
+                             if (!empty($coupon)) {
+                             //  $cmatch = explode(",", $coupon['match']);
+                               if ($coupon['match']==$match) {
+                                if ($value['quantity']==1) {
+                                  $discountamount = $bamount * $coupon['coupon_percent'] /100;
+                                  $discountprice = $bprice * $coupon['coupon_percent'] /100;
+                                  $discounttax = $btax * $coupon['coupon_percent'] /100;
+                                  $bamount = $value['amount'] - $discountamount;
+                                  $bprice = $value['price'] - $discountprice;
+                                  $btax = $value['tax'] - $discounttax;
+                                  $applied_coupon = 1;
+                                }else {
+                                   $bamount = $value['amount']/$value['quantity'];
+                                   $bprice = $value['price']/$value['quantity'];
+                                   $btax = $value['tax']/$value['quantity'];
+                                    $discountamount = $bamount * $coupon['coupon_percent'] /100;
+                                  $discountprice = $bprice * $coupon['coupon_percent'] /100;
+                                  $discounttax = $btax * $coupon['coupon_percent'] /100;
+                                  $bamount = $value['amount'] - $discountamount;
+                                  $bprice = $value['price'] - $discountprice;
+                                  $btax = $value['tax'] - $discounttax;
+                                  $applied_coupon = 1; 
+                                  
+
+                                }
+                               }
+                               
+
+                             }
+
+
+
+                         ?></td><td><div class="col-md-4"><img src="<?= $value['icon'] ?>" width="65px" style="border: solid 1px #ccc;"></div><br /><div class="mobiletxt"><strong>
+                             <?= $value['service_name'] ?><?php if($value['canal']): ?>
                            
                          (<?= $value['canal'] ?>)
                          <?php endif; ?></strong><br />
@@ -67,6 +123,8 @@ Cart
                           - <?= $value['occassion_text'] ?>
                            <?php endif; ?>)
                          <?php endif; ?>
+
+                       
                           
 
                          </strong><br />
@@ -76,7 +134,7 @@ Cart
                             </div></td>
                           </tr></table>
                            </td>
-                    			<td style="text-align: center;"><span class="orangetext"><i class='fa fa-inr'></i>  <?= $value['amount'] ?></span><br />
+                    			<td style="text-align: center;"><span class="orangetext"><i class='fa fa-inr'></i>  <?= $bamount ?></span><br />
                             <?php if($value['pack_type']=="occasional"): ?>
                             <input type="number" name="quantity" value="<?= $value['quantity'] ?>" class="quantity" min="2">
                             <?php else: ?>
@@ -91,13 +149,14 @@ Cart
                            </td>
                     		   </tr>
                     		   <?php 
-                           $coupon = Session::get('coupon');
+                          
 
 
 
-                                 $amount += $value['amount'];
-                                 $price += $value['price'];
-                                 $tax_amount += $value['tax'];
+                                 $amount += $bamount;
+                                 $price += $bprice;
+                                 $tax_amount += $btax;
+                                 
                     		   ?>
                     		<?php endforeach; ?>
                         
@@ -122,26 +181,20 @@ Cart
                       <span style="font-size: 14px;">Subtotal:</span> <span class="orangetext"><i class='fa fa-inr'></i> <?= (double)$price ?></span> &nbsp;&nbsp;| &nbsp;&nbsp;
                          <span style="font-size: 14px;">GST:</span> <span class="orangetext"><i class='fa fa-inr'></i> <?= (double)$tax_amount ?></span><br />
                          <?php 
-                          if (!empty($coupon)) {
-                             $discountamount = $amount * $coupon['coupon_percent'] /100;
-                            echo ' <span style="font-size: 14px;">Coupon Discount('.$coupon['coupon_percent'].'%):</span> <span class="orangetext">&nbsp;&nbsp; <i class="fa fa-inr"></i>';
+                          if ($applied_coupon==1) {
+                             
+                            echo ' <span style="font-size: 14px;">Discount('.$coupon['coupon_percent'].'%):</span> <span class="orangetext">&nbsp; <i class="fa fa-inr"></i> ';
 
                             echo $discountamount;
 
-                            echo ' </span><br />';
+                            echo ' </span> <a href="'.URL::to('remove_coupon').'">remove</a><br />';
 
                           }
 
 
                          ?>
                       <span style="font-size: 14px;">Total:</span> <span class="orangetext" style="font-size: 20px;font-weight: bold;"><i class='fa fa-inr'></i>  <?php
-                        if (!empty($coupon)) {
-                          
-                          $amount = $amount - $discountamount;
-
-                        }else {
-                          $amount = $amount;
-                        }
+                        
 
                        echo number_format($amount) 
 
@@ -154,20 +207,60 @@ Cart
                             <a href="{{ URL::to('/') }}"><button name="addtocart" type="button" class="addtocart btn" style="width: 200px;"> Continue Shopping</button></a>
                            
 
+
                           </div>
-                            <div class="col-md-12" style="display: none;">
-                        <form method="post" action="{{ URL::to('apply_coupon') }}" style="margin-left: 0px;margin-right: 0px;margin-top: 60px;">
+                          @if(Auth::check()):
+                            <div class="col-md-12">
+              
+                    
+                        <form method="post" action="{{ URL::to('apply_coupon') }}" style="margin-left: 0px;margin-right: 0px;margin-top: 40px;">
                           @csrf
-                          <?php  if (!empty($coupon)): ?>
-                        <input type="text" name="coupon_code" placeholder="Enter Coupon" value="<?= $coupon['coupon_code'] ?>" style="text-transform: uppercase;" class="form-control coupon_code"><br />
+                       <?php  if ($applied_coupon==1): ?>
+                        <input type="text" name="coupon_code" placeholder="Enter Coupon" value="<?= $coupon['coupon_code'] ?>" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
                         <?php else: ?>
-                           <input type="text" name="coupon_code" placeholder="Enter Coupon" value="" style="text-transform: uppercase;" class="form-control coupon_code"><br />
+                           <input type="text" name="coupon_code" placeholder="Enter Coupon" value="" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
                       <?php endif; ?>
                         <button type="submit" class="btn checkoutbtn"> Apply Coupon</button>
 
                       </form>
-                        
+                      <div style="margin-top: 20px;">
+                                      @if (session('status'))
+        <div class="widget no-color">
+            <div class="alert alert-success">
+                <div class="notify-content">
+                   {{ session('status') }}!
+
+                </div>
+            </div>
+            </div>
+        </div>
+      @endif
+      @if (session('error'))
+        <div class="widget no-color">
+            <div class="alert alert-danger">
+                <div class="notify-content">
+                   {{ session('error') }}!
+
+                </div>
+            </div>
+            </div>
+        </div>
+      @endif
+        @if (session('warning'))
+        <div class="widget no-color">
+            <div class="alert alert-warning">
+                <div class="notify-content">
+                   {{ session('warning') }}!
+
+                </div>
+            </div>
+            </div>
+        </div>
+      @endif
+      </div>
+      @endif
                       </div>
+                           
                          </div>
                           </td>
                         <td ></td>
@@ -199,6 +292,13 @@ Cart
     <div id="home" class="container tab-pane active"><br>
      <form action="{{ URL::to('cart/checkout') }}" method="post" class="checkoutform">
        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+       <?php
+         $coupon = Session::get('coupon');
+       ?>
+      <?php if (!empty($coupon)): ?>
+
+         <input type="hidden" name="coupon_id" value="<?= Helper::get_coupon_id($coupon['coupon_code']) ?>">
+      <?php endif; ?>
        <div class="form-group">
           <div class="" style="font-size: 13px;">Name<span style="color: red;">*</span></div>
           @if(Auth::check())

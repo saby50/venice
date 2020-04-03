@@ -45,6 +45,21 @@ class Helper
     return json_encode($data);
 
   }
+  public static function check_if_coupon_applied($user_id, $coupon_id) {
+     $count = DB::table('coupon_applied')
+              ->where('user_id',$user_id)
+              ->where('coupon_id',$coupon_id)
+              ->count();
+     return $count;
+  }
+  public static function get_coupon_id($coupon_code) {
+    $db = DB::table('coupons')->where('coupon_name',$coupon_code)->get();
+    $coupon_id = 0;
+    foreach ($db as $key => $value) {
+      $coupon_id = $value->id;
+    }
+    return $coupon_id;
+  }
   public static function get_unit_tax($unit_id) {
       $db = DB::table('units')->where('id', $unit_id)->get();
       $tax_id = 0;

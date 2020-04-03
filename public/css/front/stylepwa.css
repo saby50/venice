@@ -549,7 +549,7 @@ ul.inclusions li {
 ul.notifications {
   list-style: none;
   float: right;
-  width: 90px;
+  width: 140px;
   margin-right: -30px;
 }
 ul.notifications li {

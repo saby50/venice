@@ -267,7 +267,7 @@
         <?php if($count != 0): ?>
         <span class="notify-bubble"><?= $count ?></span>
         <?php endif; ?></a></li>
-       <li class="noti" style="display: none;"><a href="<?php echo e(URL::to('notifications')); ?>" class="ripple"><i class="fa fa-bell" aria-hidden="true"></i></a></li>
+       <li class="profile"><a href="<?php echo e(URL::to('profile')); ?>" class="ripple"><i class="fa fa-user" aria-hidden="true"></i></a></li>
     </ul>
     <?php endif; ?>
 <?php endif; ?>

@@ -160,23 +160,62 @@ class CartController extends Controller
       return redirect()->back();
 
     }
+    function remove_coupon() {
+         Session::flash('coupon');
+
+        return redirect('cart')->withInput()->with('warning','Coupon  Code Removed');
+    }
     
     function apply_coupon(Request $request){
        $coupon_code = $request['coupon_code'];
-       $db = DB::table('coupons')->where('coupon_name',$coupon_code)->get();
+       $cart = Session::get('cart');
+       $type = "";
+       $matcharray = array();
+       $service_id = 0;
+        $match = "";
+      foreach ($cart as $key => $value) {
+        $type = $value['type'];
+        $service_id = $value['service_id'];
+        $first_char = mb_substr($type, 0,1);
+        $match.= $first_char."_".$service_id.",";
+      }
+
+      $matcharray = explode(",", rtrim($match,","));
+
+           $db = DB::table('coupons')->where('coupon_name',$coupon_code)->get();
+           $coupon_id = 0;
+           foreach ($db as $key => $value) {
+            $coupon_id = $value->id;
+           }
+       
+       if (Helper::check_if_coupon_applied(Auth::user()->id,$coupon_id)) {
+         Session::flash('coupon');
+
+        return redirect('cart')->withInput()->with('error','Coupon already applied');
+      }else {
+        $db = DB::table('coupons')->where('coupon_name',$coupon_code)->get();
        $coupon = array();
        if (count($db)==0) {
-         Session::put('coupon', $coupon);
+        // Session::put('coupon', $coupon);
          return redirect('cart')->withInput()->with('error','Coupon not exist!');
        }else {
         foreach ($db as $key => $value) {
-          $coupon_percent = $value->coupon_percent;
+          if (in_array($value->uniq_match, $matcharray)) {
+             $coupon_percent = $value->coupon_percent;
+             $coupon = array('coupon_code' => $coupon_code,'coupon_percent' => $coupon_percent,'match' => $value->uniq_match);
+            Session::put('coupon', $coupon);
+            return redirect('cart')->withInput()->with('status','Coupon Applied!');
+          }else {
+             return redirect('cart')->withInput()->with('error','Coupon not exist!');
+          }
+          
         }
-        $coupon = array('coupon_code' => $coupon_code,'coupon_percent' => $coupon_percent);
-        Session::put('coupon', $coupon);
+       
 
-        return redirect('cart')->withInput()->with('status','Coupon Applied!');
+        
        }
+      }
+       
 
        
     }
