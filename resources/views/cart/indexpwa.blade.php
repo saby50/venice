@@ -155,11 +155,11 @@ if (Auth::check()) {
                           @csrf
                           <label><strong>Coupon Code</strong></label>
                        <?php  if ($applied_coupon==1): ?>
-                        <input type="text" name="coupon_code" placeholder="Enter Coupon" value="<?= $coupon['coupon_code'] ?>" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
+                        <input type="text" name="coupon_code" placeholder="Enter Coupon" value="<?= $coupon['coupon_code'] ?>" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();" required="required"><br />
                         <?php else: ?>
-                           <input type="text" name="coupon_code" placeholder="Enter Coupon" value="" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
+                           <input type="text" name="coupon_code" placeholder="Enter Coupon" value="" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();" required="required"><br />
                       <?php endif; ?>
-                        <button type="submit" class="btn checkoutbtn"> Apply Coupon</button>
+                        <button type="submit" class="btn checkoutbtn3"> Apply Coupon</button>
 
                       </form>
                       <div style="margin-top: 20px;">
