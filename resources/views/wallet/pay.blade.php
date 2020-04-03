@@ -13,7 +13,7 @@ Pay
 	<div class="row">
 		<div class="col-12 gv-balance">
 			
-			<input type="text" name="search" class="form-control searchbox" placeholder="Search by Keywords, Entity....."  ng-model="searchText" autofocus="autofocus">
+			<input type="text" name="search" class="form-control searchboxarea" placeholder="Search by Keywords, Entity....."  ng-model="searchText" autofocus="autofocus">
 			
 		</div>
 	</div>
@@ -49,9 +49,9 @@ Pay
           var data = $(this).attr('data');
           window.location = data;
 		});
-		$('.searchbox').vibrate();
+		$('.searchboxarea').vibrate();
 
-		$('.searchbox').click();
+		$('.searchboxarea').click();
 		
 	});
 	  var app = angular.module('myApp', ['angularUtils.directives.dirPagination'], function($interpolateProvider) {
