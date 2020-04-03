@@ -64,7 +64,7 @@
  <style type="text/css">
     
     .slider-pwa {
-      margin-top: 115px;
+      margin-top: 124px;
     }
       #pre-header {
     height: 60px;
@@ -106,7 +106,7 @@
       <style type="text/css">
     
     .slider-pwa {
-      margin-top: 115px;
+      margin-top: 124px;
     }
       #pre-header {
     height: 60px;
