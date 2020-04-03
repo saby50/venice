@@ -210,7 +210,7 @@ Home
 		</div>
 		<?php foreach($bottom_slider as $key => $value): ?>
 		<div class="col-12 commercial-area">
-			<img src="<?= asset('public/images/pwa/'.$value->banner_mobile) ?>" alt="<?= $value->banner_mobile ?>">
+			<a href="<?= URL::to($value->slider_link) ?>"><img src="<?= asset('public/images/pwa/'.$value->banner_mobile) ?>" alt="<?= $value->banner_mobile ?>"></a>
 
 		</div>
 	<?php endforeach; ?>
