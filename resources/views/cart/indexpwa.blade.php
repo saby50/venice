@@ -147,8 +147,61 @@ if (Auth::check()) {
         ?>
 
       <?php endforeach; ?>
+      @if(Auth::check())
+                            <div class="">
+               <hr />
+                    
+                        <form method="post" action="{{ URL::to('apply_coupon') }}">
+                          @csrf
+                          <label><strong>Coupon Code</strong></label>
+                       <?php  if ($applied_coupon==1): ?>
+                        <input type="text" name="coupon_code" placeholder="Enter Coupon" value="<?= $coupon['coupon_code'] ?>" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
+                        <?php else: ?>
+                           <input type="text" name="coupon_code" placeholder="Enter Coupon" value="" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
+                      <?php endif; ?>
+                        <button type="submit" class="btn checkoutbtn"> Apply Coupon</button>
+
+                      </form>
+                      <div style="margin-top: 20px;">
+                                      @if (session('status'))
+        <div class="widget no-color">
+            <div class="alert alert-success">
+                <div class="notify-content">
+                   {{ session('status') }}!
+
+                </div>
+            </div>
+            </div>
+        </div>
+      @endif
+      @if (session('error'))
+        <div class="widget no-color">
+            <div class="alert alert-danger">
+                <div class="notify-content">
+                   {{ session('error') }}!
+
+                </div>
+            </div>
+            </div>
+        </div>
+      @endif
+        @if (session('warning'))
+        <div class="widget no-color">
+            <div class="alert alert-warning">
+                <div class="notify-content">
+                   {{ session('warning') }}!
+
+                </div>
+            </div>
+            </div>
+        </div>
+      @endif
+      </div>
+      @endif
+    </div>
     </div>
     <div class="recyclerview">
+      
 <div class="row">
 
       <div class="col-12">
@@ -174,6 +227,14 @@ if (Auth::check()) {
                <div class="col-4" style="text-align: right;">
                 <span class="billdet"><i class='fa fa-inr'></i> <?= (double)$tax_amount ?></span>
               </div>
+              <?php  if ($applied_coupon==1): ?>
+              <div class="col-6">
+                Coupon
+              </div>
+               <div class="col-6" style="text-align: right;">
+                 <span class="billdet"> <?php echo $coupon['coupon_code'].' <a href="'.URL::to('remove_coupon').'" style="text-decoration: underline;">(remove)</a>'; ?></span>
+              </div>
+            <?php endif; ?>
               <div class="col-8">
                 Total
               </div>
@@ -186,7 +247,7 @@ if (Auth::check()) {
     </div>
        <div class="recyclerview">
 <div class="row">
-
+        
       <div class="col-12">
         <div class="recyclerviewhead" style="margin-bottom: 10px;color: #ff7d01;text-align: center;width: 100%;">
       Express Checkout
@@ -240,7 +301,7 @@ if (Auth::check()) {
 
             </div>
        </form>
-      
+        
     </div>
 <?php endif; ?>
   <div class="modal fade center" id="bookingModal" role="dialog">

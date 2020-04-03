@@ -37,11 +37,11 @@ class WebController extends Controller
       }else {
          $featured = DB::table('services')->inRandomOrder()->take(4)->get();
          $featured2 = DB::table('packs')->inRandomOrder()->where('pack_type','!=','leads')->where('pack_type','!=','leads2')->where('pack_type','!=','leads3')->take(4)->get();
-         $slider = DB::table('slides')->where('id','14')->get();
+         $slider = DB::table('slides')->where('visibility','1')->inRandomOrder()->take(1)->get();
          $movies = DB::table('movies')->inRandomOrder()->take(4)->get();
           $events = DB::table('events')->where('status','published')->inRandomOrder()->take(6)->get();
            $foodorder = DB::table('units')->where('order_food','yes')->where('suspended','no')->orderBy('enable_food_order','desc')->take(6)->get();
-          
+          $bottom_slider = DB::table('bottom_slides')->where('visibility',1)->inRandomOrder()->take(1)->get();
           $enable_food_order = DB::table('food_order_status')->where('id','1')->get();
          return view('home', compact('featured','featured2','slider','movies','foodorder','events','enable_food_order','offlineres'));
        }

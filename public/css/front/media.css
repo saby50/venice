@@ -1,7 +1,10 @@
 @media (min-width: 1900px){
 	#nav-menu-container{margin-right: -250px;}
 	#header #logo{margin-left: -200px;}
-
+    .sidebar-left {
+    left: 376px !important;
+   
+   }
 
 	#aminities{height: 35vh;}
 

@@ -228,7 +228,7 @@ $applied_coupon = 0;
 
 
                           </div>
-                          @if(Auth::check()):
+                          @if(Auth::check())
                             <div class="col-md-12">
               
                     

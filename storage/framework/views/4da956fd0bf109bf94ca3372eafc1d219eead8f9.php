@@ -60,7 +60,8 @@ $applied_coupon = 0;
                           ?>
                           
                     			<tr>
-                    			<td><table><tr><td><a href="<?= URL::to('cart/remove_item/'.$key) ?>" style="top: 10px;position: relative;"><img src="<?php echo e(asset('public/images/cross.jpg')); ?>" class="remove" data="<?= $key ?>"></a> <?php 
+                    			<td><table><tr><td><a href="<?= URL::to('cart/remove_item/'.$key) ?>" style="top: 10px;position: relative;"><img src="<?php echo e(asset('public/images/cross.jpg')); ?>" class="remove" data="<?= $key ?>"></a> 
+                            <?php 
                              $type = $value['type'];
                              $service_id = $value['service_id'];
                              $first_char = mb_substr($type, 0,1);
@@ -109,7 +110,8 @@ $applied_coupon = 0;
 
                              $eligibilty = 0;
                              $damount = 0;
-                             $count = Helper::check_eligible_coupon(Auth::user()->id, $match);
+                             if (Auth::check()) {
+                                $count = Helper::check_eligible_coupon(Auth::user()->id, $match);
                              if ($count==0) {
                                $eligibilty = 1;
                                $damount = $discountamount;
@@ -123,12 +125,8 @@ $applied_coupon = 0;
                                
                                 Session::put('coupon', $coupon);
                              }
-                           
-
-
-
-
-
+                             }
+                          
                          ?></td><td><div class="col-md-4"><img src="<?= $value['icon'] ?>" width="65px" style="border: solid 1px #ccc;"></div><br /><div class="mobiletxt"><strong>
                          <?= $value['service_name']  ?><?php if($value['canal']): ?>
                            
