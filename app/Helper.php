@@ -337,7 +337,7 @@ class Helper
       return $response;
   }
    public static function get_item_addons_list($item_addon_id) {   
-    $data = DB::table('unit_menu_items_add_ons_list')->where('item_addon_id', $item_addon_id)->get();
+    $data = DB::table('unit_menu_items_add_ons_list')->where('id', $item_addon_id)->get();
     return $data;
   }
     public static function get_customize($item_id) { 
