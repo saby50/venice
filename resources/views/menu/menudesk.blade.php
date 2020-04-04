@@ -1007,11 +1007,12 @@ font-size: 16px;
   text-align: right;
 }
 .sidebar-left  {
-  position: sticky;
+ position: fixed;
   z-index: 1;
-  top: 250px;
-  
+  top: 400px;
+  left: 70px;
    width: 130px;
+
 
 }
 .addButton {
@@ -1062,11 +1063,12 @@ font-size: 16px;
     color: #f3a423;
 }
 .sticky {
-  
+   top: 20px;
 }
 .sticky2 {
    top: 20px;
 }
+
 ul.sidebar-items {
 width: 200px;
 }
@@ -1092,12 +1094,10 @@ ul.sidebar-items li {
   font-size: 14px;
 }
 .itemsarea {
-  margin-left: 220px;
+ margin-left: 220px;
   border-left:solid 1px #ccc;
   border-right:solid 1px #ccc;
-  z-index: 0;
-  flex-grow: 1;
-      margin-top: -275px;
+
 }
 .foodrow {
   border-bottom: solid 1px #ccc;
