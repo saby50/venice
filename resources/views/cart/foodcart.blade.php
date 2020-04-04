@@ -107,7 +107,7 @@ if (Auth::check()) {
 
 
        ?>
-                         &nbsp;&nbsp;&nbsp; <span class="orangetext"><i class='fa fa-inr'></i>  <?= $sprice ?></span>
+                         &nbsp;&nbsp;&nbsp; <span class="orangetext"><i class='fa fa-inr'></i>  <?= $sprice  + $customprice  ?></span>
         </div>
         </div>
         </div>
