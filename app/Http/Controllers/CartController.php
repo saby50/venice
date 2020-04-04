@@ -67,7 +67,7 @@ class CartController extends Controller
        if(Session::has('cart')) {
            if (count($cart)==0) {
             $cart[] = array('service_name' => $service_name,'service_id' => $request['service_id'],'quantity' => $request['quantity'],
-        'time' => $request['timepicker'],'date' => $request['datepicker'],'canal' => $option_name,'canal_id' => $request['canal'],'type' => $type,'amount' =>$request['amount'],'price' => $request['price'],'tax' => $request['taxes'],'icon' => $request['icon'],'pack_type' => $request['pack_type'],'occasion_type' => $request['occasion_type'],'occassion_text' => $occasiontext);
+        'time' => $request['timepicker'],'date' => $request['datepicker'],'canal' => $option_name,'canal_id' => $request['canal'],'type' => $type,'amount' =>$request['amount'],'price' => $request['price'],'tax' => $request['taxes'],'icon' => $request['icon'],'pack_type' => $request['pack_type'],'occasion_type' => $request['occasion_type'],'occassion_text' => $occasiontext,'is_coupon_applied' => 'no','coupon_id' => '0','discoun_amount' => '0');
            
         }else {
           $comparetextservice = "";
@@ -131,7 +131,7 @@ class CartController extends Controller
             
           } else {
              $cart[] = array('service_name' => $service_name,'service_id' => $request['service_id'],'quantity' => $request['quantity'],
-        'time' => $request['timepicker'],'date' => $request['datepicker'],'canal' => $option_name,'canal_id' => $request['canal'],'type' => $type,'amount' =>$request['amount'],'price' => $request['price'],'tax' => $request['taxes'],'icon' => $request['icon'],'pack_type' => $request['pack_type'],'occasion_type' => $request['occasion_type'],'occassion_text' => $occasiontext);
+        'time' => $request['timepicker'],'date' => $request['datepicker'],'canal' => $option_name,'canal_id' => $request['canal'],'type' => $type,'amount' =>$request['amount'],'price' => $request['price'],'tax' => $request['taxes'],'icon' => $request['icon'],'pack_type' => $request['pack_type'],'occasion_type' => $request['occasion_type'],'occassion_text' => $occasiontext,'is_coupon_applied' => 'no','coupon_id' => '0','discoun_amount' => '0');
              
           }
          
@@ -139,7 +139,7 @@ class CartController extends Controller
         }
       }else {
            $cart[] = array('service_name' => $service_name,'service_id' => $request['service_id'],'quantity' => $request['quantity'],
-        'time' => $request['timepicker'],'date' => $request['datepicker'],'canal' => $option_name,'canal_id' => $request['canal'],'type' => $type,'amount' =>$request['amount'],'price' => $request['price'],'tax' => $request['taxes'],'icon' => $request['icon'],'pack_type' => $request['pack_type'],'occasion_type' => $request['occasion_type'],'occassion_text' => $occasiontext);
+        'time' => $request['timepicker'],'date' => $request['datepicker'],'canal' => $option_name,'canal_id' => $request['canal'],'type' => $type,'amount' =>$request['amount'],'price' => $request['price'],'tax' => $request['taxes'],'icon' => $request['icon'],'pack_type' => $request['pack_type'],'occasion_type' => $request['occasion_type'],'occassion_text' => $occasiontext,'is_coupon_applied' => 'no','coupon_id' => '0','discoun_amount' => '0');
         
       }
 
@@ -163,6 +163,14 @@ class CartController extends Controller
     function remove_coupon() {
          Session::flash('coupon');
 
+         $cart = Session::get('cart');
+         foreach ($cart as &$item) {
+            $item['is_coupon_applied'] = 'no';
+              $item['coupon_id'] = 0;
+              $item['discoun_amount'] = 0;
+         }
+         $ct = Session::put('cart', $cart);
+
         return redirect('cart')->withInput()->with('warning','Coupon  Code Removed');
     }
     
@@ -173,6 +181,7 @@ class CartController extends Controller
        $matcharray = array();
        $service_id = 0;
         $match = "";
+        $item_amount = 0;
       foreach ($cart as $key => $value) {
         $type = $value['type'];
         $service_id = $value['service_id'];
@@ -190,10 +199,10 @@ class CartController extends Controller
        
        if (Helper::check_if_coupon_applied(Auth::user()->id,$coupon_id)) {
          Session::flash('coupon');
-
-        return redirect('cart')->withInput()->with('error','Coupon already applied');
+         return redirect('cart')->withInput()->with('error','Coupon already used!');
       }else {
-        $db = DB::table('coupons')->where('coupon_name',$coupon_code)->get();
+             
+       $db = DB::table('coupons')->where('coupon_name',$coupon_code)->get();
        $coupon = array();
        if (count($db)==0) {
         // Session::put('coupon', $coupon);
@@ -204,6 +213,21 @@ class CartController extends Controller
              $coupon_percent = $value->coupon_percent;
              $coupon = array('coupon_code' => $coupon_code,'coupon_percent' => $coupon_percent,'match' => $value->uniq_match);
             Session::put('coupon', $coupon);
+            list($a,$service_id) = explode("_", $value->uniq_match);
+            foreach ($cart as &$item) {
+                 $item['is_coupon_applied'] = 'no';
+              $item['coupon_id'] = 0;
+              $item['discoun_amount'] = 0;
+                if ($service_id==$item['service_id']) {
+                   $item['is_coupon_applied'] = 'yes';
+                   $item['coupon_id'] = $value->id;
+                   $item_amount = $item['amount'];
+                   $bamount = $item_amount / $item['quantity'];
+                   $discoun_amount = $bamount  * $value->coupon_percent / 100;
+                   $item['discoun_amount'] = $discoun_amount;
+                }
+            }
+            $ct = Session::put('cart', $cart);
             return redirect('cart')->withInput()->with('status','Coupon Applied!');
           }else {
              return redirect('cart')->withInput()->with('error','Coupon not exist!');

@@ -276,7 +276,9 @@ $serviceids = "";
               echo "EC(Bookmyshow) - ".Helper::get_bms_id($value[0]['order_id']);
             }else if($v['payment_method']=="wallet") {
               echo "(GV Pay)";
-            }      
+            }else if($v['payment_method']=="coupon") {
+              echo "(Coupon)";
+            }       
             ?><br /><?php 
             $foc_status = Helper::check_foc_status($value[0]['order_id']);
             if (count($foc_status) != 0) {
@@ -288,6 +290,12 @@ $serviceids = "";
               echo "<span style='color:red;'>FOC(".$fstatus."): ".$reason."</span>";
 
             }
+            ?>
+            <?php 
+               if ($v['is_coupon_applied']=="yes") {
+                 echo "<strong>Coupon:</strong> <span style='color:red;'>".Helper::get_coupon_name($v['coupon_id'])."</span>";
+               }
+                   
             ?></td>
             <td style="width: 400px;">
            
@@ -363,8 +371,12 @@ $serviceids = "";
 
                    ?>
                   <input type="hidden" name="totalamount" class="totalamount" value="<?= $v['amount'] ?>">
-                  
-                <i class="fa fa-inr"></i> <?= $v['amount'] ?>
+                <?php if ($v['is_coupon_applied']=="yes"): ?>
+                <strike><i class="fa fa-inr"></i> <?= $v['amount'] ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['discountamount'] ?>
+                <?php else: ?>
+                  <i class="fa fa-inr"></i> <?= $v['amount'] ?>
+
+              <?php endif; ?>
                 <?php 
                 $refund = $v['refund'];
                 if ($refund=="yes") {
@@ -464,11 +476,12 @@ $serviceids = "";
             } else if($v['payment_method']=="paytm_qr") {
               echo "POS(Paytm QR)";
 
-            } else if($v['payment_method']=="bookmyshow") {
+            }else if($v['payment_method']=="bookmyshow") {
               echo "EC(Bookmyshow) - ".Helper::get_bms_id($value[0]['order_id']);
-
             }else if($v['payment_method']=="wallet") {
-               echo "(GV Pay)";
+              echo "(GV Pay)";
+            }else if($v['payment_method']=="coupon") {
+              echo "(Coupon)";
             }     
             ?><?php 
             $foc_status = Helper::check_foc_status($value[0]['order_id']);
@@ -516,7 +529,12 @@ $serviceids = "";
                   $totalamount += $v['amount'];
 
 
-                   ?><i class="fa fa-inr"></i> <?= $v['amount'] ?>
+                   ?><?php if ($v['is_coupon_applied']=="yes"): ?>
+                <strike><i class="fa fa-inr"></i> <?= $v['amount'] ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['discountamount'] ?>
+                <?php else: ?>
+                  <i class="fa fa-inr"></i> <?= $v['amount'] ?>
+
+              <?php endif; ?>
                   <input type="hidden" name="totalamount" class="totalamount" value="<?= $v['amount'] ?>"></td>
            
   
@@ -553,12 +571,13 @@ $serviceids = "";
             } else if($v['payment_method']=="paytm_qr") {
               echo "POS(Paytm QR)";
 
-            } else if($v['payment_method']=="bookmyshow") {
+            }else if($v['payment_method']=="bookmyshow") {
               echo "EC(Bookmyshow) - ".Helper::get_bms_id($value[0]['order_id']);
-
             }else if($v['payment_method']=="wallet") {
               echo "(GV Pay)";
-            }       
+            }else if($v['payment_method']=="coupon") {
+              echo "(Coupon)";
+            }          
             ?></td>
             <td style="width: 400px;"><?php foreach($value as $k => $v): ?>
             <div class="col-md-8">
@@ -609,7 +628,12 @@ $serviceids = "";
               <td>  <?php
                   $totalamount += $v['amount'];
 
-                   ?><i class="fa fa-inr"></i> <?= $v['amount'] ?>
+                   ?><?php if ($v['is_coupon_applied']=="yes"): ?>
+                <strike><i class="fa fa-inr"></i> <?= $v['amount'] ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['discountamount'] ?>
+                <?php else: ?>
+                  <i class="fa fa-inr"></i> <?= $v['amount'] ?>
+
+              <?php endif; ?>
                  <input type="hidden" name="totalamount" class="totalamount" value="<?= $v['amount'] ?>"></td>
           
 

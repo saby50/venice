@@ -5,7 +5,14 @@ Cart
 <?php $__env->startSection('content'); ?>
 
 <?php 
-$applied_coupon = 0;
+$applied_coupon = "no";
+if (Auth::check()) {
+  $wall_amount = Crypt::decrypt(Auth::user()->wall_am);
+ }else {
+  $wall_amount = 0;
+ }
+  $amount = 0;
+  $disamount = "";
 ?>
 
 <section id="hero_login" class="cartarea">
@@ -77,7 +84,7 @@ $applied_coupon = 0;
                               $coupon = Session::get('coupon');
 
                            
-                             if (!empty($coupon)) {
+                             if ($value['is_coupon_applied']=="yes") {
                              //  $cmatch = explode(",", $coupon['match']);
                                if ($coupon['match']==$match) {
                                 if ($value['quantity']==1) {
@@ -87,7 +94,7 @@ $applied_coupon = 0;
                                   $bamount = $value['amount'] - $discountamount;
                                   $bprice = $value['price'] - $discountprice;
                                   $btax = $value['tax'] - $discounttax;
-                                  $applied_coupon = 1;
+                                  $applied_coupon = $value['is_coupon_applied'];
                                   $damount = $discountamount;
                                 }else {
                                    $bamount = $value['amount']/$value['quantity'];
@@ -99,7 +106,7 @@ $applied_coupon = 0;
                                   $bamount = $value['amount'] - $discountamount;
                                   $bprice = $value['price'] - $discountprice;
                                   $btax = $value['tax'] - $discounttax;
-                                  $applied_coupon = 1; 
+                                   $applied_coupon = $value['is_coupon_applied'];
                                   
 
                                 }
@@ -107,25 +114,13 @@ $applied_coupon = 0;
                                
 
                              }
+                            
+                             $disamount.= $discountamount.",";
+                              
 
-                             $eligibilty = 0;
-                             $damount = 0;
-                             if (Auth::check()) {
-                                $count = Helper::check_eligible_coupon(Auth::user()->id, $match);
-                             if ($count==0) {
-                               $eligibilty = 1;
-                               $damount = $discountamount;
-                             }
-                             if ($eligibilty==1) {
-                              $coupondetails = Helper::get_coupon($match);
-                              $coupon = array();
-                              foreach ($coupondetails as $l => $m) {
-                               $coupon = array('coupon_code' => $m->coupon_name,'coupon_percent' => $m->coupon_percent,'match' => $m->uniq_match);
-                              }
-                               
-                                Session::put('coupon', $coupon);
-                             }
-                             }
+                            
+
+                            
                           
                          ?></td><td><div class="col-md-4"><img src="<?= $value['icon'] ?>" width="65px" style="border: solid 1px #ccc;"></div><br /><div class="mobiletxt"><strong>
                          <?= $value['service_name']  ?><?php if($value['canal']): ?>
@@ -151,7 +146,13 @@ $applied_coupon = 0;
                             </div></td>
                           </tr></table>
                            </td>
-                    			<td style="text-align: center;"><span class="orangetext"><i class='fa fa-inr'></i>  <?= $bamount ?></span><br />
+                    			<td style="text-align: center;"><span class="orangetext">  <?php 
+                                if ($value['is_coupon_applied']=="yes") {
+                                  echo "<strike><i class='fa fa-inr'></i>".$value['amount']."</strike>&nbsp; &nbsp;<i class='fa fa-inr'></i> ".$bamount;
+                                }else {
+                                  echo "<i class='fa fa-inr'></i>".$bamount;
+                                }
+                          ?></span><br />
                             <?php if($value['pack_type']=="occasional"): ?>
                             <input type="number" name="quantity" value="<?= $value['quantity'] ?>" class="quantity" min="2">
                             <?php else: ?>
@@ -198,7 +199,7 @@ $applied_coupon = 0;
                       <span style="font-size: 14px;">Subtotal:</span> <span class="orangetext"><i class='fa fa-inr'></i> <?= (double)$price ?></span> &nbsp;&nbsp;| &nbsp;&nbsp;
                          <span style="font-size: 14px;">GST:</span> <span class="orangetext"><i class='fa fa-inr'></i> <?= (double)$tax_amount ?></span><br />
                          <?php 
-                          if ($applied_coupon==1) {
+                          if ($applied_coupon=="yes") {
                              
                             echo ' <span style="font-size: 14px;">Coupon:</span> <span class="orangetext"> ';
 
@@ -226,19 +227,44 @@ $applied_coupon = 0;
 
 
                           </div>
-                          <?php if(Auth::check()): ?>:
+                          <?php if(!empty($cart)): ?>
+                          <?php if(Auth::check()): ?>
+                          <?php
+                            $coupons = Helper::get_available_coupons(Auth::user()->phone);
+                          ?>
                             <div class="col-md-12">
               
                     
                         <form method="post" action="<?php echo e(URL::to('apply_coupon')); ?>" style="margin-left: 0px;margin-right: 0px;margin-top: 40px;">
                           <?php echo csrf_field(); ?>
-                          <label><strong>Coupon Code</strong></label>
-                       <?php  if ($applied_coupon==1): ?>
-                        <input type="text" name="coupon_code" placeholder="Enter Coupon" value="<?= $coupon['coupon_code'] ?>" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
+                          <label><strong>Select Coupon</strong></label>
+                          <select name="coupon_code" class="form-control" style="margin-bottom: 20px;">
+                              <option value=""></option>
+                            <?php foreach ($coupons as $key => $value): ?>
+                              <?php if($applied_coupon=="yes"): ?>
+                              <?php if ($coupon['coupon_code']==$value['coupon_code']): ?>
+                                <option value="<?= $value['coupon_code'] ?>" selected="selected"><?= $value['coupon_code'] ?></option>
+                              <?php else: ?>
+                                  
+                              <option value="<?= $value['coupon_code'] ?>"><?= $value['coupon_code'] ?></option>
+                              <?php endif; ?>
+
+                              <?php else: ?>
+                                <option value="<?= $value['coupon_code'] ?>"><?= $value['coupon_code'] ?></option>
+
+
+                              <?php endif; ?>
+                          
+                            <?php endforeach; ?>
+                            
+                          </select>
+                       
+                       <?php  if ($applied_coupon=="yes"): ?>
+                        <button type="submit" class="btn checkoutbtn"> Coupon Already Applied!</button>
                         <?php else: ?>
-                           <input type="text" name="coupon_code" placeholder="Enter Coupon" value="" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
-                      <?php endif; ?>
-                        <button type="submit" class="btn checkoutbtn"> Apply Coupon</button>
+                           <button type="submit" class="btn checkoutbtn"> Apply Coupon</button>
+
+                        <?php endif; ?>
 
                       </form>
                       <div style="margin-top: 20px;">
@@ -277,6 +303,7 @@ $applied_coupon = 0;
       <?php endif; ?>
       </div>
       <?php endif; ?>
+    <?php endif; ?>
                       </div>
                            
                          </div>
@@ -308,14 +335,14 @@ $applied_coupon = 0;
   <div class="tab-content">
 
     <div id="home" class="container tab-pane active"><br>
-     <form action="<?php echo e(URL::to('cart/checkout')); ?>" method="post" class="checkoutform">
+     <form action="<?php echo e(URL::to('cart/checkout')); ?>" method="post" class="checkoutform" id="checkoutform">
        <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
        <?php
          $coupon = Session::get('coupon');
        ?>
-      <?php if (!empty($coupon)): ?>
-
+      <?php if ($applied_coupon=="yes"): ?>
          <input type="hidden" name="coupon_id" value="<?= Helper::get_coupon_id($coupon['coupon_code']) ?>">
+         <input type="hidden" name="discountamount" value="<?= rtrim($disamount,",") ?>">
       <?php endif; ?>
        <div class="form-group">
           <div class="" style="font-size: 13px;">Name<span style="color: red;">*</span></div>
@@ -365,52 +392,19 @@ $applied_coupon = 0;
          <input type="text" name="email"  class="form-control"  required="required">
          <?php endif; ?>
        </div>
-             <?php if(Auth::check()): ?>
-           
-       <div class="form-group">
-        <div class="row payment_method_box">
-             <?php 
-               $wall_am = Crypt::decrypt(Auth::user()->wall_am);
-             ?>
-           <?php foreach($payment_method as $key => $value): ?>
-            <?php if($key==0): ?>
-<?php  if($value->gateway_name=="gv_pocket"): ?>
-              <?php if($wall_am!=0 && $wall_am >= $amount): ?>
-               <div class="col-md-6">
-       <input type="radio" name="payment_method" value="<?= $value->alias ?>" class="payment_method" checked="checked"> <img src="<?= asset('public/images/'.$value->gateway_name.'.JPG') ?>" class="payment_method2"> (Rs. <?= $wall_am ?>)</div>
-       <?php endif; ?>
-    <?php else: ?>
-
-     <div class="col-md-6">
-       <input type="radio" name="payment_method" value="<?= $value->alias ?>" class="payment_method" checked="checked"> <img src="<?= asset('public/images/'.$value->gateway_name.'.JPG') ?>" class="payment_method2"></div>
-    <?php endif; ?>
-            <?php else: ?>
-<?php  if($value->gateway_name=="gv_pocket"): ?>
-              <?php if($wall_am!=0 && $wall_am >= $amount): ?>
-               <div class="col-md-6">
-       <input type="radio" name="payment_method" value="<?= $value->alias ?>" class="payment_method"> <img src="<?= asset('public/images/'.$value->gateway_name.'.JPG') ?>" class="payment_method2"> (Rs. <?= $wall_am ?>)</div>
-       <?php endif; ?>
-    <?php else: ?>
-
-     <div class="col-md-6">
-       <input type="radio" name="payment_method" value="<?= $value->alias ?>" class="payment_method"> <img src="<?= asset('public/images/'.$value->gateway_name.'.JPG') ?>" class="payment_method2"></div>
-    <?php endif; ?>
-
-            <?php endif; ?>
-
-  
-    <?php endforeach; ?>
-        </div>
-       </div>
-      
-       
-          <?php else: ?>
-         <input type="hidden" name="payment_method" value="instamojo">
-         <?php endif; ?>
+             <input type="hidden" name="payment_method" class="payment_method" value="instamojo">
 
          <div class="form-group">
-         
-         <button type="submit" class="btn checkoutbtn"> Check-out</button>
+          <?php if($amount==0): ?>
+
+             <button type="submit" class="btn checkoutbtn"> Check-out</button>
+            <?php else: ?>
+         <?php if(Auth::check()): ?>
+         <button type="submit" class="btn checkoutbtn2"> Check-out</button>
+         <?php else: ?>
+          <button type="submit" class="btn checkoutbtn"> Check-out</button>
+         <?php endif; ?>
+         <?php endif; ?>
        </div>
      </form>
       
@@ -500,6 +494,14 @@ $applied_coupon = 0;
     color: #000;
     text-align: center;
 }
+.checkoutbtnn {
+background-color: #EF9E11;
+    border-color: #EF9E11;
+    width: 100%;
+    font-size: small;
+    color: #FFF;
+    padding: 10px;
+}
     .loader {
     display: none;
     position: absolute;
@@ -518,9 +520,46 @@ $applied_coupon = 0;
   cursor: pointer;
 }
 </style>
-
+<!-- The Modal -->
+<div id="myModal2"  class="modal fadeUp">
+ <div class="modal-dialog modal-dialog-centered" role="document">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="">
+      <span class="close"  data-dismiss="modal">&times;</span>
+      
+    </div>
+    <div class="modal-body">
+      <h5>Payment Mode</h5>
+     <div class="row">
+    <div class="col-5"> <label> <input type="radio" name="payment_mode" class="payment_mode" checked="checked" value="instamojo" style="position: relative;top:2px;">  <img src="<?= asset('public/images/instamojo.JPG') ?>" class="payment_method2" ></label><br /></div>
+      <?php if(Auth::check()): ?>
+      <?php if($wall_amount!=0 && $wall_amount >= $amount): ?>
+    <div class="col-7" style="font-size: 12px;"><label> <input type="radio" name="payment_mode" class="payment_mode" value="wallet" style="position: relative;top:2px;"> <img src="<?= asset('public/images/gv_pocket.JPG') ?>" class="payment_method2" style="width: 60px;"> (<i class="fa fa-rupee"></i> <?= $wall_amount ?>)</label><br /></div>
+     <?php endif; ?>
+          <?php endif; ?><br /><br />
+     
+     <div style="padding-left: 10px;padding-right: 10px;width: 100%;"><button type="submit" class="btn checkoutbtnn " style="width: 100%;"> Pay Now</button></div> 
+    
+      </div>
+      
+    </div>
+  
+  </div>
+</div>
+</div>
 <script type="text/javascript">
   $(function() {
+    $(".checkoutbtn2").click(function() {
+      $("#myModal2").modal("show");
+      return false;
+    });
+     $(".checkoutbtnn").click(function() {
+        var selected = $(".payment_mode:checked").val();  
+         $(".payment_method").attr('value',selected); 
+         $("#checkoutform").attr('action','<?php echo e(URL::to("cart/checkout")); ?>');
+          $("#checkoutform").submit();
+    });
     $(".checkoutbtn").click(function() {
        var selected = $(".payment_method:checked").val();
        if (selected=="paytm") {

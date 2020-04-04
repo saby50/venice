@@ -18,16 +18,20 @@ class PaymentController extends Controller
   function checkout(Request $request) {
       $payment_method = $request['payment_method'];
       $amount = Crypt::decrypt($request->amount);
+      $coupon_id = $request['coupon_id'];
+      $discountamount = $request['discountamount'];
+      
+        $is_coupon_applied = "";
+       if ($coupon_id==0) {
+         $is_coupon_applied = "no";
+       }else {
+        $is_coupon_applied = "yes";
+       }
       if ($amount==0) {
        $payment_id = rand(10,100);
        $payment_method = "coupon";
-       $coupon_id = $request['coupon_id'];
-         Helper::booking_process($request->name,$request->email,$request->phone,$request->services,$amount,$payment_method,$payment_id,'INR',$payment_method,'success','off',null,null,null); 
-         $user_id = Auth::user()->id;
-          $date = date("Y-m-d H:i:s");
-         $couponapply = DB::table('coupon_applied')->insert(['user_id' => $user_id, 'coupon_id' => $coupon_id,'created_at' => $date, 'updated_at' => $date]);
-         Session::flash('coupon');
-
+       Helper::booking_process($request->name,$request->email,$request->phone,$request->services,$amount,$payment_method,$payment_id,'INR',$payment_method,'success','off',null,null,null); 
+       
          return redirect('status_s');
       }else {
          if ($payment_method=="instamojo") {
@@ -57,11 +61,13 @@ class PaymentController extends Controller
         
       }elseif($payment_method=="wallet") {
         $payment_id = rand(10,100);
+      
          Helper::booking_process($request->name,$request->email,$request->phone,$request->services,$amount,$payment_method,$payment_id,'INR',$payment_method,'success','off',null,null,null); 
 
          return redirect('status_s');
       }else {
         $payment_id = rand(10,100);
+       
          $this->booking_process($request->name,$request->email,"+91".$request->phone,$request->services,$amount,$payment_method,$payment_id,'INR',$payment_method,'success','off',null,null,null); 
           return redirect('status_s');  
       }

@@ -21,6 +21,28 @@ class Helper
     }
     return $data;
   }
+  public static function get_available_coupons($phone) {
+    $cart = Session::get('cart');
+    $type = "";
+       $matcharray = array();
+       $service_id = 0;
+        $match = "";
+    foreach ($cart as $key => $value) {
+        $type = $value['type'];
+        $service_id = $value['service_id'];
+        $first_char = mb_substr($type, 0,1);
+        $match.= $first_char."_".$service_id.",";
+      }
+      $matcharray = explode(",", rtrim($match,","));
+    $db = DB::table('coupons')->get();
+    $data = array();
+    foreach ($db as $key => $value) {
+      if (in_array($value->uniq_match, $matcharray)) {
+        $data[] = array('coupon_id' => $value->id, 'coupon_code' => $value->coupon_name);
+      }
+    }
+    return $data;
+  }
   public static function get_unit_menu_data($unit_id) {
     $db = DB::table('unit_menu_items')
           ->join('unit_menu_items_add_ons','unit_menu_items.id','=','unit_menu_items_add_ons.item_id')
@@ -75,6 +97,14 @@ class Helper
       $coupon_id = $value->id;
     }
     return $coupon_id;
+  }
+   public static function get_coupon_name($coupon_id) {
+    $db = DB::table('coupons')->where('id',$coupon_id)->get();
+    $coupon_name = 0;
+    foreach ($db as $key => $value) {
+      $coupon_name = $value->coupon_name;
+    }
+    return $coupon_name;
   }
   public static function get_coupon($match) {
     $db = DB::table('coupons')->where('uniq_match',$match)->get();
@@ -2424,10 +2454,10 @@ class Helper
       if ($type3=="foc") {
         $checkfoc = Helper::check_foc_status($value->order_id);
         if (count($checkfoc) != 0) {
-          $data[$value->order_id][] = array('name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->pack_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'service_id' => $value->pack_id,'type' => $value->type,'payment_method' => $value->payment_method,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'option_name' => $value->option_name,'refund' => $value->refund,'occasion_type' => $value->occasion_type);
+          $data[$value->order_id][] = array('name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->pack_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'service_id' => $value->pack_id,'type' => $value->type,'payment_method' => $value->payment_method,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'option_name' => $value->option_name,'refund' => $value->refund,'occasion_type' => $value->occasion_type,'is_coupon_applied' => $value->is_coupon_applied,'coupon_id' => $value->coupon_id,'discountamount' => $value->discountamount);
         }
       }else {
-         $data[$value->order_id][] = array('name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->pack_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'service_id' => $value->pack_id,'type' => $value->type,'payment_method' => $value->payment_method,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'option_name' => $value->option_name,'refund' => $value->refund,'occasion_type' => $value->occasion_type);
+         $data[$value->order_id][] = array('name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->pack_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'service_id' => $value->pack_id,'type' => $value->type,'payment_method' => $value->payment_method,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'option_name' => $value->option_name,'refund' => $value->refund,'occasion_type' => $value->occasion_type,'is_coupon_applied' => $value->is_coupon_applied,'coupon_id' => $value->coupon_id,'discountamount' => $value->discountamount);
       }
      
       
@@ -2439,10 +2469,10 @@ class Helper
       if ($type3=="foc") {
           $checkfoc = Helper::check_foc_status($value->order_id);
             if (count($checkfoc) != 0) {
-         $data[$value->order_id][] = array('name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->service_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'option_name' => $value->option_name,'service_id' => $value->service_id,'type' => $value->type,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'payment_method' => $value->payment_method,'refund' => $value->refund,'occasion_type' => '0');
+         $data[$value->order_id][] = array('name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->service_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'option_name' => $value->option_name,'service_id' => $value->service_id,'type' => $value->type,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'payment_method' => $value->payment_method,'refund' => $value->refund,'occasion_type' => '0','is_coupon_applied' => $value->is_coupon_applied,'coupon_id' => $value->coupon_id,'discountamount' => $value->discountamount);
        }
       }else {
-           $data[$value->order_id][] = array('name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->service_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'option_name' => $value->option_name,'service_id' => $value->service_id,'type' => $value->type,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'payment_method' => $value->payment_method,'refund' => $value->refund,'occasion_type' => '0');
+           $data[$value->order_id][] = array('name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->service_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'option_name' => $value->option_name,'service_id' => $value->service_id,'type' => $value->type,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'payment_method' => $value->payment_method,'refund' => $value->refund,'occasion_type' => '0','is_coupon_applied' => $value->is_coupon_applied,'coupon_id' => $value->coupon_id,'discountamount' => $value->discountamount);
       }
 
     
@@ -2495,11 +2525,11 @@ class Helper
       $optional = $value->optional;
       if($b==0) {
         if ($a==$value->pack_service_id) {
-        $data[$value->order_id][] = array('service_id' => $value->id."_packs",'name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->pack_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'type' => $value->type,'payment_method' => $value->payment_method,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'option_name' => $value->option_name,'optional' => $optional,'refund' => $value->refund,'occasion_type' => $value->occasion_type);
+        $data[$value->order_id][] = array('service_id' => $value->id."_packs",'name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->pack_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'type' => $value->type,'payment_method' => $value->payment_method,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'option_name' => $value->option_name,'optional' => $optional,'refund' => $value->refund,'occasion_type' => $value->occasion_type,'is_coupon_applied' => $value->is_coupon_applied,'coupon_id' => $value->coupon_id,'discountamount' => $value->discountamount);
         }
       }else {
          if ($a==$value->pack_service_id && $optional==$b) {
-        $data[$value->order_id][] = array('service_id' => $value->id."_packs",'name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->pack_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'type' => $value->type,'payment_method' => $value->payment_method,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'option_name' => $value->option_name,'optional' => $optional,'refund' => $value->refund,'occasion_type' => $value->occasion_type);
+        $data[$value->order_id][] = array('service_id' => $value->id."_packs",'name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->pack_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'type' => $value->type,'payment_method' => $value->payment_method,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'option_name' => $value->option_name,'optional' => $optional,'refund' => $value->refund,'occasion_type' => $value->occasion_type,'is_coupon_applied' => $value->is_coupon_applied,'coupon_id' => $value->coupon_id,'discountamount' => $value->discountamount);
          }
       }     
     }      
@@ -2511,7 +2541,7 @@ class Helper
       }
         
          if (in_array($service_id."_".$optional, $servicearray)) {
-        $data[$value->order_id][] = array('pack_id' => $value->service_id,'name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->service_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'option_name' => $value->option_name,'service_id' => $value->id."_service",'type' => $value->type,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'payment_method' => $value->payment_method,'optional' => $optional,'refund' => $value->refund,'occasion_type' => '0');
+        $data[$value->order_id][] = array('pack_id' => $value->service_id,'name' => $value->name,'email' => $value->email,'phone' => $value->phone,'service_name' => $value->service_name,'date' => $value->date,'time' => $value->time,'quantity' => $value->quantity,'platform' => $value->platform,'price' => $value->price,'tax' => $value->tax,'status'=> $value->status,'amount' => $value->amount,'created_at' => $value->created_at,'order_id' => $value->order_id,'option_name' => $value->option_name,'service_id' => $value->id."_service",'type' => $value->type,'checkin_time' => $value->checkin_time,'checkin' => $value->checkin,'payment_method' => $value->payment_method,'optional' => $optional,'refund' => $value->refund,'occasion_type' => '0','is_coupon_applied' => $value->is_coupon_applied,'coupon_id' => $value->coupon_id,'discountamount' => $value->discountamount);
         }
         }
     }
@@ -2567,6 +2597,8 @@ class Helper
               $updateemail = DB::table('users')->where('id',$user_id)->update(['email' => $email,'name' => $name,'updated_at' => $updatedate]); 
             }
 
+            //$disamount = explode(",", $discountamount);
+
            
               foreach ($cart as $key => $value) {
         $service_name =  $value['service_name'];
@@ -2583,15 +2615,19 @@ class Helper
         $occasion_type = $value['occasion_type'];
         $occassion_text = $value['occassion_text'];
         $dplatform = Helper::get_device_platform();
-       
+
+       if ($value['is_coupon_applied']=="yes") {
+             $couponapply = DB::table('coupon_applied')->insert(['user_id' => $user_id, 'coupon_id' => $value['coupon_id'],'order_id' => $orderid,'created_at' => $date, 'updated_at' => $date]);
+         Session::flash('coupon');
+          }
 
         if ($type=="service") {
-            $data = array('user_id' => $user_id,'name' => $name,'email' => $email,'phone' => $phone,'service_id' => $service_id,'service_name' => $service_name,'optional' => $option_id,'date'=> $date2,'time' => $time,'quantity' => $quantity, 'amount' => $amount,'status' => $status,'platform' => $dplatform,'price' => $price,'tax' => $tax,'txnid' => $payment_id,'payment_mode' => $type,'order_id' => $orderid,'type' => $type,'payment_method' => $payment_method,'created_at' => $date, 'updated_at' => $date);
+            $data = array('user_id' => $user_id,'name' => $name,'email' => $email,'phone' => $phone,'service_id' => $service_id,'service_name' => $service_name,'optional' => $option_id,'date'=> $date2,'time' => $time,'quantity' => $quantity, 'amount' => $amount,'status' => $status,'platform' => $dplatform,'price' => $price,'tax' => $tax,'txnid' => $payment_id,'payment_mode' => $type,'order_id' => $orderid,'type' => $type,'payment_method' => $payment_method,'is_coupon_applied' => $value['is_coupon_applied'],'coupon_id' => $value['coupon_id'],'discountamount' => $value['discoun_amount'],'created_at' => $date, 'updated_at' => $date);
           $db = DB::table('bookings')->insert($data);
            $get_alias = Helper::get_alias($value['service_id']);
             $emailers[] = Helper::get_mailer($get_alias);    
         }else {
-            $data2 = array('user_id' => $user_id,'name' => $name,'email' => $email,'phone' => $phone,'pack_id' => $service_id,'pack_name' => $service_name,'optional' => $option_id,'date'=> $date2,'time' => $time,'quantity' => $quantity, 'amount' => $amount,'status' => $status,'platform' => $dplatform,'price' => $price,'tax' => $tax,'txnid' => $payment_id,'payment_mode' => $type,'order_id' => $orderid,'type' => $type,'payment_method' => $payment_method,'occasion_type' => $occasion_type,'created_at' => $date, 'updated_at' => $date);
+            $data2 = array('user_id' => $user_id,'name' => $name,'email' => $email,'phone' => $phone,'pack_id' => $service_id,'pack_name' => $service_name,'optional' => $option_id,'date'=> $date2,'time' => $time,'quantity' => $quantity, 'amount' => $amount,'status' => $status,'platform' => $dplatform,'price' => $price,'tax' => $tax,'txnid' => $payment_id,'payment_mode' => $type,'order_id' => $orderid,'type' => $type,'payment_method' => $payment_method,'occasion_type' => $occasion_type,'is_coupon_applied' => $value['is_coupon_applied'],'coupon_id' => $value['coupon_id'],'discountamount' => $value['discoun_amount'],'created_at' => $date, 'updated_at' => $date);
          $db = DB::table('bookings_packs')->insert($data2);
 
          $book_pack_id = DB::getPdo()->lastInsertId();
@@ -2627,7 +2663,7 @@ class Helper
         }else {
           $option_id = "";
         }
-           $data = array('user_id' => $user_id,'name' => $name,'email' => $email,'phone' => $phone,'service_id' => $s_id,'service_name' => $s_name,'optional' => $option_id,'date'=> $date2,'time' => $time,'quantity' => $quantity, 'amount' => $amount,'status' => $status,'platform' => Helper::get_device_platform(),'price' => $price,'tax' => $tax,'txnid' => $payment_id,'payment_mode' => $type,'order_id' => $orderid,'type' => $type,'payment_method' => $payment_method,'book_pack_id' => $book_pack_id,'created_at' => $date, 'updated_at' => $date);
+           $data = array('user_id' => $user_id,'name' => $name,'email' => $email,'phone' => $phone,'service_id' => $s_id,'service_name' => $s_name,'optional' => $option_id,'date'=> $date2,'time' => $time,'quantity' => $quantity, 'amount' => $amount,'status' => $status,'platform' => Helper::get_device_platform(),'price' => $price,'tax' => $tax,'txnid' => $payment_id,'payment_mode' => $type,'order_id' => $orderid,'type' => $type,'payment_method' => $payment_method,'book_pack_id' => $book_pack_id,'is_coupon_applied' => $value['is_coupon_applied'],'coupon_id' => $value['coupon_id'],'discountamount' => $value['discoun_amount'],'created_at' => $date, 'updated_at' => $date);
          $db = DB::table('bookings')->insert($data);
           
            
@@ -2652,6 +2688,8 @@ class Helper
           $contentwallet = "";
          $content = "";
         if ($status=="success") {
+
+          
 
          $data = DB::table('bookings')
         ->join('services','bookings.service_id','=','services.id')

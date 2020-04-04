@@ -142,18 +142,27 @@ $(document).ready(function(){
     </section>
     <?php endif; ?>
 
-    <div class="restaurant-banner">
+    <div class="restaurant-banner" id="resbanner">
      
       <div class="container">
          <div class="row">
         <div class="col-3">
-          <img src="<?= URL::to('public/uploads/foodstore/'.$foodstore) ?>" style="width: 200px;margin-top: 30px;">
+          <img src="<?= URL::to('public/uploads/foodstore/'.$foodstore) ?>" class="unit_img">
           
         </div>
-          <div class="col-9" style="margin-top: 30px;">
+          <div class="col-9 smargin">
             <div class="row">
             <div class="col-md-12" style="border-bottom: solid 1px #ccc;padding-bottom: 10px;">
-             <strong class="title"><?= $unit_name ?></strong><br />
+             <strong class="title"><?= $unit_name ?> &nbsp; &nbsp; <?php 
+                                $nonveg = Helper::get_veg_non($getid);
+
+                      ?>
+                      <?php if(in_array('veg', $nonveg)): ?>
+                                        <img src="{{ asset('public/images/veg.png') }}" style="width: 15px;height: 15px;">
+                                      <?php endif; ?>
+                                      <?php if(in_array('nonveg', $nonveg)): ?>
+                                         <img src="{{ asset('public/images/nonveg.png') }}" style="width: 15px;height: 15px;">
+                                      <?php endif; ?></strong><br />
              <strong class="desc"><?= $tags ?></strong>
            </div>
            <div class="col-sm-2" style="font-size: 14px;color: #FFF;margin-top: 20px;border-right: solid 1px #fff;">
@@ -174,14 +183,25 @@ $(document).ready(function(){
             }else {
               if (strtotime($current_time) > strtotime($from_time) && strtotime($current_time) < strtotime($to_time)) {
               $food_order = "yes";
-              
+
             }else {
               echo "<span style='color:red;font-size:14px;'>Closed for order</span>";
               $food_order = "no";
             }
             }
+
             
           ?>
+          <?php if($food_order=="yes"): ?>
+          <label class="switch">
+            <?php if($view=="veg"): ?>
+             <input type="checkbox" name="veg" value="all" class="vegonly" checked="checked">
+             <?php else: ?>
+              <input type="checkbox" name="veg" value="veg" class="vegonly">
+              <?php endif; ?>
+            <span class="slider round"></span>
+          </label> Veg
+        <?php endif; ?>
            </div>
           </div>
         </div>
@@ -189,8 +209,8 @@ $(document).ready(function(){
      </div>
       
     </div>
-    <div class="container mainarea">
-      <div class="row">
+    <div class="container mainarea" >
+      <div class="row" style="display: flex;">
         <div class="col-2 sidebar-left" id="sidebar">
           <ul class="sidebar-items">
           <?php 
@@ -696,7 +716,11 @@ $(document).ready(function(){
            
            
          });
-
+$(".vegonly").change(function() {
+          var data = $(this).val();
+          var url = "<?= URL::to('show-menu/"+data+"/'.Crypt::encrypt($getid)) ?>";
+          window.location = url;
+      });
      $(".decrease").click(function() {
                 setTimeout( function() { $('.loader').show(); }, 300 );
             setTimeout( function() { $('.loader').hide(); }, 800 );
@@ -792,13 +816,13 @@ $(document).ready(function(){
  
 </script>
 <script>
-var sidebar = document.getElementById("sidebar2");
+var sidebar = document.getElementById("resbanner");
 var stickyCart = sidebar.offsetTop;
 function myCart() {
   if (window.pageYOffset >= stickyCart) {
-    sidebar.classList.add("sticky")
+    sidebar.classList.add("staticbox")
   } else {
-    sidebar.classList.remove("sticky");
+    sidebar.classList.remove("staticbox");
   }
 }
 
@@ -846,6 +870,23 @@ function myFunction() {
 .cart_items {
   display: none;
 }
+.smargin {
+  margin-top: 30px;
+}
+.staticbox .smargin {
+  margin-top: 10px;
+}
+.staticbox .unit_img {
+  width: 150px;
+  margin-top: 10px;
+}
+.staticbox {
+
+        height: 141px !important;
+
+    margin-top: 18px !important;
+
+}
 ._1gDO32 {
    position: absolute;
     right: 0;
@@ -875,6 +916,74 @@ function myFunction() {
 .hided {
   display: none;
 }
+.switch {
+        position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 21px;
+}
+.unit_img {
+  width: 200px;
+  margin-top: 30px;
+}
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.hide {
+  display: none;
+}
+.visible {
+  display: flex;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+ position: absolute;
+    content: "";
+    height: 15px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #f3a423;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #f3a423;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+   border-radius: 34px;
+    width: 50px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 .bottomcart {
   width: 600px;
   height: 45px;
@@ -898,10 +1007,10 @@ font-size: 16px;
   text-align: right;
 }
 .sidebar-left  {
-  position: fixed;
+  position: sticky;
   z-index: 1;
-  top: 400px;
-  left: 70px;
+  top: 250px;
+  
    width: 130px;
 
 }
@@ -953,7 +1062,7 @@ font-size: 16px;
     color: #f3a423;
 }
 .sticky {
-   top: 20px;
+  
 }
 .sticky2 {
    top: 20px;
@@ -970,6 +1079,10 @@ ul.sidebar-items li {
   height: 200px;
   background: #39397f;
   margin-top: 25px;
+  position: sticky;
+  top: 0px;
+  z-index: 9999;
+
 }
 
 #myModal iframe  {
@@ -983,6 +1096,9 @@ ul.sidebar-items li {
   margin-left: 220px;
   border-left:solid 1px #ccc;
   border-right:solid 1px #ccc;
+  z-index: 0;
+  flex-grow: 1;
+      margin-top: -275px;
 }
 .foodrow {
   border-bottom: solid 1px #ccc;
