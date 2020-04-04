@@ -86,6 +86,7 @@ if (Auth::check()) {
                   }
                  
               }
+              echo "&nbsp;&nbsp;".$a;
               }
               if (!empty($custom)) {
                 echo '<div style="font-size:12px;margin-left:5px;"><a href="'.URL::to("menu/addons/".$value["item_id"]).'" style="color:#000;"> Customize <i class="fa fa-chevron-down" style="color:green;"></i></a> </div>';
