@@ -1079,8 +1079,7 @@ ul.sidebar-items li {
   height: 200px;
   background: #39397f;
   margin-top: 25px;
-  position: sticky;
-  top: 0px;
+ 
   z-index: 9999;
 
 }
