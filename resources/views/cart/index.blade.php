@@ -437,7 +437,7 @@ if (Auth::check()) {
        </div>
          <div class="form-group">
          
-         <button type="submit" class="btn checkoutbtn2"> Login</button>
+         <button type="submit" class="btn checkoutbtn3"> Login</button>
        </div>
      </form>
     </div>
@@ -495,6 +495,11 @@ if (Auth::check()) {
     line-height: 3 !important;
     color: #000;
     text-align: center;
+}
+.checkoutbtn3 {
+  width: 100%;
+  color: #FFF;
+  padding: 10px;
 }
 .checkoutbtnn {
 background-color: #EF9E11;
