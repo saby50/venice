@@ -108,7 +108,7 @@ Cart
                             </div></td>
                           </tr></table>
                            </td>
-                          <td style="text-align: center;"><span class="orangetext"><i class='fa fa-inr'></i>  <?= $value['price'] ?></span><br />
+                          <td style="text-align: center;"><span class="orangetext"><i class='fa fa-inr'></i>  <?= $value['price'] + $customprice ?></span><br />
                               <input type="number" name="quantity" value="<?= $value['quantity'] ?>" class="quantity" min="1">
                           <input type="hidden" class="item_id" value="<?= $value['item_id'] ?>">
        <input type="hidden" class="price" value="<?= Helper::get_menu_item_price($value['item_id']) ?>">  
