@@ -373,7 +373,7 @@ $bamount = 0;
                    ?>
                   <input type="hidden" name="totalamount" class="totalamount" value="<?= $v['amount'] ?>">
                 <?php if ($v['is_coupon_applied']=="yes"): ?>
-                <strike><i class="fa fa-inr"></i> <?= $bamount ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['discountamount'] ?>
+                <strike><i class="fa fa-inr"></i> <?= $bamount ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['amount'] ?>
                 <?php else: ?>
                   <i class="fa fa-inr"></i> <?= $v['amount'] ?>
 
@@ -531,7 +531,7 @@ $bamount = 0;
                   $bamount+= $v['price'] + $v['tax'];
 
                    ?><?php if ($v['is_coupon_applied']=="yes"): ?>
-                <strike><i class="fa fa-inr"></i> <?= $bamount ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['discountamount'] ?>
+                <strike><i class="fa fa-inr"></i> <?= $bamount ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['amount'] ?>
                 <?php else: ?>
                   <i class="fa fa-inr"></i> <?= $v['amount'] ?>
 
@@ -631,7 +631,7 @@ $bamount = 0;
                   $bamount+= $v['price'] + $v['tax'];
 
                    ?><?php if ($v['is_coupon_applied']=="yes"): ?>
-                <strike><i class="fa fa-inr"></i> <?= $bamount ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['discountamount'] ?>
+                <strike><i class="fa fa-inr"></i> <?= $bamount ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['amount'] ?>
                 <?php else: ?>
                   <i class="fa fa-inr"></i> <?= $v['amount'] ?>
 
