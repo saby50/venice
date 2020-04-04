@@ -1,14 +1,16 @@
 
    <?php 
     $guest = Helper::get_guest_services();
+    $bslider = Helper::get_boottom_footer();
    ?>
     <section id="bottombanner">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12 wow fadeInUp" data-wow-delay="0.2s" style="padding-left: 0;z-index: 500;">
                         <div class="pic1">
-                            <a href="<?= URL::to('commercial') ?>"><img src="{{ asset('public/images/commercial.jpg') }}" class="web_banner"></a>
-                           <a href="<?= URL::to('commercial') ?>"> <img src="{{ asset('public/images/commercial_mobile.jpg') }}" class="mobile_banner"></a>
+                          <?php foreach ($bslider as $key => $value): ?>
+                            <a href="<?= URL::to($value->slider_link) ?>"><img src="<?= asset('public/images/'.$value->banner) ?>" class="web_banner"></a>
+                           <?php endforeach; ?>
                           
                         </div>
                     </div>

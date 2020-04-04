@@ -11,7 +11,9 @@ if (Auth::check()) {
    $services = "";
    $price = 0;
    $tax_amount = 0;
-   $applied_coupon = 0;
+    $amount = 0;
+  $disamount = "";
+  $applied_coupon = "no";
 ?>
 
 <?php if(count($cart)==0): ?>
@@ -57,7 +59,7 @@ if (Auth::check()) {
                               $coupon = Session::get('coupon');
 
                            
-                             if (!empty($coupon)) {
+                             if ($value['is_coupon_applied']=="yes") {
                              //  $cmatch = explode(",", $coupon['match']);
                                if ($coupon['match']==$match) {
                                 if ($value['quantity']==1) {
@@ -67,8 +69,8 @@ if (Auth::check()) {
                                   $bamount = $value['amount'] - $discountamount;
                                   $bprice = $value['price'] - $discountprice;
                                   $btax = $value['tax'] - $discounttax;
-                                  $applied_coupon = 1;
-                                  $damount = $discountamount;
+                                  $applied_coupon = $value['is_coupon_applied'];
+                                   $damount = $discountamount;
                                 }else {
                                    $bamount = $value['amount']/$value['quantity'];
                                    $bprice = $value['price']/$value['quantity'];
@@ -79,7 +81,7 @@ if (Auth::check()) {
                                   $bamount = $value['amount'] - $discountamount;
                                   $bprice = $value['price'] - $discountprice;
                                   $btax = $value['tax'] - $discounttax;
-                                  $applied_coupon = 1; 
+                                  $applied_coupon = $value['is_coupon_applied'];
                                   
 
                                 }
@@ -146,18 +148,42 @@ if (Auth::check()) {
 
       <?php endforeach; ?>
       <?php if(Auth::check()): ?>
+      <?php
+                            $coupons = Helper::get_available_coupons(Auth::user()->phone);
+                          ?>
                             <div class="">
                <hr />
                     
                         <form method="post" action="<?php echo e(URL::to('apply_coupon')); ?>">
                           <?php echo csrf_field(); ?>
-                          <label><strong>Coupon Code</strong></label>
-                       <?php  if ($applied_coupon==1): ?>
-                        <input type="text" name="coupon_code" placeholder="Enter Coupon" value="<?= $coupon['coupon_code'] ?>" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
+                          <label><strong>Select Coupon</strong></label>
+                          <select name="coupon_code" class="form-control" style="margin-bottom: 20px;">
+                              <option value=""></option>
+                            <?php foreach ($coupons as $key => $value): ?>
+                              <?php if($applied_coupon=="yes"): ?>
+                              <?php if ($coupon['coupon_code']==$value['coupon_code']): ?>
+                                <option value="<?= $value['coupon_code'] ?>" selected="selected"><?= $value['coupon_code'] ?></option>
+                              <?php else: ?>
+                                  
+                              <option value="<?= $value['coupon_code'] ?>"><?= $value['coupon_code'] ?></option>
+                              <?php endif; ?>
+
+                              <?php else: ?>
+                                <option value="<?= $value['coupon_code'] ?>"><?= $value['coupon_code'] ?></option>
+
+
+                              <?php endif; ?>
+                          
+                            <?php endforeach; ?>
+                            
+                          </select>
+                           <?php  if ($applied_coupon=="yes"): ?>
+                        <button type="submit" class="btn checkoutbtn3"> Coupon Already Applied!</button>
                         <?php else: ?>
-                           <input type="text" name="coupon_code" placeholder="Enter Coupon" value="" style="text-transform: uppercase;" class="form-control coupon_code"  onkeyup="this.value = this.value.toUpperCase();"><br />
-                      <?php endif; ?>
-                        <button type="submit" class="btn checkoutbtn"> Apply Coupon</button>
+                           <button type="submit" class="btn checkoutbtn3"> Apply Coupon</button>
+
+                        <?php endif; ?>
+                        
 
                       </form>
                       <div style="margin-top: 20px;">
@@ -225,7 +251,7 @@ if (Auth::check()) {
                <div class="col-4" style="text-align: right;">
                 <span class="billdet"><i class='fa fa-inr'></i> <?= (double)$tax_amount ?></span>
               </div>
-              <?php  if ($applied_coupon==1): ?>
+              <?php  if ($applied_coupon=="yes"): ?>
               <div class="col-6">
                 Coupon
               </div>
@@ -290,11 +316,16 @@ if (Auth::check()) {
                   <?php endif; ?><br />
               </div>
                  <div class="col-12 form-group">
-                  <?php if(Auth::check()): ?>
-               <button type="submit" class="btn checkoutbtn"> Check-out</button>
-               <?php else: ?>
-                <button type="submit" class="btn checkoutbtn3"> Check-out</button>
-             <?php endif; ?>
+                  <?php if($amount==0): ?>
+
+             <button type="submit" class="btn checkoutbtn2"> Check-out</button>
+            <?php else: ?>
+         <?php if(Auth::check()): ?>
+         <button type="submit" class="btn checkoutbtn"> Check-out</button>
+         <?php else: ?>
+          <button type="submit" class="btn checkoutbtn2"> Check-out</button>
+         <?php endif; ?>
+         <?php endif; ?>
               </div>
 
             </div>

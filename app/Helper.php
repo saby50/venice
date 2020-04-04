@@ -21,6 +21,10 @@ class Helper
     }
     return $data;
   }
+  public static function get_boottom_footer() {
+    $bottom_slider = DB::table('bottom_slides')->where('visibility',1)->inRandomOrder()->take(1)->get();
+    return $bottom_slider;
+  }
   public static function get_available_coupons($phone) {
     $cart = Session::get('cart');
     $type = "";
