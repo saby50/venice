@@ -127,7 +127,7 @@ Cart
                                  $price += $value['price']  + $customprice;
                                  
                                  $tax_amount = round($price * $tax_percent/100);
-                                  $amount = $price + $tax_amount + $customprice;
+                                  $amount = $price + $tax_amount;
                            ?>
                         <?php endforeach; ?>
                         
