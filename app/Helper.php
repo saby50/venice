@@ -54,7 +54,7 @@ class Helper
             DB::raw('unit_menu_items_add_ons.id as addon_id'),
              DB::raw('unit_menu_items_add_ons.title as addon_title'),
            DB::raw('unit_menu_items_add_ons.type as addon_type'),
-         DB::raw('unit_menu_items_add_ons.item_id as addon_item_id'))
+         DB::raw('unit_menu_items_add_ons.id as addon_item_id'))
           ->where('unit_menu_items.unit_id',$unit_id)
           ->get();
       $data = array();    
@@ -337,7 +337,7 @@ class Helper
       return $response;
   }
    public static function get_item_addons_list($item_addon_id) {   
-    $data = DB::table('unit_menu_items_add_ons_list')->where('id', $item_addon_id)->get();
+    $data = DB::table('unit_menu_items_add_ons_list')->where('item_addon_id', $item_addon_id)->get();
     return $data;
   }
     public static function get_customize($item_id) { 
