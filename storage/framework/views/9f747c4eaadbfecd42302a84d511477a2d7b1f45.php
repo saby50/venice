@@ -48,6 +48,9 @@
           $tax_amount += $value->tax;
           $refund = $value->refund;
           $payment_method = $value->payment_method;
+           $is_coupon_applied = $value->is_coupon_applied;
+          $coupon_id = $value->coupon_id;
+          $discountamount = $value->discountamount;
 
       }
        }else {
@@ -68,6 +71,10 @@
           $option_name = $value->option_name;
           $refund = $value->refund;
           $payment_method = $value->payment_method;
+          $is_coupon_applied = $value->is_coupon_applied;
+          $coupon_id = $value->coupon_id;
+          $discountamount = $value->discountamount;
+
 
       }
        }
@@ -161,8 +168,9 @@
                 Arrival Time: <?= $value->time ?>,
                   <?php 
 
-                     $mprice += $value->price;
+                   $mprice += $value->price;
                       $mtax += $value->tax;
+                    
                 ?>
                     <?php if($alias=="gondola"): ?>
                 Canal: <?= $value->option_name ?>, 
@@ -179,9 +187,14 @@
                 
                 <p>.........................................................................................................</p>
                  <p class="mt-2"><strong>Subtotal: </strong> <span class="price">Rs <?= $mprice ?></span></p>
+                
                 <p><strong>GST: </strong> <span class="price"> Rs <?= $mtax ?></span></p>
+                 <?php if($is_coupon_applied=="yes"): ?>
+                <p><strong>Coupon: </strong> <span class="price"> Rs -<?= $discountamount ?> (<?= Helper::get_coupon_name($coupon_id) ?>)</span></p>
+
+              <?php endif; ?>
                 <p>.........................................................................................................</p>
-                <p class="my-4"><strong>Total In INR</strong> <span class="price total-price">Rs <?= $mprice + $mtax ?></span> 
+                <p class="my-4"><strong>Total In INR</strong> <span class="price total-price">Rs <?= $amount ?></span> 
                   <?php 
             if ($payment_method=="instamojo") {
              echo "EC(Instamojo)";
