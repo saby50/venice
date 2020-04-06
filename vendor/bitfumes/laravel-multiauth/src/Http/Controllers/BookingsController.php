@@ -589,6 +589,7 @@ class BookingsController extends Controller
   	$db = DB::table('bookings')->where('order_id',$getid)->delete();
   	$db2 = DB::table('bookings_packs')->where('order_id',$getid)->delete();
   	$db3 = DB::table('gondolier_checkins_log')->where('order_id',$getid)->delete();
+  	$db4 = DB::table('coupon_applied')->where('order_id',$getid)->delete();
   	return redirect()->back()->withInput()->with('status','Booking deleted successfully!');
   }
   function changecanal(Request $request) {

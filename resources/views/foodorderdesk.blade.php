@@ -43,8 +43,8 @@ $(document).ready(function(){
         </div>
         <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:1300px;height:550px;overflow:hidden;">
             <div>
-                <img data-u="image" src="{{ asset('public/images/130919064745020819042206Home-Banne-1.jpg') }}" class="desktop" />
-                <img data-u="image" src="{{ asset('public/images/130919064745020819042206Home-Banne-1.jpg') }}" class="mobile" />
+                  <img data-u="image" src="{{ asset('public/images/pages/foodcourt.jpg') }}" class="desktop" />
+                <img data-u="image" src="{{ asset('public/images/pages/foodcourtm.jpg') }}" class="mobile" />
             </div>
          
             

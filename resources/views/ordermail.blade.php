@@ -33,6 +33,9 @@
           $alias = "";
           $option_name = "";
           $payment_method = "";
+            $is_coupon_applied = "no";
+          $coupon_id = 0;
+          $discountamount = 0;
        if (count($data)==0) {
          foreach ($services2 as $key => $value) {
            $order_id = $value->order_id;
@@ -47,7 +50,9 @@
           $price += $value->price;
           $tax_amount += $value->tax;
           $payment_method = $value->payment_method;
-         
+           $is_coupon_applied = $value->is_coupon_applied;
+          $coupon_id = $value->coupon_id;
+          $discountamount = $value->discountamount;
 
 
          
@@ -69,6 +74,9 @@
           $alias = $value->alias;
           $option_name = $value->option_name;
           $payment_method = $value->payment_method;
+            $is_coupon_applied = $value->is_coupon_applied;
+          $coupon_id = $value->coupon_id;
+          $discountamount = $value->discountamount;
 
       }
        }
@@ -175,6 +183,10 @@
                 <p>.........................................................................................................</p>
                  <p class="mt-2"><strong>Subtotal: </strong> <span class="price">Rs <?= $mprice ?></span></p>
                 <p><strong>GST: </strong> <span class="price"> Rs <?= $mtax ?></span></p>
+                 <?php if($is_coupon_applied=="yes"): ?>
+                <p><strong>Coupon: </strong> <span class="price"> Rs -<?= $discountamount ?> (<?= Helper::get_coupon_name($coupon_id) ?>)</span></p>
+
+              <?php endif; ?>
                 <p>.........................................................................................................</p>
                 <p class="my-4"><strong>Total In INR</strong> <span class="price total-price">Rs <?= $mprice + $mtax ?></span> <?php 
             if ($payment_method=="instamojo") {
@@ -188,7 +200,9 @@
             } else if($payment_method=="paytm_qr") {
               echo "POS(Paytm QR)";
 
-            }   
+            }else if($payment_method=="coupon") {
+              echo "(Coupon)";
+            }    
             ?></p>
                 
                 

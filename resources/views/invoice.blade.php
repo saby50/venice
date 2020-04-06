@@ -33,6 +33,9 @@
           $alias = "";
           $option_name = "";
           $payment_method = "";
+          $is_coupon_applied = "no";
+          $coupon_id = 0;
+          $discountamount = 0;
        if (count($data)==0) {
          foreach ($services2 as $key => $value) {
            $order_id = $value->order_id;
@@ -210,7 +213,9 @@
             }else if($payment_method=="wallet") {
               echo "(GV Pay)";
 
-            }   
+            }else if($payment_method=="coupon") {
+              echo "(Coupon)";
+            }    
             ?></p>
                 
                
