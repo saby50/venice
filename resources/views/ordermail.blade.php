@@ -90,7 +90,7 @@
             <table style="width: 100%">
                 <tr>
                     <td> <div class="col-md-7">
-                <img src="{{ asset('images/logo.png') }}" style="width: 200px;">
+                <img src="{{ asset('public/images/logo.png') }}" style="width: 200px;">
                 <h2 class="mt-4">INVOICE</h2>
                 <p>Invoice Number: <?= $order_id ?></p>
             </div></td>
@@ -188,7 +188,7 @@
 
               <?php endif; ?>
                 <p>.........................................................................................................</p>
-                <p class="my-4"><strong>Total In INR</strong> <span class="price total-price">Rs <?= $mprice + $mtax ?></span> <?php 
+                <p class="my-4"><strong>Total In INR</strong> <span class="price total-price">Rs <?= $amount ?></span> <?php 
             if ($payment_method=="instamojo") {
              echo "EC(Instamojo)";
             }else if($payment_method=="cash") {
