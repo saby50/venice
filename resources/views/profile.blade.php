@@ -123,6 +123,10 @@ My Profile
 .timepicker {
         padding: .375rem .75rem !important;
 }
+.profilemar {
+    margin-right: 250px !important;
+    margin-left: 250px !important;
+}
 #price {
     font-size:24px;
     font-weight: bold;
