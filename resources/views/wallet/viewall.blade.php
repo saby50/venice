@@ -59,9 +59,18 @@ Wallet
                 	 <?php 
 				  if ($value->identifier=="payment" || $value->identifier=="refund") {
 				  	$units = Helper::get_unit($value->unit_id);
-                    echo $units['unit_name'].", ".$units['floor_level'];
+				  	if (count($units) == 0) {
+				  		$unit_name = "";
+				  		$unit_floor = "";
+				  	}else {
+				  		$unit_name = $units['unit_name'];
+				  		$unit_floor = $units['floor_level'];
+				  	}
+                    echo $unit_name.", ".$unit_floor;
 				  }elseif($value->identifier=="foodorder") {
 				  	echo "Food Order";
+				  }elseif($value->identifier=="event") {
+				  	echo Helper::get_event_name($value->order_id);
 				  }else {
 				  	echo rtrim($s,",");
 				  }
