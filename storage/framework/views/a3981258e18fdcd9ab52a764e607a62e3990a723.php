@@ -10,16 +10,14 @@ Pay
 <div class="recyclerview firstbox" ng-app="myApp" ng-controller="myCtrl">
 	<div class="row">
 		<div class="col-6 paybox">
-			<a href="<?= URL::to('wallet') ?>"><img src="<?= URL::to('public/images/gv_pocket.JPG') ?>" style="width: 50%;"></a>
-			
+			<a href="<?php echo e(URL::to('wallet')); ?>"><img src="<?= URL::to('public/images/gv_pocket.JPG') ?>" style="width: 50%;"></a>
 			<div style="font-size: 12px;margin-top: 10px;">Balance: Rs. <?= Crypt::decrypt(Auth::user()->wall_am) ?></div>
+			
 		</div>
 		<div class="col-6 paybox">
-			<a href="<?= URL::to('food_card') ?>"><img src="<?= URL::to('public/images/food_card.JPG') ?>" style="width: 50%;"></a>
-			
+			<a href="<?php echo e(URL::to('food_card')); ?>"><img src="<?= URL::to('public/images/food_card.JPG') ?>" style="width: 50%;"></a>
 			<div style="font-size: 12px;margin-top: 10px;">Balance: Rs. <?= Crypt::decrypt(Auth::user()->food_card) ?></div>
 		</div>
-		
 	</div>
 	<div class="row">
 		<div class="col-12 gv-balance">

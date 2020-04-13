@@ -1,5 +1,5 @@
 <?php $__env->startSection('title'); ?>
-Wallet
+Food Card
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -121,4 +121,4 @@ Wallet
 </script>
 <link rel="stylesheet" type="text/css" href="<?php echo e(asset('public/css/front/stylewallet.css')); ?>">
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.main2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/wallet/viewall.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.main2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/food_card/viewall.blade.php ENDPATH**/ ?>

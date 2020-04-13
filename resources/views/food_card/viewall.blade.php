@@ -1,8 +1,10 @@
-<?php $__env->startSection('title'); ?>
-Wallet
-<?php $__env->stopSection(); ?>
+@extends('layouts.main2')
 
-<?php $__env->startSection('content'); ?>
+@section('title')
+Food Card
+@endsection
+
+@section('content')
 <div class="recyclerview firstbox" style="padding: 40px;">
 <div class="row">
 		<div class="col-12 recent">
@@ -119,6 +121,5 @@ Wallet
 
 	});
 </script>
-<link rel="stylesheet" type="text/css" href="<?php echo e(asset('public/css/front/stylewallet.css')); ?>">
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.main2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/wallet/viewall.blade.php ENDPATH**/ ?>
+<link rel="stylesheet" type="text/css" href="{{ asset('public/css/front/stylewallet.css') }}">
+@endsection

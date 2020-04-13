@@ -62,7 +62,7 @@ Food Card
 			Recent Transactions<br />
 		</div>
 		<div class="col-5 gv-balance gvwebbal" style="text-align: right;;margin-left: 10px;">
-			<a href="{{ URL::to('view_all') }}" style="color: #078bde;">View All</a><br />
+			<a href="{{ URL::to('food_card/view_all') }}" style="color: #078bde;">View All</a><br />
 			
 		</div>
 
