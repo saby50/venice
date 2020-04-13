@@ -17,7 +17,7 @@ Pay
 			
 		</div>
 		<div class="col-6 paybox">
-			<a href="{{ URL::to('food_card') }}"><img src="<?= URL::to('public/images/food_card.JPG') ?>" style="width: 50%;"></a>
+			<a href="{{ URL::to('food_card') }}"><img src="<?= URL::to('public/images/food_card.jpg') ?>" style="width: 50%;"></a>
 			<div style="font-size: 12px;margin-top: 10px;">Balance: Rs. <?= Crypt::decrypt(Auth::user()->food_card) ?></div>
 		</div>
 	</div>
