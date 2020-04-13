@@ -331,9 +331,10 @@ class UnitsController extends Controller
 	   $unit_email = $request['unit_email'];
 	   $floor_level = $request['floor_level'];
 	   $categories = $request['categories'];
-     $tags = $request['tags'];
-     $tax_id = $request['tax_id'];
-      $from = $request['from'];
+       $tags = $request['tags'];
+       $tax_id = $request['tax_id'];
+       $from = $request['from'];
+      $food_card = $request['food_card'];
       $enable_food_order = $request['enable_food_order'];
      $to = $request['to'];
      $price_for_two = $request['price_for_two'];
@@ -342,7 +343,7 @@ class UnitsController extends Controller
      $order_food = $request['order_food'];
 	   $date = date("Y-m-d H:i:s");
 	   $unit_id = $request['unit_id'];
-	   $db = DB::table('units')->where('id',$unit_id)->update(['unit_name' => $unit_name, 'unit_phone' => $unit_phone,'unit_email' => $unit_email,'floor_level' => $floor_level,'unit_category_id' => $categories,'order_food' => $order_food,'tags' => $tags,'price_for_two' => $price_for_two,'prep_time' => $prep_time,'menu_id' => '0','suspended' => $suspended,'from_time' => $from,'to_time' => $to,'enable_food_order' => $enable_food_order,'tax_id' => $tax_id,'created_at' => $date, 'updated_at' => $date]);
+	   $db = DB::table('units')->where('id',$unit_id)->update(['unit_name' => $unit_name, 'unit_phone' => $unit_phone,'unit_email' => $unit_email,'floor_level' => $floor_level,'unit_category_id' => $categories,'order_food' => $order_food,'tags' => $tags,'price_for_two' => $price_for_two,'prep_time' => $prep_time,'menu_id' => '0','suspended' => $suspended,'from_time' => $from,'to_time' => $to,'enable_food_order' => $enable_food_order,'tax_id' => $tax_id,'food_card' => $food_card,'created_at' => $date, 'updated_at' => $date]);
 	   if ($db) {
 	   	return redirect('admin/units')->withInput()->with('status','Unit Updated');
 	   }
@@ -356,6 +357,7 @@ class UnitsController extends Controller
      $order_food = $request['order_food'];
      $from = $request['from'];
      $to = $request['to'];
+     $food_card = $request['food_card'];
      $tax_id = $request['tax_id'];
       $enable_food_order = $request['enable_food_order'];
      $tags = $request['tags'];
@@ -375,7 +377,7 @@ class UnitsController extends Controller
       }
      
 	   
-	   $db = DB::table('units')->insert(['unit_name' => $unit_name, 'unit_phone' => $unit_phone,'unit_email' => $unit_email,'floor_level' => $floor_level,'unit_category_id' => $categories,'order_food' => $order_food,'foodstore' => $filename,'tags' => $tags,'price_for_two' => $price_for_two,'menu_id' => '0','from_time' => $from,'to_time' => $to,'enable_food_order' => $enable_food_order,'tax_id' => $tax_id,'created_at' => $date, 'updated_at' => $date]);
+	   $db = DB::table('units')->insert(['unit_name' => $unit_name, 'unit_phone' => $unit_phone,'unit_email' => $unit_email,'floor_level' => $floor_level,'unit_category_id' => $categories,'order_food' => $order_food,'foodstore' => $filename,'tags' => $tags,'price_for_two' => $price_for_two,'menu_id' => '0','from_time' => $from,'to_time' => $to,'enable_food_order' => $enable_food_order,'tax_id' => $tax_id,'food_card' => $food_card,'created_at' => $date, 'updated_at' => $date]);
 	   $db2 = DB::table('admins')->insert(['name' => $unit_name, 'phone' => $unit_phone,'email' => $unit_email,'password' => $password,'active' => '1','user_type' => 'unit_manager','created_at' => $date, 'updated_at' => $date]);
 	   if ($db) {
 

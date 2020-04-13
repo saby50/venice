@@ -9,9 +9,22 @@ Pay
 
 <div class="recyclerview firstbox" ng-app="myApp" ng-controller="myCtrl">
 	<div class="row">
+		<div class="col-6 paybox">
+			<a href="<?= URL::to('wallet') ?>"><img src="<?= URL::to('public/images/gv_pocket.JPG') ?>" style="width: 50%;"></a>
+			
+			<div style="font-size: 12px;margin-top: 10px;">Balance: Rs. <?= Crypt::decrypt(Auth::user()->wall_am) ?></div>
+		</div>
+		<div class="col-6 paybox">
+			<a href="<?= URL::to('food_card') ?>"><img src="<?= URL::to('public/images/food_card.JPG') ?>" style="width: 50%;"></a>
+			
+			<div style="font-size: 12px;margin-top: 10px;">Balance: Rs. <?= Crypt::decrypt(Auth::user()->food_card) ?></div>
+		</div>
+		
+	</div>
+	<div class="row">
 		<div class="col-12 gv-balance">
 			
-			<input type="text" name="search" class="form-control searchbox" placeholder="Search by Keywords, Entity....."  ng-model="searchText" autofocus="autofocus">
+			<input type="text" name="search" class="form-control searchboxarea" placeholder="Search by Keywords, Entity....."  ng-model="searchText" autofocus="autofocus">
 			
 		</div>
 	</div>
@@ -47,9 +60,9 @@ Pay
           var data = $(this).attr('data');
           window.location = data;
 		});
-		$('.searchbox').vibrate();
+		$('.searchboxarea').vibrate();
 
-		$('.searchbox').click();
+		$('.searchboxarea').click();
 		
 	});
 	  var app = angular.module('myApp', ['angularUtils.directives.dirPagination'], function($interpolateProvider) {
@@ -65,6 +78,16 @@ Pay
        });
       });
 </script>
-
+<style type="text/css">
+	.paybox {
+		padding: 10px;
+		text-align: center;
+		border: solid 1px #ccc;
+		margin-bottom: 20px;
+	}
+	.paybox a {
+		color: #000;
+	}
+</style>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.main2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/wallet/pay.blade.php ENDPATH**/ ?>

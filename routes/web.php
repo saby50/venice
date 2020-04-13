@@ -64,6 +64,8 @@ Route::get('feedback/{order_id}', 'WebController@feedback');
 Route::get('cafe-bakeries', 'WebController@bakery');
 Route::get('status_s', 'PaymentController@status_s');
 Route::get('food/status_s', 'WebController@status_s');
+Route::get('food_card', 'FoodcardController@index');
+Route::get('food_card/recharge', 'FoodcardController@recharge');
 Route::get('remove_coupon', 'CartController@remove_coupon');
 Route::get('status_f', 'PaymentController@status_f');
 Route::get('events/{event_alias}', 'EventController@index');

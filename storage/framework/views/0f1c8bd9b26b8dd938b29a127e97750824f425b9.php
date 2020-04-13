@@ -603,11 +603,11 @@ $current_time = date('g:i A');
 }
 
 input:checked + .slider {
-  background-color: #f3a423;
+  background-color: #62cc72;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #f3a423;
+  box-shadow: 0 0 1px #62cc72;
 }
 
 input:checked + .slider:before {

@@ -1,14 +1,68 @@
 <?php $__env->startSection('title'); ?>
-Wallet
+Food Card
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-<div class="recyclerview firstbox" style="padding: 40px;">
-<div class="row">
-		<div class="col-12 recent">
-			All Transactions<br />
+<div class="recyclerview firstbox">
+	<div class="row">
+		<div class="col-12 gv-balance">
+			Food Card Balance<br />
+			<h3 style="color: #EF9E11;"><i class="fa fa-rupee"></i> <?= Crypt::decrypt(Auth::user()->food_card) ?></h3>
+		</div>
+	</div>
+	<div class="row gv-box orangeborder ripple" data="<?php echo e(URL::to('food_card/refund')); ?>">
+		
+		<div class="col-7">
+			Food Card<br />
+			<span>100% Usage</span> </a>
+
+
+		</div>
+		<div class="col-5">
+			<h5><i class="fa fa-rupee"></i> <?= Crypt::decrypt(Auth::user()->food_card) ?></h5>
 		</div>
 		
+		<div class="col-12 gv-box-footer">
+
+			<strong>+ Get Instant Refund</strong>
+			<i class="fa fa-arrow-right" aria-hidden="true" style="float: right;"></i>
+
+			
+		</div>
+		
+	</div>
+	<div class="row gv-box skyblueborder ripple" data="<?php echo e(URL::to('wallet/promo')); ?>" style="display: none;">
+		
+		<div class="col-7">
+			PROMOTIONAL CREDIT<br />
+			<span>Restricted Usage</span> <a href="#" class="info-icon"><i class="fa fa-info" aria-hidden="true"></i></a>
+
+
+		</div>
+		<div class="col-5">
+			<h5><i class="fa fa-rupee"></i> 0</h5>
+		</div>
+		
+		<div class="col-12 gv-box-footer">
+
+			<a href="#">View Expiry Summary</a>
+			<i class="fa fa-arrow-right" aria-hidden="true" style="float: right;"></i>
+
+			
+		</div>
+		
+	</div>
+</div>
+<?php if(count($topup) != 0): ?>
+<div class="recyclerview" style="padding: 40px;">
+<div class="row">
+		<div class="col-7 recent">
+			Recent Transactions<br />
+		</div>
+		<div class="col-5 gv-balance gvwebbal" style="text-align: right;;margin-left: 10px;">
+			<a href="<?php echo e(URL::to('view_all')); ?>" style="color: #078bde;">View All</a><br />
+			
+		</div>
 
 		<?php foreach($topup as $key => $value): ?>
 			<?php if($value->identifier=="topup"): ?>
@@ -29,6 +83,7 @@ Wallet
 			</div>
 			</div>
 			</div>
+		
 			<?php else: ?>
 <div class="col-12 gv-history">
 				<div class="row">
@@ -57,9 +112,18 @@ Wallet
                 	 <?php 
 				  if ($value->identifier=="payment" || $value->identifier=="refund") {
 				  	$units = Helper::get_unit($value->unit_id);
-                    echo $units['unit_name'].", ".$units['floor_level'];
+				  	if (count($units) == 0) {
+				  		$unit_name = "";
+				  		$unit_floor = "";
+				  	}else {
+				  		$unit_name = $units['unit_name'];
+				  		$unit_floor = $units['floor_level'];
+				  	}
+                    echo $unit_name.", ".$unit_floor;
 				  }elseif($value->identifier=="foodorder") {
 				  	echo "Food Order";
+				  }elseif($value->identifier=="event") {
+				  	echo Helper::get_event_name($value->order_id);
 				  }else {
 				  	echo rtrim($s,",");
 				  }
@@ -77,7 +141,7 @@ Wallet
 				
 			</div>
              <div class="col-4" style="text-align: right;">
-               <?php if($value->identifier=="refund"): ?>
+             	 <?php if($value->identifier=="refund"): ?>
              	<strong class="gv-price">+ <i class="fa fa-rupee"></i> <?= $value->final_amount ?></span>
              		
              </strong>
@@ -97,6 +161,7 @@ Wallet
 		
 	</div>
 </div>
+<?php endif; ?>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.gv-box').click(function() {
@@ -108,4 +173,4 @@ Wallet
 </script>
 <link rel="stylesheet" type="text/css" href="<?php echo e(asset('public/css/front/stylewallet.css')); ?>">
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.main2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/wallet/viewall.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.main2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/food_card/index.blade.php ENDPATH**/ ?>

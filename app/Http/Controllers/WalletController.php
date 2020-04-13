@@ -134,7 +134,18 @@ class WalletController extends Controller
       return view('wallet/scanpay');
     }
      function paynow($id) { 
+      
+       $unit = Helper::get_unit_info($id);
+         $food_card = "no";
+    foreach ($unit as $key => $value) {
+      $food_card = $value->food_card;
+    }
+    if ($food_card=="no") {
+      $payment_method = DB::table('payment_method')->where('gateway_name','!=','food_card')->where('status','active')->get();
+    }else {
       $payment_method = DB::table('payment_method')->where('status','active')->get();
+    }
+     
       return view('wallet/paynow',compact('id','payment_method'));
     }
     function process(Request $request) {
@@ -143,9 +154,18 @@ class WalletController extends Controller
       $user_id = Auth::user()->id;
       $trans_id = uniqid(mt_rand(),true);
       $payment_method = $request['payment_method'];
-      $order_id = "GV/WP/".Helper::generatePIN(6);
+      if ($payment_method=="gv_pocket") {
+        $order_id = "GV/WP/".Helper::generatePIN(6);
+      }else {
+        $order_id = "GV/FC/".Helper::generatePIN(6);
+      }
+      
       if ($payment_method=="gv_pocket") {
         $current_bal = Crypt::decrypt(Auth::user()->wall_am);
+        return Helper::process_payment(Auth::user()->name,Auth::user()->phone,$unit_id,$amount,$user_id,$trans_id,$payment_method,$order_id,$current_bal);
+      }elseif($payment_method=="food_card") {
+        
+         $current_bal = Crypt::decrypt(Auth::user()->food_card);
         return Helper::process_payment(Auth::user()->name,Auth::user()->phone,$unit_id,$amount,$user_id,$trans_id,$payment_method,$order_id,$current_bal);
       }else {
             $api = new \Instamojo\Instamojo(

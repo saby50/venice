@@ -52,7 +52,7 @@ Payment Status
                     <?php endif; ?>
                     <div class="col-md-12" style="text-align: center;padding: 40px;font-size: 14px;">
 
-                      <?php if($type=="wallet"): ?>
+                      <?php if($type=="wallet" || $type=="gv_pocket"): ?>
 
                         <img src="<?php echo e(asset('public/images/yeah.png')); ?>" width="200px"><br /><br />
                    <p>You have successfully paid through GV Pay. Following are the details:<br />
@@ -61,7 +61,13 @@ Payment Status
                   <strong>Date: </strong> <?= date('M, d Y', strtotime($session['date'])) ?><br />
                   <strong>Order ID: </strong> <?= $session['order_id'] ?></p>
 
-
+                     <?php elseif($type=="food_card"): ?>
+                       <img src="<?php echo e(asset('public/images/yeah.png')); ?>" width="200px"><br /><br />
+                   <p>You have successfully paid through Food Card. Following are the details:<br />
+                    <strong>Amount: </strong> <?= $session['amount'] ?><br />
+                   <strong>Paid To: </strong> <?= $session['unit_name'] ?><br />
+                  <strong>Date: </strong> <?= date('M, d Y', strtotime($session['date'])) ?><br />
+                  <strong>Order ID: </strong> <?= $session['order_id'] ?></p>
                         <?php else: ?>
                       <?php if($status=="success"): ?>
                    <img src="<?php echo e(asset('public/images/yeah.png')); ?>"><br /><br />

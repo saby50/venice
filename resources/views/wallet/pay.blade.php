@@ -10,6 +10,7 @@ Pay
 
 
 <div class="recyclerview firstbox" ng-app="myApp" ng-controller="myCtrl">
+	
 	<div class="row">
 		<div class="col-12 gv-balance">
 			
@@ -67,5 +68,15 @@ Pay
        });
       });
 </script>
-
+<style type="text/css">
+	.paybox {
+		padding: 10px;
+		text-align: center;
+		border: solid 1px #ccc;
+		margin-bottom: 20px;
+	}
+	.paybox a {
+		color: #000;
+	}
+</style>
 @endsection

@@ -7,6 +7,7 @@ Pay Now
 @section('content')
 <?php 
     $unit = Helper::get_unit_info($id);
+    
 ?>
 <div class="firstbox">
 	<div class="row">
@@ -41,20 +42,45 @@ Pay Now
 	
 		<div class="col-<?= Helper::fetch_col($payment_method) ?>">
 			<?php if($key==0): ?>
-			<input type="radio" name="payment_method" value="<?= $value->gateway_name ?>" checked="checked" class="gateway"> <img src="<?= asset('public/images/'.$value->gateway_name.'.JPG') ?>" class="payment_method2">
-			<?php else: ?>
-				<input type="radio" name="payment_method" value="<?= $value->gateway_name ?>" class="gateway">  <img src="<?= asset('public/images/'.$value->gateway_name.'.JPG') ?>" class="payment_method2">
-		   <?php endif; ?>
+
+             
+			
+				<input type="radio" name="payment_method" value="<?= $value->gateway_name ?>" checked="checked" class="gateway"> <img src="<?= asset('public/images/'.$value->gateway_name.'.JPG') ?>" class="payment_method2">
+				<?php else: ?>
+
+				<input type="radio" name="payment_method" value="<?= $value->gateway_name ?>" class="gateway"> <img src="<?= asset('public/images/'.$value->gateway_name.'.JPG') ?>" class="payment_method2">	
+		   
+			<?php endif; ?>
 		</div>
 		<?php endforeach; ?>
 		<div class="col-12" style="margin-top: 60px;">
-			<span>YOUR GV PAY BALANCE: <strong><i class="fa fa-rupee"></i> <?= Crypt::decrypt(Auth::user()->wall_am) ?></strong></span>
+			<span class="balance-notify"></span>
 			<button type="submit" class="btn checkoutbtn proceed" style="margin-top: 10px;">PAY NOW</button>
 			
 		</div>
 	</div></div>
 	</div>
 	</form>
+</div>
+<!-- The Modal -->
+<div id="myModal3" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="">
+      <span class="close">&times;</span>
+      
+    </div>
+    <div class="modal-body">
+      <p class="balance-error">You have insufficient balance to pay, please recharge it from counter!<br />
+     <button type="button" class="btn checkoutbtn " style="margin-top: 10px;display: none;">Recharge Now</button></p>
+      
+    </div>
+    <div style="margin-top: 30px;">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+
 </div>
 <!-- The Modal -->
 <div id="myModal2" class="modal">
@@ -83,6 +109,26 @@ Pay Now
           var data = $(this).attr('data');
           window.location = data;
 		});
+		 var type = $(".gateway:checked").val();
+           if (type=="gv_pocket") {
+           	  var balance = "<?= Crypt::decrypt(Auth::user()->wall_am) ?>";
+              $(".balance-notify").html('YOUR GV PAY BALANCE: <strong><i class="fa fa-rupee"></i> '+balance+'</strong>');
+           }else {
+           	var balance = "<?= Crypt::decrypt(Auth::user()->food_card) ?>";
+              $(".balance-notify").html('YOUR FOOD CARD BALANCE: <strong><i class="fa fa-rupee"></i> '+balance+'</strong>');
+
+           }
+		$('.gateway').on('change', function() {
+           var data = $(this).val();
+           if (data=="gv_pocket") {
+           	  var balance = "<?= Crypt::decrypt(Auth::user()->wall_am) ?>";
+              $(".balance-notify").html('YOUR GV PAY BALANCE: <strong><i class="fa fa-rupee"></i> '+balance+'</strong>');
+           }else {
+           	var balance = "<?= Crypt::decrypt(Auth::user()->food_card) ?>";
+              $(".balance-notify").html('YOUR FOOD CARD BALANCE: <strong><i class="fa fa-rupee"></i> '+balance+'</strong>');
+
+           }
+		});
 		$(".amount_box").keyup(function() {
            var length = $(this).val().length;
            if (length!=0) {
@@ -92,19 +138,32 @@ Pay Now
            }
 		});
 		$(".proceed").click(function() {
-			var current_balance = "<?= Crypt::decrypt(Auth::user()->wall_am) ?>";
+			
 			var amount = $(".amount_box").val();
 			var gateway = $(".gateway:checked").val();
+			
 			if(gateway=="gv_pocket") {
-			if (parseInt(current_balance) < parseInt(amount)) {
+				var current_balance = "<?= Crypt::decrypt(Auth::user()->wall_am) ?>";
+			 if (parseInt(current_balance) < parseInt(amount)) {
 				$("#myModal2").modal('show');
-			}else if (amount=="" || amount==0) {
+			 }else if (amount=="" || amount==0) {
 				alert("Please enter some amount");
-			}else {
+			 }else {
 				return true;
-			}		
-			}else {
+			 }		
+			}else if(gateway=="food_card") {
+			 	var current_balance = "<?= Crypt::decrypt(Auth::user()->food_card) ?>";
+			 if (parseInt(current_balance) < parseInt(amount)) {
+				$("#myModal3").modal('show');
+			 }else if (amount=="" || amount==0) {
+				alert("Please enter some amount");
+			 }else {
 				return true;
+			 }		
+
+			}else {
+				//return true;
+				alert(gateway);
 			}
 			
 			
@@ -112,6 +171,9 @@ Pay Now
 		});
 		$(".recharge").click(function() {
            window.location = "<?= URL::to('wallet/recharge') ?>";
+		});
+		$(".recharge_food_card").click(function() {
+           window.location = "<?= URL::to('food_card/recharge') ?>";
 		});
 
 	});
