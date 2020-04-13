@@ -57,7 +57,7 @@ Wallet
                  
                 ?></strong><br /><span class="gv-subtitle">
                 	 <?php 
-				  if ($value->identifier=="payment" || $value->identifier=="refund") {
+				  if ($value->identifier=="payment") {
 				  	$units = Helper::get_unit($value->unit_id);
 				  	if (count($units) == 0) {
 				  		$unit_name = "";
@@ -66,7 +66,11 @@ Wallet
 				  		$unit_name = $units['unit_name'];
 				  		$unit_floor = $units['floor_level'];
 				  	}
-                    echo $unit_name.", ".$unit_floor;
+                    if (strpos($value->order_id, "ON")!==false) {
+				  		echo rtrim($s,",");
+				  	}else {
+				  		echo $unit_name.", ".$unit_floor;
+				  	}
 				  }elseif($value->identifier=="foodorder") {
 				  	echo "Food Order";
 				  }elseif($value->identifier=="event") {
