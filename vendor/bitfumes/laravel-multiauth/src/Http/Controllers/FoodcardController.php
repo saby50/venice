@@ -122,7 +122,7 @@ class FoodcardController extends Controller
     }else {
       //$data = $data->where('payment_method',$parameter2);
     }
-
+       $data = $data->where('food_card_refund_requests.status', 'pending');
         $data = $data->orderBy('food_card_refund_requests.id', 'desc');
     $data = $data->get();
     $filters = DB::table('filter_types')->where('page_name','bookings')->where('filter_value','!=','custom')->get();
@@ -135,10 +135,11 @@ class FoodcardController extends Controller
 
     foreach ($getdetails as $key => $value) {
      $user_id = $value->user_id;
-     $refund_amount = $value->refund_amount;
+     
 
     }
     $finduser = User::where('id', $user_id)->first();
+    $refund_amount = Crypt::decrypt($finduser['food_card']);
     $date = date("Y-m-d H:i:s");
 
     $data = array('final_amount' => 0, 'mainamount' => 0, 'extra' => 0, 'user_id' => $user_id, 'order_id' => $request_id, 'expiry' => '', 'identifier' => 'refund', 'unit_id' => 0, 'trans_id' => '','payment_method' => 'food_card', 'platform' => 'android', 'refund' => 'yes', 'refund_amount' => $refund_amount,'created_at' => $date, 'updated_at' => $date);

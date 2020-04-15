@@ -21,6 +21,10 @@ class Helper
     }
     return $data;
   }
+  public static function get_food_card($user_id) {
+     $finduser = App\User::where('id', $user_id)->first();
+     return $finduser['food_card'];
+  }
   public static function get_boottom_footer() {
     $bottom_slider = DB::table('bottom_slides')->where('visibility',1)->inRandomOrder()->take(1)->get();
     return $bottom_slider;

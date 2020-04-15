@@ -85,7 +85,7 @@ $food_check = Helper::get_unit_by_email_food(Auth::user()->email);
                <li><a href="<?php echo e(URL::to('admin/cash_bookings')); ?>">Helpdesk</a></li>   
                <li><a href="<?php echo e(URL::to('admin/wallet/topup')); ?>">Wallet Topup</a></li>
                <li><a href="<?php echo e(URL::to('admin/food_card/topup')); ?>">Food Card Topup</a></li>
-                <li><a href="<?php echo e(URL::to('admin/food_card/refund')); ?>">Food Card Refunds</a></li>             
+                <li><a href="<?php echo e(URL::to('admin/food_card/refund/todays')); ?>">Food Card Refunds</a></li>             
             </ul></li> 
 
 

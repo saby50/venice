@@ -146,12 +146,21 @@ $amount = 0;
 											  </form>
 
 											</td>
-											<td>Rs. <?= $value->refund_amount ?></td>
+											<td>
+                                              <?php if($value->status=="pending"): ?>
+												Rs. <?php 
+                                             $food_card = Crypt::decrypt(Helper::get_food_card($value->user_id));
+
+											 echo $food_card; ?>
+											 	
+
+											 <?php endif; ?>
+											 </td>
 											<td><?= ucfirst($value->status) ?></td>
 											<td><?php if($value->status=="pending"): ?>
 												<a href="<?= URL::to('admin/food_card_refund/'.Crypt::encrypt($value->order_id)) ?>" class="refund">Refund Now</a>
 												<?php else: ?>
-												
+
 												<?php endif; ?>
 											</td>
 											
