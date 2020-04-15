@@ -157,7 +157,7 @@ $amount = 0;
 											 <?php endif; ?>
 											 </td>
 											<td><?= ucfirst($value->status) ?></td>
-											<td><?php if($value->status=="pending"): ?>
+											<td><?php if($food_card!=0): ?>
 												<a href="<?= URL::to('admin/food_card_refund/'.Crypt::encrypt($value->order_id)) ?>" class="refund">Refund Now</a>
 												<?php else: ?>
 
