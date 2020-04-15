@@ -23,9 +23,13 @@ Food Card
 		</div>
 		
 		<div class="col-12 gv-box-footer">
-
+            <?php if (Crypt::decrypt(Auth::user()->food_card)==0): ?>
+			<strong>Low Balance, Recharge from counter</strong>
+			
+			<?php else: ?>
 			<strong>+ Get Instant Refund</strong>
 			<i class="fa fa-arrow-right" aria-hidden="true" style="float: right;"></i>
+			<?php endif; ?>
 
 			
 		</div>
@@ -69,10 +73,10 @@ Food Card
 			<div class="col-12 gv-history">
 				<div class="row">
 			<div class="col-8">
-				<strong class="gv-title">Topup - <?= $value->order_id ?></strong><br /><span class="gv-subtitle">
+				<strong class="gv-title"><?= $value->order_id ?></strong><br /><span class="gv-subtitle">
                  <?php 
                    $extra_percent = $value->extra / $value->mainamount * 100;
-                   echo $extra_percent."% extra GV Pay received";
+                  echo "Topup";
                  ?>
 				</span><br /><br />
 				<span class="gv-added">Added on <?= date('d M, Y H:i A', strtotime($value->created_at)) ?></span><br />
@@ -142,7 +146,7 @@ Food Card
 			</div>
              <div class="col-4" style="text-align: right;">
              	 <?php if($value->identifier=="refund"): ?>
-             	<strong class="gv-price">+ <i class="fa fa-rupee"></i> <?= $value->final_amount ?></span>
+             	<strong class="gv-price2">- <i class="fa fa-rupee"></i> <?= $value->refund_amount ?></span>
              		
              </strong>
              <?php elseif($value->identifier=="payment" && $value->refund=="yes"): ?>
@@ -161,13 +165,46 @@ Food Card
 		
 	</div>
 </div>
+
 <?php endif; ?>
+<!-- The Modal -->
+<div id="myModal3" class="modal">
+<form action="<?= URL::to('food_card/refund') ?>" method="post">
+	<?php echo csrf_field(); ?>
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="">
+      <span class="close">&times;</span>
+      
+    </div>
+    <div class="modal-body">
+    	<input type="hidden" name="user_id" value="<?= Auth::user()->id ?>">
+      <p class="balance-error">Are you sure you want to refund Rs. <?= Crypt::decrypt(Auth::user()->food_card) ?>?<br /><br />
+     <button type="submit" class="btn checkoutbtn">Yes Refund</button><br /><br /><button type="button" class="btn checkoutbtn cancel" data-dismiss="modal">No Cancel</button></p>
+      
+    </div>
+    <div style="margin-top: 30px;">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+</form>
+</div>
+<style type="text/css">
+	.cancel {
+		background: #37367c !important;
+	}
+</style>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.gv-box').click(function() {
           var data = $(this).attr('data');
-          window.location = data;
+          var food_card = "<?= Crypt::decrypt(Auth::user()->food_card) ?>";
+          if (food_card != 0) {
+          	$("#myModal3").modal("show");
+          }
+          
 		});
+		
 
 	});
 </script>

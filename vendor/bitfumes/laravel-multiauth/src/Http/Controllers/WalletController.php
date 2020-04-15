@@ -118,7 +118,7 @@ class WalletController extends Controller
       $db = User::where('phone',$phone)->get();
       $data = array();
       foreach ($db as $key => $value) {
-      	$data[] = array('name' => $value->name,'email' => $value->email,'wall_am' => Crypt::decrypt($value->wall_am));
+      	$data[] = array('name' => $value->name,'email' => $value->email,'wall_am' => Crypt::decrypt($value->wall_am),'food_card' => Crypt::decrypt($value->food_card));
       }
       return $data;
     }

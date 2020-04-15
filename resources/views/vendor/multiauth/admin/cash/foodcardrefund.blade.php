@@ -1,11 +1,11 @@
- 
+@extends('multiauth::layouts.main') 
 
 
-<?php $__env->startSection('title'); ?>
+@section('title')
 Unit Revenue
-<?php $__env->stopSection(); ?>
+@endsection
 
-<?php $__env->startSection('content'); ?>
+@section('content')
 <?php 
 $amount = 0;
 ?>
@@ -40,17 +40,17 @@ $amount = 0;
 </div><!-- Top Bar Chart -->
 <div class="panel-content">
 	<div class="row">
-	<?php if(session('status')): ?>
+	@if (session('status'))
 				<div class="widget no-color">
 						<div class="alert alert-success">
 								<div class="notify-content">
-									 <?php echo e(session('status')); ?>!
+									 {{ session('status') }}!
 
 								</div>
 						</div>
 						</div>
 				</div>
-			<?php endif; ?>
+			@endif
 			</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -91,19 +91,7 @@ $amount = 0;
              
 						</div>
 
-						<div class="col-md-3">
-							<label>Filter  by type</label><br />
-							<select class="form-control filter2">
-								<?php if($parameter2=="cash"): ?>
-									<option value="instamojo">Instamojo</option>
-								<option value="cash" selected="selected">Cash</option>
-									<?php else: ?>
-										<option value="instamojo" selected="selected">Instamojo</option>
-								<option value="cash">Cash</option>
-								<?php endif; ?>
-								
-							</select>
-						</div>
+						
 						
 						
 					</div>
@@ -119,11 +107,8 @@ $amount = 0;
 									<tr>
 										<th>Order Details</th>
 										<th>Amount</th>
-										<th>Cashback</th>
-										<th>Total Amount</th>
-										<th>Payment Method</th>
-										
-									
+										<th>Status</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -153,31 +138,24 @@ $amount = 0;
 												
 												
 
-											  <form id="refundform_<?= $value->id ?>" method="post" action="<?php echo e(URL::to('admin/api/unit_refund_web')); ?>">
-											  	<?php echo csrf_field(); ?>
+											  <form id="refundform_<?= $value->id ?>" method="post" action="{{ URL::to('admin/api/unit_refund_web') }}">
+											  	@csrf
 											  	<input type="hidden" name="amount" value="<?= $value->final_amount ?>">
 											  	<input type="hidden" name="unit_id" value="<?= $value->unit_id ?>">
 											  	<input type="hidden" name="order_id" value="<?= $value->order_id ?>">
 											  </form>
 
 											</td>
-											<td><i class="fa fa-rupee"></i> <?= $value->mainamount ?>
-
-                                            <?php 
-                                              $amount+= $value->mainamount;
-                                            ?>
-										</td>
-										<td><i class="fa fa-rupee"></i> <?= $value->extra ?></td>
-										<td><i class="fa fa-rupee"></i> <?= $value->final_amount ?></td>
-											<td><?php $p_method = $value->payment_method;
-											if ($p_method=="gv_pocket") {
-											 	echo "GV Pay";
-											 }elseif($p_method=="instamojo") {
-											 	echo "Instamojo";
-											 } elseif($p_method=="cash") {
-											 	echo "Cash";
-											 } 
-											 ?></td>
+											<td>Rs. <?= $value->refund_amount ?></td>
+											<td><?= ucfirst($value->status) ?></td>
+											<td><?php if($value->status=="pending"): ?>
+												<a href="<?= URL::to('admin/food_card_refund/'.Crypt::encrypt($value->order_id)) ?>" class="refund">Refund Now</a>
+												<?php else: ?>
+												
+												<?php endif; ?>
+											</td>
+											
+										
 											
 										</tr>
 										
@@ -211,7 +189,10 @@ $amount = 0;
   	.refundbtn {
   		cursor: pointer;
   	}
-  	@media  only screen and (max-width: 600px) {
+  	.refund {
+  		color: orange;
+  	}
+  	@media only screen and (max-width: 600px) {
  .filterarea {
   		position: relative;
   		top: -20px;
@@ -223,20 +204,21 @@ $amount = 0;
   	$(document).ready(function() {
        $(".filter").change(function() {
          var data = $(this).val();
-         var parameter2 = "<?= $parameter2 ?>";
-         var url = "<?= URL::to('admin/recharge/') ?>/"+data+"/"+parameter2;
+        
+         var url = "<?= URL::to('admin/food_card/refund/') ?>/"+data;
           window.location = url;
        });
-        $(".filter2").change(function() {
-         var data = $(this).val();
-         var parameter2 = "<?= $parameter ?>";
-         var url = "<?= URL::to('admin/recharge/') ?>/"+parameter2+"/"+data;
-          window.location = url;
-       });
+        
         var amount = "<?= $amount ?>";
       $('.amount2').html(amount);
+      $(".refund").click(function() {
+      	if (confirm("Are you sure want to refund the amount?")) {
+      		return true;
+      	}else {
+      		return false;
+      	}
+        return false;
+      });
   	});
   </script>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('multiauth::layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\nxampp\htdocs\venice\resources\views/vendor/multiauth/admin/wallet/history.blade.php ENDPATH**/ ?>
+@endsection

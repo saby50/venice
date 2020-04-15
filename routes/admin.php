@@ -356,6 +356,11 @@
      Route::get('update_lead_status/{lead_id}/{status}','LeadsController@update_lead_status');
      Route::get('lead_claim/{lead_id}','LeadsController@lead_claim');
      Route::get('get_lead_data/{lead_id}','LeadsController@get_lead_data');
+
+     Route::get('food_card/topup','FoodcardController@food_card_topup');
+     Route::get('food_card/refund/{parameter}','FoodcardController@food_card_refund');
+     Route::get('food_card_refund/{order_id}','FoodcardController@food_card_refund_process');
+    Route::post('food_card_topup/add','FoodcardController@add');
     // Roles
     Route::get('/roles', 'RoleController@index')->name('admin.roles');
     Route::get('/role/create', 'RoleController@create')->name('admin.role.create');

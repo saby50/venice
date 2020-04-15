@@ -2,7 +2,7 @@
 
 
 <?php $__env->startSection('title'); ?>
-Topup
+Wallet Topup
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -10,7 +10,7 @@ Topup
 <div class="breadcrumbs">
   <ul>
     <li><a href="#/" title="">Home</a></li>
-    <li><a href="#/pages/portfolio" title="">Topup</a></li>
+    <li><a href="#/pages/portfolio" title="">Wallet Topup</a></li>
   </ul>
 </div>
 
@@ -18,7 +18,7 @@ Topup
   <div class="row">
     <div class="col-md-12 column">
       <div class="heading-profile">
-        <h2>Topup</h2>
+        <h2>Wallet Topup</h2>
 
       </div>
     </div>

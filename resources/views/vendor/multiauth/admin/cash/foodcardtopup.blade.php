@@ -2,7 +2,7 @@
 
 
 @section('title')
-Wallet Topup
+Food Card Topup
 @endsection
 
 @section('content')
@@ -10,15 +10,15 @@ Wallet Topup
 <div class="breadcrumbs">
   <ul>
     <li><a href="#/" title="">Home</a></li>
-    <li><a href="#/pages/portfolio" title="">Wallet Topup</a></li>
+    <li><a href="#/pages/portfolio" title="">Food Card Topup</a></li>
   </ul>
 </div>
 
 <div class="heading-sec">
   <div class="row">
-    <div class="col-md-12 column">
+    <div class="col-md-4 column">
       <div class="heading-profile">
-        <h2>Wallet Topup</h2>
+        <h2>Food Card Topups</h2>
 
       </div>
     </div>
@@ -28,7 +28,7 @@ Wallet Topup
           <div class="quick-report-infos">
 
           </div>
-          
+          <span class="bar2"><a href="<?= URL::to('admin/food_card/refund/todays') ?>"><button class="btn btn-primary">Refund Queue</button></a></span>
         </div>
 
       </div><!-- Top Bar Chart -->
@@ -51,7 +51,7 @@ Wallet Topup
       @endif
       </div>
   <div class="row">
-    <form action="{{ URL::to('admin/topup/add') }}" method="post">
+    <form action="{{ URL::to('admin/food_card_topup/add') }}" method="post">
       @csrf
     
 
@@ -77,7 +77,7 @@ Wallet Topup
                    <div class="form-group">
                     <label>Amount<span style="color: red;">*</span></label>
                     <input type="text" class="form-control amount mainam" name="amount" placeholder="Amount" required="required">
-                   <span class="finalam"></span>
+                  
                    </div>
                      <div class="form-group">
                    <ul class="recharge-denomination">
@@ -118,20 +118,20 @@ Wallet Topup
           
         
           </div>
-           <hr />
+           
  
           
         </div>
-        <div class="col-md-4" style="text-align: center;padding-bottom: 20px;">
-         <a href="<?= URL::to('admin/recharge/all/cash') ?>" target="_blank"> <h3>Total Wallet Sale</h3>
+        <div class="col-md-4" style="text-align: center;padding-bottom: 20px; display: none;">
+         <a href="<?= URL::to('admin/recharge/all/cash') ?>" target="_blank"> <h3>Total Food Card Sale</h3>
           <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_recharg_history('all') ?></span></h3></a>
         </div>
-         <div class="col-md-4" style="text-align: center;padding-bottom: 20px;">
-         <a href="<?= URL::to('admin/recharge/monthly/cash') ?>" target="_blank">  <h3>POS Wallet This Month</h3>
+         <div class="col-md-4" style="text-align: center;padding-bottom: 20px; display: none;">
+         <a href="<?= URL::to('admin/recharge/monthly/cash') ?>" target="_blank">  <h3>POS  Food Card This Month</h3>
           <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_recharg_history('monthly') ?></span></h3></a>
         </div>
-         <div class="col-md-4" style="text-align: center;padding-bottom: 20px;">
-         <a href="<?= URL::to('admin/recharge/todays/cash') ?>" target="_blank">  <h3>POS Wallet Today</h3>
+         <div class="col-md-4" style="text-align: center;padding-bottom: 20px; display: none;">
+         <a href="<?= URL::to('admin/recharge/todays/cash') ?>" target="_blank">  <h3>POS  Food Card Today</h3>
            <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_recharg_history('todays') ?></span></h3></a>
         </div>
         
@@ -154,7 +154,7 @@ Wallet Topup
               if (result.length != 0) {
                  $(".name").attr('value',result[0]['name']);
              $(".email").attr('value',result[0]['email']);
-             $(".currentbalance").html("<strong>Current Balance: Rs."+result[0]['wall_am']+"</strong>");
+             $(".currentbalance").html("<strong>Current Balance: Rs."+result[0]['food_card']+"</strong>");
            }else {
              $(".name").attr('value','');
              $(".email").attr('value','');
@@ -176,7 +176,7 @@ Wallet Topup
         var url = "<?= URL::to('api/get_denom_percent/"+data+"') ?>";
     var percent = 0;
     $.get(url, function( result ) {
-            percent = result;
+            
             var extra = Math.round(data * percent/100);
     var finalamount = Math.round(parseFloat(data) + parseFloat(extra));
     
@@ -207,8 +207,7 @@ Wallet Topup
     var url = "<?= URL::to('api/get_denom_percent/"+data+"') ?>";
     var percent = 0;
     $.get(url, function( result ) {
-            percent = result;
-        $('.percent').html(percent);
+      
     $('.ramount').attr('value', data);
     var extra = Math.round(data * percent/100);
     var finalamount = Math.round(parseFloat(data) + parseFloat(extra));
@@ -225,8 +224,7 @@ Wallet Topup
         var url = "<?= URL::to('api/get_denom_percent/"+data+"') ?>";
     var percent = 0;
     $.get(url, function( result ) {
-            percent = result;
-        $('.percent').html(percent);
+        
         $('.ramount').attr('value', data);
         var extra = Math.round(data * percent/100);
         var finalamount = Math.round(parseFloat(data) + parseFloat(extra));

@@ -104,6 +104,8 @@ Route::post('pay/process', 'WalletController@process');
 Route::get('paynow/{id}', 'WalletController@paynow');
 Route::get('view_all', 'WalletController@view_all');
 Route::get('food_card/view_all', 'FoodcardController@view_all');
+Route::get('food_card/status', 'FoodcardController@status');
+Route::POST('food_card/refund', 'FoodcardController@refund');
 Route::POST('api/get_recive_payment', 'ApiController@get_recive_payment');
 Route::POST('api/check_otp', 'ApiController@check_otp');
 Route::get('instaprocess', 'WalletController@instaprocess');

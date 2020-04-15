@@ -83,7 +83,9 @@ $food_check = Helper::get_unit_by_email_food(Auth::user()->email);
         <li><a href="{{ URL::to('admin/users') }}" title=""  class="<?php if($segment=='users') { echo 'item-active'; } ?>"><i class="fa fa-bolt"></i> <span>Users</a></li> 
  <li class="menu-item-has-children"><a href="{{ URL::to('admin/cash_bookings') }}" title=""  class="<?php if($segment=='cash_bookings') { echo 'item-active'; } ?>"><i class="fa fa-bolt"></i> <span>POS</a><ul>
                <li><a href="{{ URL::to('admin/cash_bookings') }}">Helpdesk</a></li>   
-               <li><a href="{{ URL::to('admin/wallet/topup') }}">Wallet Topup</a></li>             
+               <li><a href="{{ URL::to('admin/wallet/topup') }}">Wallet Topup</a></li>
+               <li><a href="{{ URL::to('admin/food_card/topup') }}">Food Card Topup</a></li>
+                <li><a href="{{ URL::to('admin/food_card/refund') }}">Food Card Refunds</a></li>             
             </ul></li> 
 
 

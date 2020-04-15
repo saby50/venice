@@ -17,10 +17,10 @@ Food Card
 			<div class="col-12 gv-history">
 				<div class="row">
 			<div class="col-8">
-				<strong class="gv-title">Topup - <?= $value->order_id ?></strong><br /><span class="gv-subtitle">
+				<strong class="gv-title"><?= $value->order_id ?></strong><br /><span class="gv-subtitle">
                  <?php 
                    $extra_percent = $value->extra / $value->mainamount * 100;
-                   echo $extra_percent."% extra GV Pay received";
+                   echo "Topup";
                  ?>
 				</span><br /><br />
 				<span class="gv-added">Added on <?= date('d M, Y H:i A', strtotime($value->created_at)) ?></span><br />
@@ -93,7 +93,8 @@ Food Card
 			</div>
              <div class="col-4" style="text-align: right;">
                <?php if($value->identifier=="refund"): ?>
-             	<strong class="gv-price">+ <i class="fa fa-rupee"></i> <?= $value->final_amount ?></span>
+             	<strong class="gv-price2">- <i class="fa fa-rupee"></i> <?= $value->refund_amount ?></span>
+             		
              		
              </strong>
              <?php elseif($value->identifier=="payment" && $value->refund=="yes"): ?>

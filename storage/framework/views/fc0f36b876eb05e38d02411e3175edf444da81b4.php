@@ -43,10 +43,10 @@ Pay Now
 
              
 			
-				<input type="radio" name="payment_method" value="<?= $value->gateway_name ?>" checked="checked" class="gateway"> <img src="<?= asset('public/images/'.$value->gateway_name.'.JPG') ?>" class="payment_method2">
+				<input type="radio" name="payment_method" value="<?= $value->gateway_name ?>" checked="checked" class="gateway"> <img src="<?= asset('public/images/'.$value->gateway_name.'.jpg') ?>" class="payment_method2">
 				<?php else: ?>
 
-				<input type="radio" name="payment_method" value="<?= $value->gateway_name ?>" class="gateway"> <img src="<?= asset('public/images/'.$value->gateway_name.'.JPG') ?>" class="payment_method2">	
+				<input type="radio" name="payment_method" value="<?= $value->gateway_name ?>" class="gateway"> <img src="<?= asset('public/images/'.$value->gateway_name.'.jpg') ?>" class="payment_method2">	
 		   
 			<?php endif; ?>
 		</div>
