@@ -140,7 +140,8 @@ class WalletController extends Controller
     foreach ($unit as $key => $value) {
       $food_card = $value->food_card;
     }
-    if ($food_card=="no") {
+    $status = Helper::check_user_refund_status();
+    if ($food_card=="no" || $status=="1") {
       $payment_method = DB::table('payment_method')->where('gateway_name','!=','food_card')->where('status','active')->get();
     }else {
       $payment_method = DB::table('payment_method')->where('status','active')->get();

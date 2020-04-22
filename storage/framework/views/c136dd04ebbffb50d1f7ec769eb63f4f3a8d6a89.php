@@ -89,9 +89,9 @@ Food Card
 			</div>
 		
 			<?php else: ?>
-<div class="col-12 gv-history">
+           <div class="col-12 gv-history">
 				<div class="row">
-			<div class="col-8">
+			     <div class="col-8">
 				<strong class="gv-title"> <?php 
 				  if ($value->identifier=="payment") {
 				  	$units = Helper::get_unit($value->unit_id);
@@ -189,6 +189,28 @@ Food Card
   </div>
 </form>
 </div>
+<!-- The Modal -->
+<div id="myModal4" class="modal">
+
+	<?php echo csrf_field(); ?>
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="">
+      <span class="close">&times;</span>
+      
+    </div>
+    <div class="modal-body">
+    	<input type="hidden" name="user_id" value="<?= Auth::user()->id ?>">
+      <p class="balance-error">Your request for refund is already recieved, please collect the cash from counter!<br /><br />
+   </p>
+      
+    </div>
+    <div style="margin-top: 30px;">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+
+</div>
 <style type="text/css">
 	.cancel {
 		background: #37367c !important;
@@ -198,9 +220,15 @@ Food Card
 	$(document).ready(function() {
 		$('.gv-box').click(function() {
           var data = $(this).attr('data');
+          var status = "<?= Helper::check_user_refund_status() ?>";
           var food_card = "<?= Crypt::decrypt(Auth::user()->food_card) ?>";
           if (food_card != 0) {
-          	$("#myModal3").modal("show");
+          	if (status=="1") {
+               $("#myModal4").modal("show");
+          	}else {
+          		$("#myModal3").modal("show");
+          	}
+          	
           }
           
 		});

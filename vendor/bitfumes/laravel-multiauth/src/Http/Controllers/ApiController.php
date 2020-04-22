@@ -425,6 +425,7 @@ class ApiController extends Controller
          $user_id = 0;
          foreach ($orderdetails as $key => $value) {
            $user_id = $value->user_id;
+           $payment_method = $value->payment_method;
          }
 
          $unit_info = Helper::get_unit_info($unit_id);
@@ -439,27 +440,41 @@ class ApiController extends Controller
 
          $wall_amount = 0;
          $phone = "";
-
+         $food_card = 0;
          foreach ($checkuser as $key => $value) {
             $wall_amount = $value->wall_am;
+            $food_card = $value->food_card;
             $phone = $value->phone;
          }
-         $updated_balance = Crypt::decrypt($wall_amount) + $amount;
+
+         if ($payment_method=="gv_pocket") {
+            $updated_balance = Crypt::decrypt($wall_amount) + $amount;
 
          $update = DB::table('users')->where('id',$user_id)->update(['wall_am' => Crypt::encrypt($updated_balance)]);
+         }else {
+           $updated_balance = Crypt::decrypt($food_card) + $amount;
+
+         $update = DB::table('users')->where('id',$user_id)->update(['food_card' => Crypt::encrypt($updated_balance)]);
+         }
+        
 
          $refund = DB::table('wall_history')->where('order_id', $order_id)->where('unit_id', $unit_id)->update(['refund' => 'yes','refund_amount' => $amount,'final_amount' => '0', 'mainamount' => '0','extra' => '0']);
 
          $payment_id = uniqid(mt_rand(),true);
          $date = date("Y-m-d H:i:s");
          $platform = Helper::get_device_platform();
-         $insert = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $order_id, 'identifier' => 'refund','unit_id' => $unit_id,'trans_id' => $payment_id,'payment_method' => 'gv_pocket','platform' => $platform,'created_at' => $date, 'updated_at' => $date]);
+         $insert = DB::table('wall_history')->insert(['final_amount' => $amount,'user_id' => $user_id,'order_id' => $order_id, 'identifier' => 'refund','unit_id' => $unit_id,'trans_id' => $payment_id,'payment_method' => $payment_method,'platform' => $platform,'created_at' => $date, 'updated_at' => $date]);
 
          $data = array('status' => 'failed');
          if ($insert) {
-
+          if ($payment_method=="gv_pocket") {
            $content = "Your Order ID:".$order_id." for Rs. ".$amount." is refunded by ".$unit_name." to GV Pay. Your GV Pay balance is".$updated_balance.". Install the iPhone/Android App: https://l.ead.me/29Ev";
             Helper::send_otp($phone,$content);
+         }else {
+          $content = "Your Order ID:".$order_id." for Rs. ".$amount." is refunded by ".$unit_name." to Food Card. Your Food Card balance is".$updated_balance.". Install the iPhone/Android App: https://l.ead.me/29Ev";
+           Helper::send_otp($phone,$content);
+         }
+           
            $data = array('status' => 'success');
          }
          return $data;

@@ -25,6 +25,14 @@ class FoodcardController extends Controller
   	$denominations = DB::table('pricing_denomination')->get();
   	return view('vendor.multiauth.admin.cash.foodcardtopup', compact('type','status','denominations')); 
 	}
+  function sent_otp($phone, $order_id) {
+      $otp = Helper::generatePIN(6);
+      $orderid = Crypt::decrypt($order_id);
+      $update = DB::table('food_card_refund_requests')->where('status','pending')->where('order_id',$orderid)->update(['otp' => $otp]);
+      $content = "Your OTP for refund verification is: ".$otp;
+      $send = Helper::send_otp($phone, $content);
+
+  }
 	function get_user_id($name, $phone, $email) {
   	$finduser = User::where('phone', $phone)->first();
 
@@ -128,15 +136,17 @@ class FoodcardController extends Controller
     $filters = DB::table('filter_types')->where('page_name','bookings')->where('filter_value','!=','custom')->get();
     return view('vendor.multiauth.admin.cash.foodcardrefund', compact('type','data','filters','custom','parameter'));
   }
-  function food_card_refund_process($order_id) {
+  function food_card_refund_process(Request $request) {
+    $order_id = $request['order_id'];
+    $otp = $request['otp'];
+
     $request_id = Crypt::decrypt($order_id);
-    $getdetails = DB::table('food_card_refund_requests')->where('order_id',$request_id)->get();
+    $getdetails = DB::table('food_card_refund_requests')->where('order_id',$request_id)->where('otp',$otp)->get();
     $user_id = 0;
 
-    foreach ($getdetails as $key => $value) {
+    if (count($getdetails)!=0) {
+     foreach ($getdetails as $key => $value) {
      $user_id = $value->user_id;
-     
-
     }
     $finduser = User::where('id', $user_id)->first();
     $refund_amount = Crypt::decrypt($finduser['food_card']);
@@ -151,6 +161,59 @@ class FoodcardController extends Controller
            $update_request = DB::table('food_card_refund_requests')->where('order_id',$request_id)->update(['status' => 'refunded']);
          return redirect()->back()->withInput()->with('status','Food Card refunded successfully');
       }
+    }else {
+      return redirect()->back()->withInput()->with('error','OTP mismatch!');
+    }
+
+    
+
+  }
+  function revenue($parameter) {
+     $type = "web";
+    $custom = "";
+    $data = DB::table('wall_history')->where('identifier','topup');
+
+  
+    if ($parameter=="todays") {
+      $data = $data->whereDate('created_at',Carbon::today());
+      
+    }elseif($parameter=="monthly") {
+            $data = $data->whereMonth('created_at',Carbon::now()->month);
+           
+    }elseif($parameter=="lastmonth") {
+      $month = new Carbon('last month');
+            $data = $data->whereMonth('created_at',$month);
+           
+    }elseif($parameter=="yesterday") {
+      $month = new Carbon('yesterday');
+            $data = $data->whereDate('created_at',$month);
+          
+    }else {
+       $month = new Carbon('yesterday');
+            $data = $data->whereDate('created_at',$month);
+    }
+       $data = $data->where('wall_history.payment_method', 'food_card');
+        $data = $data->orderBy('wall_history.id', 'desc');
+    $data = $data->get();
+    $filters = DB::table('filter_types')->where('page_name','bookings')->get();
+    return view('vendor.multiauth.admin.cash.foodcardrevenue', compact('type','data','filters','parameter','custom'));
+  }
+  function custom($parameter) {
+    $type = "web";
+    $custom = "custom";
+    list($from, $to) = explode("_", $parameter);
+    $data = DB::table('wall_history')->where('identifier','topup');
+    if ($from==$to) {
+        $data = $data->whereDate('wall_history.created_at', $from)
+                      ->whereDate('wall_history.created_at', $to);
+    }else {
+        $data = $data->whereBetween('wall_history.created_at', [$from, $to]);
+    }
+    $data = $data->where('wall_history.payment_method', 'food_card');
+    $data = $data->orderBy('wall_history.id', 'desc');
+    $data = $data->get();
+    $filters = DB::table('filter_types')->where('page_name','bookings')->get();
+    return view('vendor.multiauth.admin.cash.foodcardrevenue', compact('type','data','filters','parameter','custom'));
 
   }
 

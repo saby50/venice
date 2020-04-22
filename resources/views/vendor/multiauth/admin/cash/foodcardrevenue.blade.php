@@ -2,7 +2,7 @@
 
 
 @section('title')
-Refund Queue
+Food Card Revenue
 @endsection
 
 @section('content')
@@ -17,7 +17,27 @@ $amount = 0;
 	</ul>
 </div>
 
+<div class="heading-sec">
+	<div class="row">
+		<div class="col-md-4 column">
+			<div class="heading-profile">
+				<h2>Food Card Revenue:  <i class="fa fa-rupee"></i>  <strong class="amount2"></strong></h2>
 
+			</div>
+		</div>
+		<div class="col-md-8 column">
+			<div class="top-bar-chart">
+				<div class="quick-report">
+					<div class="quick-report-infos">
+                  
+					</div>
+					
+				</div>
+
+			</div><!-- Top Bar Chart -->
+		</div>
+	</div>
+</div><!-- Top Bar Chart -->
 <div class="panel-content">
 	<div class="row">
 	@if (session('status'))
@@ -31,54 +51,46 @@ $amount = 0;
 						</div>
 				</div>
 			@endif
-			@if (session('error'))
-				<div class="widget no-color">
-						<div class="alert alert-danger">
-								<div class="notify-content">
-									 {{ session('error') }}!
-
-								</div>
-						</div>
-						</div>
-				</div>
-			@endif
 			</div>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="widget">
 				<div class="product-filter">
 					<div class="row filterarea">
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<label>Filter  by days <?= $custom  ?></label><br />
 							<select class="form-control filter">
 								<?php foreach($filters as $key => $value): ?>
-									<?php if($custom != ""): ?>
- <?php if($parameter==$value->filter_value): ?>
+									
+           <?php if($parameter==$value->filter_value || $custom=="custom"): ?>
               <option value="<?= $value->filter_value ?>" selected><?= $value->filter_name ?></option>
 
               	<?php else: ?>
                 <option value="<?= $value->filter_value ?>"><?= $value->filter_name ?></option>
             <?php endif; ?>
 
-										<?php else: ?>
-									 <?php if($parameter==$value->filter_value): ?>
-              <option value="<?= $value->filter_value ?>" selected><?= $value->filter_name ?></option>
-
-              	<?php else: ?>
-                <option value="<?= $value->filter_value ?>"><?= $value->filter_name ?></option>
-            <?php endif; ?>
-            <?php endif; ?>
+										
+            
 								<?php endforeach; ?>
 							</select>
-
-							<?php if($custom=="custom"): ?>
+           <?php if($parameter=="custom" || $custom=="custom"): ?>
+           	<?php 
+           	$from = "";
+           	$to = "";
+              if ($custom=="custom") {
+              	list($from, $to) =  explode("_", $parameter);
+              }
+           	?>
+			<div class="choosedate">		
              <div class="col-md-6" style="margin-top: 20px;margin-bottom: 20px;">
-               <input type="text" name="fromdate" placeholder="From Date" id="from" class="form-control" autocomplete="off">
+               <input type="text" name="fromdate" placeholder="From Date" id="from" class="form-control" autocomplete="off" value="<?= $from ?>">
              </div>
                 <div class="col-md-6" style="margin-top: 20px;margin-bottom: 20px;">
-               <input type="text" name="todate" placeholder="To Date" id="to" class="form-control" autocomplete="off">
+               <input type="text" name="todate" placeholder="To Date" id="to" class="form-control" autocomplete="off" value="<?= $to ?>">
              </div>
-            <?php endif; ?>
+             </div>
+         <?php endif; ?>
+            
              
 						</div>
 
@@ -98,8 +110,11 @@ $amount = 0;
 									<tr>
 										<th>Order Details</th>
 										<th>Amount</th>
-										<th>Status</th>
-										<th></th>
+                    <th>Payment Method</th>
+                    <th>Type</th>
+										<th>Date</th>
+										
+										
 									</tr>
 								</thead>
 								<tbody>
@@ -117,8 +132,7 @@ $amount = 0;
 												}
                                              
                                                  
-                                                 echo "<strong>Date: </strong> ".date('d M, Y h:i A',strtotime($value->created_at));
-                                                 echo "<br /><br />";
+                                                 echo "<br />";
                                                      $platform = $value->platform;
                                                  if ($platform=="android") {
                                                  	 echo '<strong>Platform: </strong> <i class="fa fa-android fa-lg" aria-hidden="true" title="Android"></i>';
@@ -138,22 +152,18 @@ $amount = 0;
 
 											</td>
 											<td>
-                                              <?php if($value->status=="pending"): ?>
-												Rs. <?php 
-                                             $food_card = Crypt::decrypt(Helper::get_food_card($value->user_id));
+                                              <?= $value->final_amount ?>
+                                              <?php 
 
-											 echo $food_card; ?>
-											 	
-
-											 <?php endif; ?>
+                                                 $amount+= $value->final_amount;
+                                              ?>
 											 </td>
-											<td><?= ucfirst($value->status) ?></td>
-											<td><?php if($food_card!=0): ?>
-												<a href="<?= URL::to('admin/food_card_refund/'.Crypt::encrypt($value->order_id)) ?>" class="refund" data="<?= Crypt::encrypt($value->order_id) ?>" data-phone="<?= $v->phone ?>">Refund Now</a>
-												<?php else: ?>
 
-												<?php endif; ?>
-											</td>
+											
+											 <td>Cash</td>
+											 
+											<td><?= ucfirst($value->identifier) ?></td>
+											<td><?= date('d M, Y h:i A',strtotime($value->created_at)) ?></td>
 											
 										
 											
@@ -176,34 +186,7 @@ $amount = 0;
 	</div>
 </div><!-- Panel Content -->
 </div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<form action="<?= URL::to('admin/food_card_refund') ?>" method="post">
-		@csrf
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Verify Customer</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-       <label>Phone</label>
-       <input type="text" name="phone" class="form-control phone" readonly="readonly">
-       <br />
-        <label>OTP</label>
-       <input type="text" name="otp" class="form-control" required="required">
-       <input type="hidden" name="order_id" value="" class="order_id">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Verify</button>
-      </div>
-    </div>
-  </div>
-  </form>
-</div>
+
  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -219,6 +202,9 @@ $amount = 0;
   	.refund {
   		color: orange;
   	}
+  	.choosedate {
+  		
+  	}
   	@media only screen and (max-width: 600px) {
  .filterarea {
   		position: relative;
@@ -232,26 +218,71 @@ $amount = 0;
        $(".filter").change(function() {
          var data = $(this).val();
         
-         var url = "<?= URL::to('admin/food_card/refund/') ?>/"+data;
-          window.location = url;
+         var url = "<?= URL::to('admin/food_card/revenue/') ?>/"+data;
+         if (data=="custom") {
+           $(".choosedate").show("fast");
+         }else {
+         	$(".choosedate").hide("fast");
+         }
+        window.location = url;
+         
        });
         
         var amount = "<?= $amount ?>";
       $('.amount2').html(amount);
       $(".refund").click(function() {
-      	var data = $(this).attr("data");
-      	var phone = $(this).attr("data-phone");
-      	var url = "<?= URL::to('admin/food_card/sent_otp') ?>/"+phone+"/"+data;
-      	
-       $.get(url, function( data ) {
-              
-         //  alert( "Load was performed." );
-       });
-      	$(".phone").val(phone);
-      	$(".order_id").val(data);
-        $("#exampleModal").modal("show");
+      	if (confirm("Are you sure want to refund the amount?")) {
+      		return true;
+      	}else {
+      		return false;
+      	}
         return false;
       });
+       $("#to").on('change', function() {
+      var from = $("#from").val();
+      var to = $("#to").val();
+
+      var data = from+"_"+to;
+
+      var url = "<?= URL::to('admin/food_card/revenue/custom') ?>/"+data;
+
+       
+       window.location = url;
+    });
+       $( function() {
+    var dateFormat = "yy-mm-dd",
+      from = $( "#from" )
+        .datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 2,
+          dateFormat: 'yy-mm-dd'
+        })
+        .on( "change", function() {
+          to.datepicker( "option", "minDate", getDate( this ) );
+        }),
+
+      to = $( "#to" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 2,
+        dateFormat: 'yy-mm-dd'
+      })
+      .on( "change", function() {
+        from.datepicker( "option", "maxDate", getDate( this ) );
+      });
+ 
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element.value );
+      } catch( error ) {
+        date = null;
+      }
+ 
+      return date;
+    }
+  } );
   	});
   </script>
 @endsection

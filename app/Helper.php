@@ -25,6 +25,14 @@ class Helper
      $finduser = App\User::where('id', $user_id)->first();
      return $finduser['food_card'];
   }
+  public static function check_user_refund_status() {
+     $user_id = Auth::user()->id;
+     $finduser = DB::table('food_card_refund_requests')
+     ->where('status','pending')
+     ->where('user_id',$user_id)
+     ->count();
+     return $finduser;
+  }
   public static function get_boottom_footer() {
     $bottom_slider = DB::table('bottom_slides')->where('visibility',1)->inRandomOrder()->take(1)->get();
     return $bottom_slider;

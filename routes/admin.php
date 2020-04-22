@@ -358,9 +358,13 @@
      Route::get('get_lead_data/{lead_id}','LeadsController@get_lead_data');
 
      Route::get('food_card/topup','FoodcardController@food_card_topup');
+      Route::get('food_card/sent_otp/{phone}/{order_id}','FoodcardController@sent_otp');
+     Route::get('food_card/revenue/{parameter}','FoodcardController@revenue');
+      Route::get('food_card/revenue/custom/{parameter}','FoodcardController@custom');
      Route::get('food_card/refund/{parameter}','FoodcardController@food_card_refund');
-     Route::get('food_card_refund/{order_id}','FoodcardController@food_card_refund_process');
+     Route::post('food_card_refund','FoodcardController@food_card_refund_process');
     Route::post('food_card_topup/add','FoodcardController@add');
+
     // Roles
     Route::get('/roles', 'RoleController@index')->name('admin.roles');
     Route::get('/role/create', 'RoleController@create')->name('admin.role.create');

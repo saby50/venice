@@ -28,6 +28,7 @@ Food Card Topup
           <div class="quick-report-infos">
 
           </div>
+          <span class="bar2"><a href="<?= URL::to('admin/food_card/revenue/todays') ?>"><button class="btn btn-primary">Revenue</button></a></span>&nbsp;&nbsp;
           <span class="bar2"><a href="<?= URL::to('admin/food_card/refund/todays') ?>"><button class="btn btn-primary">Refund Queue</button></a></span>
         </div>
 
