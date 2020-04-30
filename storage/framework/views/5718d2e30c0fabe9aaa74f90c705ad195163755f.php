@@ -149,7 +149,7 @@ $amount = 0;
 											 </td>
 											<td><?= ucfirst($value->status) ?></td>
 											<td><?php if($food_card!=0): ?>
-												<a href="<?= URL::to('admin/food_card_refund/'.Crypt::encrypt($value->order_id)) ?>" class="refund" data="<?= Crypt::encrypt($value->order_id) ?>" data-phone="<?= $v->phone ?>">Refund Now</a>
+												<a href="<?= URL::to('admin/food_card_refund/'.Crypt::encrypt($value->order_id)) ?>" class="refund" data="<?= Crypt::encrypt($value->order_id) ?>" data-phone="<?= $v->phone ?>" data-status="refund">Refund Now</a> &nbsp; &nbsp;<a href="<?= URL::to('admin/food_card_refund/'.Crypt::encrypt($value->order_id)) ?>" class="refund" data="<?= Crypt::encrypt($value->order_id) ?>" data-phone="<?= $v->phone ?>" data-status="reject">Reject</a>
 												<?php else: ?>
 
 												<?php endif; ?>
@@ -241,15 +241,20 @@ $amount = 0;
       $(".refund").click(function() {
       	var data = $(this).attr("data");
       	var phone = $(this).attr("data-phone");
-      	var url = "<?= URL::to('admin/food_card/sent_otp') ?>/"+phone+"/"+data;
-      	
-       $.get(url, function( data ) {
+      	var status = $(this).attr("data-status");
+      	var url = "<?= URL::to('admin/food_card/sent_otp') ?>/"+phone+"/"+data+"/"+status;
+      	if (status=="reject") {
+      		$.get(url, function( data ) {
               
-         //  alert( "Load was performed." );
-       });
+               window.location = "<?= URL::to('admin/food_card/refund/all') ?>";
+           });
+      	}else {
+      		 $("#exampleModal").modal("show");
+      	}
+       
       	$(".phone").val(phone);
       	$(".order_id").val(data);
-        $("#exampleModal").modal("show");
+       
         return false;
       });
   	});

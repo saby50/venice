@@ -18,7 +18,7 @@ Food Card Topup
   <div class="row">
     <div class="col-md-4 column">
       <div class="heading-profile">
-        <h2>Food Card Topups</h2>
+        <h2>Food Card Topup</h2>
 
       </div>
     </div>
@@ -28,7 +28,7 @@ Food Card Topup
           <div class="quick-report-infos">
 
           </div>
-          <span class="bar2"><a href="<?= URL::to('admin/food_card/revenue/todays') ?>"><button class="btn btn-primary">Revenue</button></a></span>&nbsp;&nbsp;
+          
           <span class="bar2"><a href="<?= URL::to('admin/food_card/refund/todays') ?>"><button class="btn btn-primary">Refund Queue</button></a></span>
         </div>
 
@@ -50,6 +50,17 @@ Food Card Topup
             </div>
         </div>
       @endif
+       @if (session('error'))
+        <div class="widget no-color">
+            <div class="alert alert-danger">
+                <div class="notify-content">
+                   {{ session('error') }}!
+
+                </div>
+            </div>
+            </div>
+        </div>
+      @endif
       </div>
   <div class="row">
     <form action="{{ URL::to('admin/food_card_topup/add') }}" method="post">
@@ -58,7 +69,7 @@ Food Card Topup
 
     <div class="col-md-12">
       <div class="widget">
-        <div class="product-filter">
+        <div class="product-filter2" style="padding: 20px;">
 
           <div class="row">
             <div class="col-md-12" style="margin-left: 20px;margin-bottom: 20px;">
@@ -120,20 +131,20 @@ Food Card Topup
         
           </div>
            
- 
+   <hr />
           
         </div>
-        <div class="col-md-4" style="text-align: center;padding-bottom: 20px; display: none;">
-         <a href="<?= URL::to('admin/recharge/all/cash') ?>" target="_blank"> <h3>Total Food Card Sale</h3>
-          <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_recharg_history('all') ?></span></h3></a>
+        <div class="col-md-4" style="text-align: center;padding-bottom: 20px; ">
+         <a href="<?= URL::to('admin/food_card/revenue/all') ?>" target="_blank"> <h3>FC Sale Total</h3>
+          <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_fc_topup('all') ?></span></h3></a>
         </div>
-         <div class="col-md-4" style="text-align: center;padding-bottom: 20px; display: none;">
-         <a href="<?= URL::to('admin/recharge/monthly/cash') ?>" target="_blank">  <h3>POS  Food Card This Month</h3>
-          <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_recharg_history('monthly') ?></span></h3></a>
+         <div class="col-md-4" style="text-align: center;padding-bottom: 20px;">
+         <a href="<?= URL::to('admin/food_card/revenue/monthly') ?>" target="_blank">  <h3>FC Sale This Month</h3>
+          <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_fc_topup('monthly') ?></span></h3></a>
         </div>
-         <div class="col-md-4" style="text-align: center;padding-bottom: 20px; display: none;">
-         <a href="<?= URL::to('admin/recharge/todays/cash') ?>" target="_blank">  <h3>POS  Food Card Today</h3>
-           <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_recharg_history('todays') ?></span></h3></a>
+         <div class="col-md-4" style="text-align: center;padding-bottom: 20px; ">
+         <a href="<?= URL::to('admin/food_card/revenue/todays') ?>" target="_blank">  <h3> FC Sale Today</h3>
+           <h3><i class="fa fa-rupee"></i> <span style="text-decoration: underline;"><?= Helper::get_fc_topup('todays') ?></span></h3></a>
         </div>
         
       </div>
@@ -141,11 +152,134 @@ Food Card Topup
     </form>
   </div>
 </div><!-- Panel Content -->
-</div>
+<div class="panel-content">
 
+  <div class="row">
+    <form action="{{ URL::to('admin/fc_refund') }}" method="post">
+      @csrf
+    
+
+    <div class="col-md-12">
+      <div class="widget">
+        <div class="product-filter2" style="padding: 30px;">
+
+          <div class="row">
+            <div class="col-md-12" style="margin-bottom: 10px;">
+              <h4>Refund Process</h4>
+            </div>
+            
+         
+                <div class="col-md-6" >
+                 
+                    <label>Mobile No<span style="color: red;">*</span></label>
+                    <input type="text" class="form-control phone2" name="phone" placeholder="" required="required">
+                
+                   
+                    </div>
+                    <div class="col-md-6">
+                       
+                   <label>Email</label>
+                    <input type="text" class="form-control email2" name="email" placeholder="Email">
+                  
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px;">
+                      
+                        <label>Name<span style="color: red;">*</span></label>
+                    <input type="text" class="form-control name2" name="name" required="required" placeholder="Name">
+                   </div>
+                     
+                      <div class="col-md-6" style="margin-top: 50px;">
+                   
+                    <span class="currentbalance2"></span>
+                    <input type="hidden" name="food_card" class="food_card">
+                   </div>
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px;padding-left: 0px !important;">
+                      <div class="form-group" style="clear: both;">
+                    <input type="submit" class="btn btn-primary checkoutbtn2" name="submit" value="Request Refund">
+                   </div>
+                      
+                    </div>
+               
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+</div><!-- Panel Content -->
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <form action="<?= URL::to('admin/food_card_refund') ?>" method="post">
+    @csrf
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Verify Customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <label>Phone</label>
+       <input type="text" name="phone" class="form-control vphone" readonly="readonly">
+       <br />
+        <label>OTP</label>
+       <input type="text" name="otp" class="form-control" required="required">
+       <input type="hidden" name="order_id" value="" class="order_id">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Verify</button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alert</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modalcontent"></div>
+      </div>
+      <div class="modal-footer">
+       
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
   $(document).ready(function() {
+$(".phone2").on('keyup', function() {
+         var phone = $(this).val();
+         if (phone.length==10) {
+          var url = "<?= URL::to('admin/checkuser') ?>/"+phone;
+            $.get(url, function( result ) {
 
+              if (result.length != 0) {
+                 $(".name2").attr('value',result[0]['name']);
+             $(".email2").attr('value',result[0]['email']);
+             $(".currentbalance2").html("<strong>Current Balance: Rs."+result[0]['food_card']+"</strong>");
+             $(".food_card").val(result[0]['food_card']);
+           }else {
+             $(".name2").attr('value','');
+             $(".email2").attr('value','');
+           }
+           
+            
+        });
+         }
+         
+    });
     $(".phone").on('keyup', function() {
          var phone = $(this).val();
          if (phone.length==10) {
@@ -197,6 +331,47 @@ Food Card Topup
              return false;
            }else {
             return true;
+           }
+           return false;
+       });
+        $(".checkoutbtn2").click(function() {
+           var name = $(".name2").val();
+           var phone = $(".phone2").val();
+           var email = $(".email2").val();
+           var amount = $(".food_card").val();
+           var url = "<?= URL::to('admin/fc_refund') ?>";
+           var formData = {
+                '_token':'{{ csrf_token()}}',
+                 'name': name,
+                 'phone': phone,
+                 'email' : email
+           };
+           
+           if (name=="" || phone=="" || email=="") {
+            $("#exampleModal").modal("show");
+              $(".modalcontent").html("Please fill all the required fields!");
+            return false;
+           }else {
+            if (amount==0) {
+              $("#exampleModal").modal("show");
+              $(".modalcontent").html("Insufficient balance!");
+             return false;
+            }else {
+              $(".vphone").val(phone);
+
+              $.post(url,  formData,
+            function (resp,textStatus, jqXHR) {
+              if (resp=="failed") {
+                alert("Refund process failed!");
+
+              }else {
+                $(".order_id").val(resp);
+                $("#exampleModal2").modal("show");
+              }
+            });
+              return false;
+            }
+            
            }
            return false;
        });

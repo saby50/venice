@@ -102,7 +102,26 @@ Pay Now
   </div>
 
 </div>
+<!-- The Modal -->
+<div id="myModal4" class="modal">
 
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="">
+      <span class="close">&times;</span>
+      
+    </div>
+    <div class="modal-body">
+    	<input type="hidden" name="user_id" value="<?= Auth::user()->id ?>">
+      <p class="balance-error">You have an active Refund Request: <?= Helper::get_user_orderid() ?> in the system. Either cancel this request or get it processed from the counter before carrying out the payment.?<br /><br />
+     <button type="submit" class="btn cancelbtn" data="<?= Crypt::encrypt(Helper::get_user_orderid()) ?>" data-phone="<?= Auth::user()->phone ?>" data-status="reject">CANCEL REFUND</button></p>
+      
+    </div>
+    <div style="margin-top: 30px;">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.gv-box').click(function() {
@@ -152,14 +171,20 @@ Pay Now
 				return true;
 			 }		
 			}else if(gateway=="food_card") {
+				var status = "<?= Helper::check_user_refund_status() ?>";
 			 	var current_balance = "<?= Crypt::decrypt(Auth::user()->food_card) ?>";
-			 if (parseInt(current_balance) < parseInt(amount)) {
+			if (status=="1") {
+               $("#myModal4").modal("show");
+			}else {
+				if (parseInt(current_balance) < parseInt(amount)) {
 				$("#myModal3").modal('show');
 			 }else if (amount=="" || amount==0) {
 				alert("Please enter some amount");
 			 }else {
 				return true;
 			 }		
+			}
+			 
 
 			}else {
 				//return true;
@@ -176,6 +201,24 @@ Pay Now
            window.location = "<?= URL::to('food_card/recharge') ?>";
 		});
 
+		$(".cancelbtn").click(function() {
+			var data = $(this).attr("data");
+			var status = $(this).attr("data-status");
+			var phone = $(this).attr("data-phone");
+
+			var url = "<?= URL::to('cancelrequest') ?>/"+phone+"/"+data+"/"+status;
+
+			$.get(url, function(data) {
+				if (data=="success") {
+					window.location = "<?= URL::to('food_card/reject') ?>";
+				}
+				return false;
+
+			});
+
+           
+		});
+
 	});
 	 
 </script>
@@ -183,6 +226,15 @@ Pay Now
 	.modal-backdrop.show {
     opacity: 0;
     display: none;
+}
+.cancelbtn {
+	    background-color: #EF9E11;
+    width: 100%;
+    color: #FFF !important;
+    font-size: 16px !important;
+    padding: 10px;
+    color: #fff !important;
+    border-radius: 5px;
 }
 .input-icon {
   position: relative;

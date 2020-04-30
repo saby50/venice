@@ -8,6 +8,8 @@ Food Card Revenue
 @section('content')
 <?php 
 $amount = 0;
+$refund_amount = 0;
+$recharg_amount = 0;
 ?>
 <div class="main-content style2"> 
 <div class="breadcrumbs">
@@ -152,10 +154,23 @@ $amount = 0;
 
 											</td>
 											<td>
-                                              <?= $value->final_amount ?>
+
+                                            <?php if($value->identifier=="refund"): ?>
+                                             <span style="color: red;"> -<i class="fa fa-rupee"></i> <?= $value->refund_amount ?></span>
+                                            <?php 
+
+                                                     $refund_amount+= $value->refund_amount;
+                                            ?>
+                                              <?php else: ?>
+                                                <span style="color: green;">+<i class="fa fa-rupee"></i> <?= $value->final_amount ?></span>
+                                                <?php 
+
+                                                     $recharg_amount+= $value->final_amount;
+                                            ?>
+                                              <?php endif; ?>
                                               <?php 
 
-                                                 $amount+= $value->final_amount;
+                                                 $amount = $recharg_amount - $refund_amount;
                                               ?>
 											 </td>
 

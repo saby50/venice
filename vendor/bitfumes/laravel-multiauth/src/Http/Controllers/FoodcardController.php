@@ -25,14 +25,15 @@ class FoodcardController extends Controller
   	$denominations = DB::table('pricing_denomination')->get();
   	return view('vendor.multiauth.admin.cash.foodcardtopup', compact('type','status','denominations')); 
 	}
-  function sent_otp($phone, $order_id) {
-      $otp = Helper::generatePIN(6);
+  function sent_otp($phone, $order_id,$status) {
+       $otp = Helper::generatePIN(6);
       $orderid = Crypt::decrypt($order_id);
-      $update = DB::table('food_card_refund_requests')->where('status','pending')->where('order_id',$orderid)->update(['otp' => $otp]);
-      $content = "Your OTP for refund verification is: ".$otp;
+      $update = DB::table('food_card_refund_requests')->where('order_id',$orderid)->update(['status' => 'reject']);
+      $content = "Your refund request with Request ID ".$orderid." is cancelled!. Install the iPhone/Android App: https://l.ead.me/29Ev";
       $send = Helper::send_otp($phone, $content);
 
   }
+  
 	function get_user_id($name, $phone, $email) {
   	$finduser = User::where('phone', $phone)->first();
 
@@ -151,12 +152,12 @@ class FoodcardController extends Controller
     $finduser = User::where('id', $user_id)->first();
     $refund_amount = Crypt::decrypt($finduser['food_card']);
     $date = date("Y-m-d H:i:s");
-
+    $reqotp = Helper::generatePIN(6);
     $data = array('final_amount' => 0, 'mainamount' => 0, 'extra' => 0, 'user_id' => $user_id, 'order_id' => $request_id, 'expiry' => '', 'identifier' => 'refund', 'unit_id' => 0, 'trans_id' => '','payment_method' => 'food_card', 'platform' => 'android', 'refund' => 'yes', 'refund_amount' => $refund_amount,'created_at' => $date, 'updated_at' => $date);
       $db = DB::table('wall_history')->insert($data);
       if ($db) {
         $update = DB::table('users')->where('id',$user_id)->update(['food_card' => Crypt::encrypt(0)]);
-        $content = "Rs ".$refund_amount." refunded in cash from your Food Card. Request ID: GV/FC/RE/456765. Install the iPhone/Android App: https://l.ead.me/29Ev";
+        $content = "Rs ".$refund_amount." refunded in cash from your Food Card. Request ID: ".$request_id. " and OTP: ".$reqotp.". Install the iPhone/Android App: https://l.ead.me/29Ev";
              Helper::send_otp($finduser['phone'],$content);
            $update_request = DB::table('food_card_refund_requests')->where('order_id',$request_id)->update(['status' => 'refunded']);
          return redirect()->back()->withInput()->with('status','Food Card refunded successfully');
@@ -171,7 +172,7 @@ class FoodcardController extends Controller
   function revenue($parameter) {
      $type = "web";
     $custom = "";
-    $data = DB::table('wall_history')->where('identifier','topup');
+    $data = DB::table('wall_history')->where('identifier','!=','payment');
 
   
     if ($parameter=="todays") {
@@ -189,14 +190,44 @@ class FoodcardController extends Controller
             $data = $data->whereDate('created_at',$month);
           
     }else {
-       $month = new Carbon('yesterday');
-            $data = $data->whereDate('created_at',$month);
+      
     }
        $data = $data->where('wall_history.payment_method', 'food_card');
         $data = $data->orderBy('wall_history.id', 'desc');
     $data = $data->get();
     $filters = DB::table('filter_types')->where('page_name','bookings')->get();
     return view('vendor.multiauth.admin.cash.foodcardrevenue', compact('type','data','filters','parameter','custom'));
+  }
+  function fc_refund(Request $request) {
+     $phone = $request['phone'];
+     $email = $request['email'];
+     $name = $request['name'];
+
+     $finduser = DB::table('users')->where('phone',"+91".$phone)->get();
+     $request_id = "GV/FC/RE/".Helper::generatePIN(6);
+     $food_card = 0;
+     $user_id = 0;
+     foreach ($finduser as $key => $value) {
+        $food_card = Crypt::decrypt($value->food_card);
+        $user_id = $value->id;
+     }
+
+      $date = date("Y-m-d H:i:s");
+      $reqotp = Helper::generatePIN(6);
+      $data = array('final_amount' => 0, 'mainamount' => 0, 'extra' => 0, 'user_id' => $user_id, 'order_id' => $request_id, 'expiry' => '', 'identifier' => 'refund', 'unit_id' => 0, 'trans_id' => '','payment_method' => 'food_card', 'platform' => 'android', 'refund' => 'yes', 'refund_amount' => $food_card,'otp' => $reqotp,'created_at' => $date, 'updated_at' => $date);
+      $db = DB::table('food_card_refund_requests')->insert($data);
+     
+      if ($db) {
+        
+        $content = "Your request for Food Card refund (Rs. ".$food_card.") is generated. Request ID:  ".$request_id. " and OTP: ".$reqotp.". Install the iPhone/Android App: https://l.ead.me/29Ev";
+             Helper::send_otp($phone,$content);
+              $status = Crypt::encrypt($request_id);
+            
+      }else {
+        $status = "failed";
+      }
+      return $status;
+
   }
   function custom($parameter) {
     $type = "web";

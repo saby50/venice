@@ -358,11 +358,12 @@
      Route::get('get_lead_data/{lead_id}','LeadsController@get_lead_data');
 
      Route::get('food_card/topup','FoodcardController@food_card_topup');
-      Route::get('food_card/sent_otp/{phone}/{order_id}','FoodcardController@sent_otp');
+      Route::get('food_card/sent_otp/{phone}/{order_id}/{status}','FoodcardController@sent_otp');
      Route::get('food_card/revenue/{parameter}','FoodcardController@revenue');
       Route::get('food_card/revenue/custom/{parameter}','FoodcardController@custom');
      Route::get('food_card/refund/{parameter}','FoodcardController@food_card_refund');
      Route::post('food_card_refund','FoodcardController@food_card_refund_process');
+     Route::post('fc_refund','FoodcardController@fc_refund');
     Route::post('food_card_topup/add','FoodcardController@add');
 
     // Roles
