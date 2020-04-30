@@ -63,6 +63,7 @@ Food Card Topup
       <?php endif; ?>
       </div>
   <div class="row">
+
     <form action="<?php echo e(URL::to('admin/food_card_topup/add')); ?>" method="post">
       <?php echo csrf_field(); ?>
     
@@ -176,22 +177,15 @@ Food Card Topup
                 
                    
                     </div>
-                    <div class="col-md-6">
-                       
-                   <label>Email</label>
-                    <input type="text" class="form-control email2" name="email" placeholder="Email">
-                  
-                    </div>
-                    <div class="col-md-6" style="margin-top: 20px;">
-                      
-                        <label>Name<span style="color: red;">*</span></label>
-                    <input type="text" class="form-control name2" name="name" required="required" placeholder="Name">
-                   </div>
+                 
                      
-                      <div class="col-md-6" style="margin-top: 50px;">
-                   
+                      <div class="col-md-12" style="margin-top: 20px;">
+                   <span class="namelabel"></span>
+                   <span class="emailLabel"></span>
                     <span class="currentbalance2"></span>
                     <input type="hidden" name="food_card" class="food_card">
+                     <input type="hidden" class="form-control email2" name="email">
+                    <input type="hidden" class="form-control name2" name="name" >
                    </div>
                     </div>
                     <div class="col-md-6" style="margin-top: 20px;padding-left: 0px !important;">
@@ -267,8 +261,10 @@ $(".phone2").on('keyup', function() {
 
               if (result.length != 0) {
                  $(".name2").attr('value',result[0]['name']);
+                 $(".namelabel").html("<strong>Name:</strong> "+result[0]['name']+"<br />");
              $(".email2").attr('value',result[0]['email']);
-             $(".currentbalance2").html("<strong>Current Balance: Rs."+result[0]['food_card']+"</strong>");
+             $(".emailLabel").html("<strong>Email:</strong> "+result[0]['email']+"<br />");
+             $(".currentbalance2").html("<strong>Current Balance:</strong> Rs."+result[0]['food_card']+"");
              $(".food_card").val(result[0]['food_card']);
            }else {
              $(".name2").attr('value','');
