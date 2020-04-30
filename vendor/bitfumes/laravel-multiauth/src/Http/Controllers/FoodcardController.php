@@ -212,20 +212,30 @@ class FoodcardController extends Controller
         $user_id = $value->id;
      }
 
+     $checkuserrequest = DB::table('food_card_refund_requests')->where('user_id',$user_id)->get();
+
       $date = date("Y-m-d H:i:s");
       $reqotp = Helper::generatePIN(6);
-      $data = array('final_amount' => 0, 'mainamount' => 0, 'extra' => 0, 'user_id' => $user_id, 'order_id' => $request_id, 'expiry' => '', 'identifier' => 'refund', 'unit_id' => 0, 'trans_id' => '','payment_method' => 'food_card', 'platform' => 'android', 'refund' => 'yes', 'refund_amount' => $food_card,'otp' => $reqotp,'created_at' => $date, 'updated_at' => $date);
+
+      if (count($checkuserrequest)==0) {
+        $data = array('final_amount' => 0, 'mainamount' => 0, 'extra' => 0, 'user_id' => $user_id, 'order_id' => $request_id, 'expiry' => '', 'identifier' => 'refund', 'unit_id' => 0, 'trans_id' => '','payment_method' => 'food_card', 'platform' => 'android', 'refund' => 'yes', 'refund_amount' => $food_card,'otp' => $reqotp,'created_at' => $date, 'updated_at' => $date);
       $db = DB::table('food_card_refund_requests')->insert($data);
-     
-      if ($db) {
-        
-        $content = "Your request for Food Card refund (Rs. ".$food_card.") is generated. Request ID:  ".$request_id. " and OTP: ".$reqotp.". Install the iPhone/Android App: https://l.ead.me/29Ev";
+       $content = "Your request for Food Card refund (Rs. ".$food_card.") is generated. Request ID:  ".$request_id. " and OTP: ".$reqotp.". Install the iPhone/Android App: https://l.ead.me/29Ev";
              Helper::send_otp($phone,$content);
               $status = Crypt::encrypt($request_id);
-            
       }else {
-        $status = "failed";
+        $orderid = "";
+        foreach ($checkuserrequest as $key => $value) {
+         $orderid = $value->order_id;
+        }
+
+        $db = DB::table('food_card_refund_requests')->where('user_id', $user_id)->update(['otp' => $reqotp]);
+         $content = "Your request for Food Card refund (Rs. ".$food_card.") is generated. Request ID:  ".$orderid. " and OTP: ".$reqotp.". Install the iPhone/Android App: https://l.ead.me/29Ev";
+           Helper::send_otp($phone,$content);
+              $status = Crypt::encrypt($orderid);
       }
+      
+    
       return $status;
 
   }
