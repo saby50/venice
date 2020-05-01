@@ -25,6 +25,38 @@ class Helper
      $finduser = App\User::where('id', $user_id)->first();
      return $finduser['food_card'];
   }
+   public static function get_unit_revenue_food_card($parameter) {
+      $type = "web";
+    $custom = "";
+    $data = DB::table('wall_history')->where('identifier','=','payment');
+
+  
+    if ($parameter=="todays") {
+      $data = $data->whereDate('created_at',Carbon\Carbon::today());
+      
+    }elseif($parameter=="monthly") {
+            $data = $data->whereMonth('created_at',Carbon\Carbon::now()->month);
+           
+    }elseif($parameter=="lastmonth") {
+      $month = new Carbon\Carbon('last month');
+            $data = $data->whereMonth('created_at',$month);
+           
+    }elseif($parameter=="yesterday") {
+      $month = new Carbon\Carbon('yesterday');
+            $data = $data->whereDate('created_at',$month);
+          
+    }else {
+      
+    }
+       $data = $data->where('wall_history.payment_method', 'food_card');
+        $data = $data->orderBy('wall_history.id', 'desc');
+    $data = $data->get();
+    $amount = 0;
+    foreach ($data as $key => $value) {
+      $amount+= $value->final_amount;
+    }
+    return $amount;
+  }
   public static function get_user_orderid() {
       $data = DB::table('food_card_refund_requests')->where('status','pending')->where('user_id',Auth::user()->id)->get();
       $order_id = "";
@@ -34,8 +66,7 @@ class Helper
       return $order_id;
   }
   public static function get_fc_topup($parameter) {
-    $data = DB::table('wall_history')->where('identifier','topup');
-
+     $data = DB::table('wall_history')->where('identifier','!=','payment');
   
     if ($parameter=="todays") {
       $data = $data->whereDate('created_at',Carbon\Carbon::today());
@@ -54,14 +85,25 @@ class Helper
     }else {
        
     }
-    $data = $data->where('wall_history.payment_method', 'food_card');
+      $data = $data->where('wall_history.payment_method', 'food_card');
+        $data = $data->orderBy('wall_history.id', 'desc');
     $data = $data->get();
 
     $amount = 0;
+    $refund_amount = 0;
     foreach ($data as $key => $value) {
-      $amount+= $value->final_amount;
+      if ($value->identifier=="refund") {
+        $refund_amount+= $value->refund_amount;
+      }else {
+        $amount+= $value->final_amount;
+      
+      }
+      
     }
-    return $amount;
+
+
+    $finalamount = $amount - $refund_amount;
+    return $finalamount;
   }
   public static function check_user_refund_status() {
      $user_id = Auth::user()->id;

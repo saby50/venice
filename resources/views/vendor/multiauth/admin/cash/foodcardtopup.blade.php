@@ -152,9 +152,6 @@ Food Card Topup
     </div>
     </form>
   </div>
-</div><!-- Panel Content -->
-<div class="panel-content">
-
   <div class="row">
     <form action="{{ URL::to('admin/fc_refund') }}" method="post">
       @csrf
@@ -202,7 +199,8 @@ Food Card Topup
     </form>
   </div>
 </div><!-- Panel Content -->
-</div>
+</div><!-- Panel Content -->
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <form action="<?= URL::to('admin/food_card_refund') ?>" method="post">

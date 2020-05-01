@@ -44,7 +44,8 @@ class FoodcardController extends Controller
         $user->name = $name;
         $user->email = $email;
         $user->phone = $phone;
-        $user->wall_am = Crypt::encrypt("0");
+        $user->wall_am = Crypt::encrypt(0);
+         $user->food_card = Crypt::encrypt(0);
         $user->password = bcrypt($pin);
         $user->platform = "web";
         $user->otp = $pin;
@@ -57,8 +58,8 @@ class FoodcardController extends Controller
          $content = "You are now registered with The Grand Venice Mall. Your login is ".$mobile." and PIN is ".$pin.". Install the iPhone/Android App: https://l.ead.me/29Ev";
         Helper::send_otp($phone,$content);
         $user_id = $user->id;
-        $wall_am = "0";
-        $food_card = "0";
+        $wall_am = Crypt::encrypt(0);
+        $food_card = Crypt::encrypt(0);
         }else {
               $user_id = $finduser['id'];
               if ($email == "") {
@@ -89,7 +90,7 @@ class FoodcardController extends Controller
   	
   	$date = date("Y-m-d H:i:s");
     $expiry = date('d-m-Y', strtotime('+12 Month',strtotime($date)));
-    $order_id = "GV/FC/TP/".Helper::generatePIN();
+    $order_id = "GV/FC/TP/".Helper::generatePIN(6);
     $final_amount = $amount;
     $extra = 0;
     $updated_amount = Crypt::decrypt($food_card) + $final_amount;
