@@ -10,7 +10,7 @@ Food Card Revenue
 $amount = 0;
 $refund_amount = 0;
 $recharg_amount = 0;
-
+$unit_revenue = 0;
 
 foreach ($data as $key => $value) {
   if ($value->identifier=="refund") {
