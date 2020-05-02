@@ -20,8 +20,7 @@ foreach ($data as $key => $value) {
   }
   $amount = $recharg_amount - $refund_amount;
 
-  $unit_revenue = Helper::get_unit_revenue_food_card($parameter);
-  $amount = $amount - $unit_revenue;
+ 
 }
 ?>
 <div class="main-content style2"> 
@@ -36,7 +35,7 @@ foreach ($data as $key => $value) {
 	<div class="row">
 		<div class="col-md-8 column">
 			<div class="heading-profile">
-				<h2>Revenue:  <i class="fa fa-rupee"></i>  <?= $amount ?> | Recharge:  <i class="fa fa-rupee"></i>  <?= $recharg_amount ?> | Refund:  <i class="fa fa-rupee"></i>  <?= $refund_amount ?> | Spend:  <i class="fa fa-rupee"></i>  <?= $unit_revenue ?></h2>
+				<h2>Revenue:  <i class="fa fa-rupee"></i>  <?= $amount ?> | Recharge:  <i class="fa fa-rupee"></i>  <?= $recharg_amount ?> | Refund:  <i class="fa fa-rupee"></i>  <?= $refund_amount ?></h2>
 
 			</div>
 		</div>
