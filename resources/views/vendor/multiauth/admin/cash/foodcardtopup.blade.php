@@ -81,7 +81,7 @@ Food Card Topup
                 <div class="col-md-6" >
                    <div class="form-group">
                     <label>Mobile No<span style="color: red;">*</span></label>
-                    <input type="text" class="form-control phone" name="phone" placeholder="" required="required">
+                    <input type="text" class="form-control phone" name="phone" maxlength="10" placeholder="" required="required" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                     <input type="hidden" name="finalamount" value="0" class="finalamount">
                     <input type="hidden" name="extraamount" value="0" class="extraamount">
                    </div>
@@ -170,7 +170,7 @@ Food Card Topup
                 <div class="col-md-6" >
                  
                     <label>Mobile No<span style="color: red;">*</span></label>
-                    <input type="text" class="form-control phone2" name="phone" placeholder="" required="required">
+                    <input type="text" class="form-control phone2" name="phone" placeholder="" required="required" maxlength="10" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                 
                    
                     </div>
@@ -218,7 +218,7 @@ Food Card Topup
        <input type="text" name="phone" class="form-control vphone" readonly="readonly">
        <br />
         <label>OTP</label>
-       <input type="text" name="otp" class="form-control" required="required">
+       <input type="text" name="otp" class="form-control" required="required" maxlength="6" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
        <input type="hidden" name="order_id" value="" class="order_id">
       </div>
       <div class="modal-footer">
