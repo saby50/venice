@@ -80,7 +80,7 @@ $amount = 0;
 								<?php endforeach; ?>
 							</select>
 
-							<?php if($custom=="custom"): ?>
+							<?php if($parameter=="custom"): ?>
              <div class="col-md-6" style="margin-top: 20px;margin-bottom: 20px;">
                <input type="text" name="fromdate" placeholder="From Date" id="from" class="form-control" autocomplete="off">
              </div>
@@ -240,11 +240,11 @@ $amount = 0;
            $("#to").on('change', function() {
       var from = $("#from").val();
       var to = $("#to").val();
-   var data3 = $('.filter2').find(":selected").val();
-      var data2 = from+"_"+to+"_custom";
+   var data2 = $('.filter2').find(":selected").val();
+      var data = from+"_"+to+"_custom";
 
    
-     var url = "<?= URL::to('admin/units/revenue/') ?>/"+data2+"/"+data;
+     var url = "<?= URL::to('admin/units/revenue/custom/') ?>/"+data;
 
        
        window.location = url;
@@ -273,7 +273,7 @@ $amount = 0;
         from.datepicker( "option", "maxDate", getDate( this ) );
       });
  
-    function getDate( element ) {
+   function getDate( element ) {
       var date;
       try {
         date = $.datepicker.parseDate( dateFormat, element.value );
