@@ -21,6 +21,12 @@ public function __construct()
      
 
     }
+    function unit_revenue($datetype,$unit_id,$custom) {
+       $filters = DB::table('filter_types')->where('page_name','unit_revenue')->get();
+       $units = DB::table('units')->get();
+       $type="web";
+      return view('vendor.multiauth.admin.reports.unit_revenue', compact('datetype','filters','type','units','unit_id','custom'));
+  }
 	function index($datatype,$date_type) {
 		$type = "web";
 		$data = array();

@@ -3391,6 +3391,78 @@ public static function get_users_details($userid) {
    $user = App\User::where('id', $userid)->get();
    return $user;
 }
+public static function get_units() {
+  $units = DB::table('units')->get();
+  $unit_id = 0;
+  foreach ($units as $key => $value) {
+     $unit_id = $value->id;
+  }
+  return $unit_id;
+
+}
+public static function get_unit_revenue_by_date($date,$unit_id,$identifier,$datetype) {
+  
+  $amount = 0;
+  $refund_amount = 0;
+  $final_amount = 0;
+  if ($datetype=="daily") {
+    $units = DB::table('wall_history')
+  ->where('unit_id',$unit_id)
+  ->whereDate('created_at',$date)
+  ->where('payment_method',$identifier)
+  ->get();
+  
+  foreach ($units as $key => $value) {
+    $amount+= $value->final_amount;
+    $refund_amount+= $value->refund_amount;
+  }
+
+  }else if($datetype=="monthly") {
+      $units = DB::table('wall_history')
+  ->where('unit_id',$unit_id)
+  ->whereMonth('created_at',$date)
+  ->where('payment_method',$identifier)
+  ->get();
+  
+  foreach ($units as $key => $value) {
+    $amount+= $value->final_amount;
+  }
+
+  }else if($datetype=="day") {
+    $units = DB::table('wall_history');
+
+    if ($identifier=="foodorder") {
+         $units = $units->leftJoin('food_orders','food_orders.order_id','=','wall_history.order_id');
+    }
+    
+ 
+  $units = $units->whereDate('wall_history.created_at',$date);
+  if ($identifier=="foodorder") {
+   $units = $units->where('wall_history.identifier',$identifier)
+   ->where('food_orders.unit_id',$unit_id)
+  ->get();
+  }else {
+    $units = $units->where('wall_history.payment_method',$identifier)
+     ->where('wall_history.unit_id',$unit_id)
+  ->get();
+  }
+  
+  
+  foreach ($units as $key => $value) {
+      $final_amount+= $value->final_amount;
+      if ($value->refund=="yes") {
+        $refund_amount+= $value->refund_amount;
+      }
+
+      
+  }
+  
+
+}
+   $amount = $final_amount - $refund_amount;
+  
+  return $amount;
+}
 public static function get_notification_count() {
    $count = DB::table('user_notifications')->count();
    return $count;

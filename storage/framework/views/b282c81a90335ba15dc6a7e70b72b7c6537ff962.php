@@ -181,7 +181,9 @@ $amount = 0;
 											 	echo "GV Pay";
 											 }elseif($p_method=="instamojo") {
 											 	echo "Instamojo";
-											 } 
+											 }elseif($p_method=="food_card") {
+											 	echo "Food Card";
+											 }  
 											 ?></td>
 											<td><?php $units = Helper::get_unit_info($value->unit_id); echo $units[0]->unit_name; ?></td>
 											</td>

@@ -307,6 +307,7 @@
     Route::post('changecanal','BookingsController@changecanal');
     //Reports
     Route::get('reports/{type}/{date_type}','ReportController@index');
+    Route::get('units/reports/{date_type}/{unit_id}/{custom}','ReportController@unit_revenue');
     Route::get('settings','AdminController@settings');
     Route::post('update_food_order','AdminController@update_food_order');
     Route::get('download-reports/{datetype}','ReportController@downloadreports');

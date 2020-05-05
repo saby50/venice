@@ -26,7 +26,7 @@ if ($type=="app") {
         $user_type = Auth::user()->user_type;
     }
 $serviceids = "";
-
+$bamount = 0;
 ?>
 <div class="main-content style2"> 
 <div class="breadcrumbs">
@@ -368,11 +368,12 @@ $serviceids = "";
               <td>
                   <?php
                   $totalamount += $v['amount'];
+                  $bamount+= $v['price'] + $v['tax'];
 
                    ?>
                   <input type="hidden" name="totalamount" class="totalamount" value="<?= $v['amount'] ?>">
                 <?php if ($v['is_coupon_applied']=="yes"): ?>
-                <strike><i class="fa fa-inr"></i> <?= $v['amount'] ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['discountamount'] ?>
+                <strike><i class="fa fa-inr"></i> <?= $bamount ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['amount'] ?>
                 <?php else: ?>
                   <i class="fa fa-inr"></i> <?= $v['amount'] ?>
 
@@ -527,10 +528,10 @@ $serviceids = "";
               ?></div></td>
               <td>  <?php
                   $totalamount += $v['amount'];
-
+                  $bamount+= $v['price'] + $v['tax'];
 
                    ?><?php if ($v['is_coupon_applied']=="yes"): ?>
-                <strike><i class="fa fa-inr"></i> <?= $v['amount'] ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['discountamount'] ?>
+                <strike><i class="fa fa-inr"></i> <?= $bamount ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['amount'] ?>
                 <?php else: ?>
                   <i class="fa fa-inr"></i> <?= $v['amount'] ?>
 
@@ -627,9 +628,10 @@ $serviceids = "";
               ?></div></td>
               <td>  <?php
                   $totalamount += $v['amount'];
+                  $bamount+= $v['price'] + $v['tax'];
 
                    ?><?php if ($v['is_coupon_applied']=="yes"): ?>
-                <strike><i class="fa fa-inr"></i> <?= $v['amount'] ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['discountamount'] ?>
+                <strike><i class="fa fa-inr"></i> <?= $bamount ?></strike> &nbsp;&nbsp;<i class="fa fa-inr"></i> <?= $v['amount'] ?>
                 <?php else: ?>
                   <i class="fa fa-inr"></i> <?= $v['amount'] ?>
 

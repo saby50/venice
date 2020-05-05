@@ -10,18 +10,17 @@ Food Card Revenue
 $amount = 0;
 $refund_amount = 0;
 $recharg_amount = 0;
-
+$unit_revenue = 0;
 
 foreach ($data as $key => $value) {
   if ($value->identifier=="refund") {
-    $refund_amount+= $value->refund_amount;
+    $refund_amount+= $value->final_amount;
   }else {
     $recharg_amount+= $value->final_amount;
   }
   $amount = $recharg_amount - $refund_amount;
 
-  $unit_revenue = Helper::get_unit_revenue_food_card($parameter);
-  $amount = $amount - $unit_revenue;
+ 
 }
 ?>
 <div class="main-content style2"> 
@@ -36,7 +35,7 @@ foreach ($data as $key => $value) {
 	<div class="row">
 		<div class="col-md-8 column">
 			<div class="heading-profile">
-				<h2>Revenue:  <i class="fa fa-rupee"></i>  <?= $amount ?> | Recharge:  <i class="fa fa-rupee"></i>  <?= $recharg_amount ?> | Refund:  <i class="fa fa-rupee"></i>  <?= $refund_amount ?> | Spend:  <i class="fa fa-rupee"></i>  <?= $unit_revenue ?></h2>
+				<h2>Revenue:  <i class="fa fa-rupee"></i>  <?= $amount ?> | Recharge:  <i class="fa fa-rupee"></i>  <?= $recharg_amount ?> | Refund:  <i class="fa fa-rupee"></i>  <?= $refund_amount ?></h2>
 
 			</div>
 		</div>
@@ -169,10 +168,10 @@ foreach ($data as $key => $value) {
 											<td>
 
                                             <?php if($value->identifier=="refund"): ?>
-                                             <span style="color: red;"> -<i class="fa fa-rupee"></i> <?= $value->refund_amount ?></span>
+                                             <span style="color: red;"> -<i class="fa fa-rupee"></i> <?= $value->final_amount ?></span>
                                             <?php 
 
-                                                     $refund_amount+= $value->refund_amount;
+                                                     $refund_amount+= $value->final_amount;
                                             ?>
                                               <?php else: ?>
                                                 <span style="color: green;">+<i class="fa fa-rupee"></i> <?= $value->final_amount ?></span>

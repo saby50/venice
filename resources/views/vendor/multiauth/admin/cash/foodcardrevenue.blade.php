@@ -14,7 +14,7 @@ $unit_revenue = 0;
 
 foreach ($data as $key => $value) {
   if ($value->identifier=="refund") {
-    $refund_amount+= $value->refund_amount;
+    $refund_amount+= $value->final_amount;
   }else {
     $recharg_amount+= $value->final_amount;
   }
@@ -168,10 +168,10 @@ foreach ($data as $key => $value) {
 											<td>
 
                                             <?php if($value->identifier=="refund"): ?>
-                                             <span style="color: red;"> -<i class="fa fa-rupee"></i> <?= $value->refund_amount ?></span>
+                                             <span style="color: red;"> -<i class="fa fa-rupee"></i> <?= $value->final_amount ?></span>
                                             <?php 
 
-                                                     $refund_amount+= $value->refund_amount;
+                                                     $refund_amount+= $value->final_amount;
                                             ?>
                                               <?php else: ?>
                                                 <span style="color: green;">+<i class="fa fa-rupee"></i> <?= $value->final_amount ?></span>

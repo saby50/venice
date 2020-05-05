@@ -119,7 +119,8 @@ $food_check = Helper::get_unit_by_email_food(Auth::user()->email);
      
 
           <li class="menu-item-has-children"><a href="{{ URL::to('admin/reports/transaction/todays') }}" title=""  class="<?php if($segment=='reports' || $segment=='feedbacks' || $segment=='gondolier') { echo 'item-active'; } ?>"><i class="fa fa-bolt"></i> <span>Reports</a><ul>
-               <li><a href="{{ URL::to('admin/reports/transaction/todays') }}">Revenue</a></li>
+               <li><a href="{{ URL::to('admin/reports/transaction/todays') }}">Service Revenue</a></li>
+               <li><a href="<?= URL::to('admin/units/reports/daily/'.Helper::get_units().'/'.date('m-Y')) ?>">Unit Revenue</a></li>
                <li><a href="{{ URL::to('admin/feedbacks/all/all') }}">Feedback</a></li>
                <li><a href="{{ URL::to('admin/gondolier/reports/todays') }}">Gondolier</a></li>                
             </ul></li>

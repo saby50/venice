@@ -468,7 +468,7 @@ class ApiController extends Controller
          $data = array('status' => 'failed');
          if ($insert) {
           if ($payment_method=="gv_pocket") {
-           $content = "Your Order ID:".$order_id." for Rs. ".$amount." is refunded by ".$unit_name." to GV Pay. Your GV Pay balance is".$updated_balance.". Install the iPhone/Android App: https://l.ead.me/29Ev";
+           $content = "Your Order ID:".$order_id." for Rs. ".$amount." is refunded by ".$unit_name." to GV Pay. Your GV Pay balance is Rs. ".$updated_balance.". Install the iPhone/Android App: https://l.ead.me/29Ev";
             Helper::send_otp($phone,$content);
          }else {
           $content = "Your Order ID:".$order_id." for Rs. ".$amount." is refunded by ".$unit_name." to Food Card. Your Food Card balance is".$updated_balance.". Install the iPhone/Android App: https://l.ead.me/29Ev";
