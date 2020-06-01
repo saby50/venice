@@ -127,6 +127,7 @@ Route::get('getaddonfields/{item_id}', 'WebController@getaddonfields');
 Route::get('food_payment/status', 'WebController@foodstatus');
 Route::get('food_cart/remove_item/{key}', 'WebController@remove_item');
 Route::get('foodorder', 'WebController@foodorder');
+Route::get('epass', 'EpassController@index');
 Route::post('food_cart/checkout', 'WebController@food_checkout');
 Route::post('update_cart', 'WebController@update_cart');
 Route::post('menu/add_item_cart', 'WebController@add_item_cart');

@@ -1,10 +1,12 @@
 <?php 
 $wallet = "login";
+$epass = "login";
 $pay = "login";
 $profile = "login";
 if (Auth::check()) {
 	$wallet = "wallet";
     $pay = "pay";
+    $epass = "epass";
     $parking = "paynow/11";
     $profile = "profile";
 }
@@ -32,10 +34,15 @@ if (Auth::check()) {
 		<li><a href="<?= URL::to($pay) ?>"><img src="{{ asset('public/images/pwa/footerpay.png') }}"> <br /></a>Pay</li>
 		<?php endif; ?>
 		<?php if (Request::is('wallet')): ?>
+		<li><img src="{{ asset('public/images/epassa.jpg') }}"><br />e-Pass</li>
+		<?php else: ?>
+			<li><a href="<?= URL::to($epass) ?>"><img src="{{ asset('public/images/epass.jpg') }}" onmouseover="this.src='<?= URL::to("public/images/epassa.jpg") ?>'" onmouseout="this.src='<?= URL::to("public/images/epass.jpg") ?>'"></a><br />e-Pass</li>
+		<?php endif; ?>
+		<!--<?php if (Request::is('wallet')): ?>
 		<li><img src="{{ asset('public/images/pwa/walleta.png') }}"><br />Wallet</li>
 		<?php else: ?>
 			<li><a href="<?= URL::to($wallet) ?>"><img src="{{ asset('public/images/pwa/wallet.png') }}" onmouseover="this.src='<?= URL::to("public/images/pwa/walleta.png") ?>'" onmouseout="this.src='<?= URL::to("public/images/pwa/wallet.png") ?>'"></a><br />Wallet</li>
-		<?php endif; ?>
+		<?php endif; ?> -->
 		
 		
 	</ul>
