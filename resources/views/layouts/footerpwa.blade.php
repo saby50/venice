@@ -33,7 +33,7 @@ if (Auth::check()) {
 		<?php else: ?>
 		<li><a href="<?= URL::to($pay) ?>"><img src="{{ asset('public/images/pwa/footerpay.png') }}"> <br /></a>Pay</li>
 		<?php endif; ?>
-		<?php if (Request::is('wallet')): ?>
+		<?php if (Request::is('epass')): ?>
 		<li><img src="{{ asset('public/images/epassa.JPG') }}"><br />e-Pass</li>
 		<?php else: ?>
 			<li><a href="<?= URL::to($epass) ?>"><img src="{{ asset('public/images/epass.JPG') }}" onmouseover="this.src='<?= URL::to("public/images/epassa.JPG") ?>'" onmouseout="this.src='<?= URL::to("public/images/epass.JPG") ?>'"></a><br />e-Pass</li>
