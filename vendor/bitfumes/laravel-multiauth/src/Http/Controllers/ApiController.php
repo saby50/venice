@@ -92,7 +92,9 @@ class ApiController extends Controller
     $insert = DB::table('user_checkins')->insert(['user_id' => $userid, 'unit_id' => $unit_id,'created_at' => $date, 'updated_at' => $date]);
     $users = DB::table('user_checkins')
     ->join('users', 'users.id','=','user_checkins.user_id')
-    ->select(DB::raw('users.*'),DB::raw('user_checkins.updated_at as checkindate'))
+    ->select(DB::raw('users.*'),
+      DB::raw('user_checkins.updated_at as checkindate'))
+    ->groupBy('user_checkins.user_id')
     ->get();
     $unit = DB::table('units')->where('id', $unit_id)->get();
     $unit_name = "";
