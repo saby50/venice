@@ -388,6 +388,7 @@
     Route::post('/menu/delete_featured_item', 'MenuController@delete_featured_item');
     Route::post('menu/addons_create', 'MenuController@addons_create');
     Route::get('/menu/load_featured_item/{id}', 'MenuController@load_featured_item');
+    Route::post('/api/usercheckin', 'ApiController@usercheckin');
     Route::fallback(function () {
         return abort(404);
     });

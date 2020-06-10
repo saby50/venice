@@ -79,6 +79,29 @@ class ApiController extends Controller
       }
       return $status;
   }
+  function usercheckin(Request $request) {
+    $userid = $request['userid'];
+    $email = $request['email'];
+
+    $db = DB::table('units')->where('unit_email', $email)->get();
+    $unit_id = 0;
+    foreach ($db as $key => $value) {
+      $unit_id = $value->id;
+    }
+    $date = date("Y-m-d H:i:s");
+    $insert = DB::table('user_checkins')->insert(['user_id' => $userid, 'unit_id' => $unit_id,'created_at' => $date, 'updated_at' => $date]);
+    $users = DB::table('user_checkins')
+    ->join('users', 'users.id','=','user_checkins.user_id')
+    ->select(DB::raw('users.*'))
+    ->get();
+    $unit = DB::table('units')->where('id', $unit_id)->get();
+    $unit_name = "";
+    foreach ($unit as $key => $value) {
+      $unit_name = $value->unit_name;
+    }
+    $data = array('unit_name' => $unit_name, 'results' => $users);
+    return $data; 
+  }
   function update_restuarant_time(Request $request) {
     $from = $request['from_time'];
     $to = $request['to_time'];
