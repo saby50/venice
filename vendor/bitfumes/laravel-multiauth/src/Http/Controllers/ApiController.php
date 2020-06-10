@@ -89,7 +89,15 @@ class ApiController extends Controller
       $unit_id = $value->id;
     }
     $date = date("Y-m-d H:i:s");
-    $insert = DB::table('user_checkins')->insert(['user_id' => $userid, 'unit_id' => $unit_id,'created_at' => $date, 'updated_at' => $date]);
+    $count = DB::table('user_checkins')
+             ->where('user_id' , $userid)
+             ->where('unit_id' , $unit_id)
+             ->whereDate('user_checkins.created_at' , Carbon::today())
+             ->count();
+    if ($count==0) {
+      $insert = DB::table('user_checkins')->insert(['user_id' => $userid, 'unit_id' => $unit_id,'created_at' => $date, 'updated_at' => $date]);
+    }
+    
     $users = DB::table('user_checkins')
     ->join('users', 'users.id','=','user_checkins.user_id')
     ->select(DB::raw('users.*'),
