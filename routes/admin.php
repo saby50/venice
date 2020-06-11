@@ -121,7 +121,7 @@
     Route::post('/packs/upload_icon', 'PacksController@upload_icon');
     Route::get('/packs/load_icon/{id}', 'PacksController@load_icon');
     Route::get('/api/checknewbookings/{email}', 'ApiController@checknewbookings');
-    Route::get('/api/getunitscheckins', 'ApiController@getunitscheckins');
+    Route::get('/api/getunitscheckins/{parameter}', 'ApiController@getunitscheckins');
     Route::get('/api/get_booking_counts', 'ApiController@get_booking_counts');
     Route::get('/packs/get_quantity/{service_id}/{pack_id}', 'PacksController@get_quantity');
     Route::post('/packs/delete_icon', 'PacksController@delete_icon'); 

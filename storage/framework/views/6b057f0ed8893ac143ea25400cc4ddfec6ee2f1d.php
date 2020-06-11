@@ -17,7 +17,18 @@ Reports
 <div class="heading-sec">
 	<div class="row">
 		<div class="col-md-8">
-					<h3>Checkin(s) - <?= date('d-m-Y') ?></h3>
+					<h3>Checkin(s) - <?php 
+                     if ($parameter=="todays") {
+                     	echo date('d-m-Y');
+                     }elseif ($parameter=="monthly") {
+                     	echo date('M Y');
+                     }elseif ($parameter=="lastmonth") {
+                     	echo date('M Y', strtotime('-1 Month'));
+                     }elseif ($parameter=="yesterday") {
+                     	echo date('d-m-Y', strtotime('-1 Day'));
+                     }
+
+					?></h3>
 				</div>
 				
              <div class="col-md-4 column">
@@ -56,17 +67,18 @@ Reports
 						<label>Filter by date: </label>
 						<select name="filter" class="form-control type">
 							<?php foreach($filters as $key => $value): ?>
+								<?php if($parameter==$value->filter_value): ?>
+								<option value="<?= $value->filter_value ?>" selected><?= $value->filter_name ?></option>
+								<?php else: ?>
+									<option value="<?= $value->filter_value ?>"><?= $value->filter_name ?></option>
+								<?php endif; ?>
 							<?php endforeach; ?>
 						</select>
 					   </div>
 					</div>
 					<div class="row">
-					<div id="root"></div>
-						
+						<div id="root"></div>
 					</div>
-					
-
-					
 				</div>
 			</div>
 		</div>
@@ -96,10 +108,11 @@ Reports
 	$(document).ready(function() {
     function loadcontent() {
     	 var html = "";
-	  var url = "<?= URL::to('/admin/api/getunitscheckins') ?>";
+          
+	  var url = "<?= URL::to('/admin/api/getunitscheckins/'.$parameter) ?>/";
 	  console.log(url);
 	  $.get(url, function(data) {
-          $("#root").html(data);
+	  	$("#root").html(data);
 	  });
     }
     loadcontent();
@@ -107,6 +120,12 @@ Reports
 	 setInterval(function(){
        loadcontent() // this will run after every 5 seconds
       }, 5000);
+
+	 $(".type").change(function() {
+	 	var data = $(this).val();
+        var url = "<?= URL::to('admin/checkins/') ?>/"+data;
+        window.location = url;
+	 });
      
 	});
 	

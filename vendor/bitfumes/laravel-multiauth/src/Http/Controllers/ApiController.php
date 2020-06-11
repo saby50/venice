@@ -22,7 +22,7 @@ class ApiController extends Controller
 		$packs = DB::table('packs')->get();
 		return view('vendor.multiauth.admin.bookings.index', compact('data','services','packs','type','email'));
 	}
-  function getunitscheckins() {
+  function getunitscheckins($parameter) {
        $units = DB::table('units')->get();
        $html = "";
        $html.= '<table class="table" style="margin-top:20px;">
@@ -37,7 +37,7 @@ class ApiController extends Controller
             foreach($units as $key => $value) { 
               $html.=  '<tr>
                 <td>'.$value->unit_name.'</td>
-                <td>'.Helper::get_checkin_count($value->id).'</td>
+                <td>'.Helper::get_checkin_count($value->id,$parameter).'</td>
               </tr>';
             }
            
