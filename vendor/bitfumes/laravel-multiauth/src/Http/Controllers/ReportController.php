@@ -27,6 +27,13 @@ public function __construct()
        $type="web";
       return view('vendor.multiauth.admin.reports.unit_revenue', compact('datetype','filters','type','units','unit_id','custom'));
   }
+  function checkins($parameter) {
+    $units = DB::table('units')->get();
+    $type= "web";
+    $filters = DB::table('filter_types')->where('page_name','unit_revenue')->get();
+    return view('vendor.multiauth.admin.reports.checkins', compact('units', 'type','filters'));
+
+  }
 	function index($datatype,$date_type) {
 		$type = "web";
 		$data = array();

@@ -22,6 +22,30 @@ class ApiController extends Controller
 		$packs = DB::table('packs')->get();
 		return view('vendor.multiauth.admin.bookings.index', compact('data','services','packs','type','email'));
 	}
+  function getunitscheckins() {
+       $units = DB::table('units')->get();
+       $html = "";
+       $html.= '<table class="table" style="margin-top:20px;">
+            <thead>
+              <tr>
+                <th>Unit Name</th>
+                <th>No of checkins</th>
+                
+              </tr>
+            </thead>
+            <tbody>';
+            foreach($units as $key => $value) { 
+              $html.=  '<tr>
+                <td>'.$value->unit_name.'</td>
+                <td>'.Helper::get_checkin_count($value->id).'</td>
+              </tr>';
+            }
+           
+        $html.= '</tbody>
+          </table>';
+
+          return $html;
+  }
 
   function unit_daily_reporting() {
 
@@ -48,7 +72,7 @@ class ApiController extends Controller
 		$data2 = Helper::get_future_bookings($type2,$type,$parameter,$email,'all');
 
 		$services = DB::table('services')->get();
-		$packs = DB::table('packs')->get();
+		$p4acks = DB::table('packs')->get();
 		$filters = DB::table('filter_types')->where('page_name','bookings')->get();
 		return view('vendor.multiauth.admin.bookings.all', compact('data2','services','packs','type','email','filters','parameter'));
 	}

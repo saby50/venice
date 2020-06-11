@@ -25,6 +25,13 @@ class Helper
      $finduser = App\User::where('id', $user_id)->first();
      return $finduser['food_card'];
   }
+  public static function get_checkin_count($unit_id) {
+    $db = DB::table('user_checkins')
+         ->where('unit_id', $unit_id)
+         ->whereDate('user_checkins.created_at', Carbon\Carbon::today())
+         ->count();
+    return $db;
+  }
    public static function get_unit_revenue_food_card($parameter) {
       $type = "web";
     $custom = "";

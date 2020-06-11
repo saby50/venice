@@ -121,6 +121,7 @@
     Route::post('/packs/upload_icon', 'PacksController@upload_icon');
     Route::get('/packs/load_icon/{id}', 'PacksController@load_icon');
     Route::get('/api/checknewbookings/{email}', 'ApiController@checknewbookings');
+    Route::get('/api/getunitscheckins', 'ApiController@getunitscheckins');
     Route::get('/api/get_booking_counts', 'ApiController@get_booking_counts');
     Route::get('/packs/get_quantity/{service_id}/{pack_id}', 'PacksController@get_quantity');
     Route::post('/packs/delete_icon', 'PacksController@delete_icon'); 
@@ -388,6 +389,7 @@
     Route::post('/menu/delete_featured_item', 'MenuController@delete_featured_item');
     Route::post('menu/addons_create', 'MenuController@addons_create');
     Route::get('/menu/load_featured_item/{id}', 'MenuController@load_featured_item');
+    Route::get('/checkins/{parameter}', 'ReportController@checkins');
     Route::post('/api/usercheckin', 'ApiController@usercheckin');
     Route::fallback(function () {
         return abort(404);
