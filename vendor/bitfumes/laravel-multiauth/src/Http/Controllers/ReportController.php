@@ -26,7 +26,10 @@ class ReportController extends Controller
   }
   function checkinuser($unit_id) {
     $type= "web";
-    $data = DB::table('user_checkins')->where('unit_id', $unit_id)->get();
+    $data = DB::table('user_checkins')
+            ->where('unit_id', $unit_id)
+            ->get();
+            
     return view('vendor.multiauth.admin.reports.checkinuser', compact('type','data'));
   }
 

@@ -77,7 +77,7 @@ Reports
 								<td><?= $v->name ?></td>
 								<td><?= $v->email ?></td>
 								<td><?= $v->phone ?></td>
-								<td><?= date('d-m-Y', strtotime($v->created_at)) ?></td>
+								<td><?= date('d-m-Y', strtotime($value->created_at)) ?></td>
 							</tr>
 							<?php endforeach; ?>
 						<?php endforeach; ?>
