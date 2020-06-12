@@ -39,7 +39,7 @@ class ApiController extends Controller
             foreach($units as $key => $value) { 
                $count = Helper::get_checkin_count($value->id,$parameter);
             if ($count != 0) {
-              $count = "<a href='".URL::to('admin/checkin/users/'.$value->id)."'>".$count."</a>";
+              $count = "<a href='".URL::to('admin/checkin/users/'.$value->id."/".$parameter)."'>".$count."</a>";
             }
               $html.=  '<tr>
                 <td>'.$value->unit_name.'</td>
