@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Helper;
 use Crypt;
 use Hash;
+use URL;
 use App\User;
 use App\Mail\UnitDailyReporting;
 class ApiController extends Controller
