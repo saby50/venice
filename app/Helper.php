@@ -21,6 +21,10 @@ class Helper
     }
     return $data;
   }
+  public static function get_user_info($user_id) {
+     $finduser = App\User::where('id', $user_id)->get();
+     return $finduser;
+  }
   public static function get_food_card($user_id) {
      $finduser = App\User::where('id', $user_id)->first();
      return $finduser['food_card'];

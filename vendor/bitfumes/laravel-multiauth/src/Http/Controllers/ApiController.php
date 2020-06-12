@@ -34,10 +34,16 @@ class ApiController extends Controller
               </tr>
             </thead>
             <tbody>';
+           
             foreach($units as $key => $value) { 
+               $count = Helper::get_checkin_count($value->id,$parameter);
+            if ($count != 0) {
+              $count = "<a href='admin/checkin/users/".$value->id."'>".$count."</a>";
+            }
               $html.=  '<tr>
                 <td>'.$value->unit_name.'</td>
-                <td>'.Helper::get_checkin_count($value->id,$parameter).'</td>
+
+                <td>'.$count.'</td>
               </tr>';
             }
            
@@ -46,6 +52,8 @@ class ApiController extends Controller
 
           return $html;
   }
+
+
 
   function unit_daily_reporting() {
 

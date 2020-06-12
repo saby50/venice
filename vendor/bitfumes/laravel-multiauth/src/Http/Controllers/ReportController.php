@@ -24,6 +24,11 @@ class ReportController extends Controller
        $type="web";
       return view('vendor.multiauth.admin.reports.unit_revenue', compact('datetype','filters','type','units','unit_id','custom'));
   }
+  function checkinuser($unit_id) {
+    $type= "web";
+    $data = DB::table('user_checkins')->where('unit_id', $unit_id)->get();
+    return view('vendor.multiauth.admin.reports.checkinuser', compact('type','data'));
+  }
 
   function checkins($parameter) {
     $type= "web";
