@@ -24,12 +24,35 @@ class ReportController extends Controller
        $type="web";
       return view('vendor.multiauth.admin.reports.unit_revenue', compact('datetype','filters','type','units','unit_id','custom'));
   }
-  function checkinuser($unit_id) {
+  function checkinuser($unit_id,$parameter) {
     $type= "web";
-    $data = DB::table('user_checkins')
+    if ($parameter=="todays") {
+     $data = DB::table('user_checkins')
             ->where('unit_id', $unit_id)
+            ->whereDate('created_at', Carbon::today())
             ->get();
-            
+    }elseif($parameter=="yesterday") {
+       $month = new Carbon('yesterday');
+      $data = DB::table('user_checkins')
+            ->where('unit_id', $unit_id)
+            ->whereDate('created_at', $month)
+            ->get();
+    }elseif($parameter=="lastmonth") {
+      $month = new Carbon('last month');
+      $data = DB::table('user_checkins')
+            ->where('unit_id', $unit_id)
+            ->whereMonth('created_at', $month)
+            ->get();
+    }elseif($parameter=="monthly") {
+       $now = Carbon::now();
+       $month = $now->month;
+       $data = DB::table('user_checkins')
+            ->where('unit_id', $unit_id)
+            ->whereMonth('created_at', $month)
+            ->get();
+    }
+    
+
     return view('vendor.multiauth.admin.reports.checkinuser', compact('type','data'));
   }
 
