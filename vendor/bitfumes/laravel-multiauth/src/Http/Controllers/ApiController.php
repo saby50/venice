@@ -23,7 +23,7 @@ class ApiController extends Controller
 		return view('vendor.multiauth.admin.bookings.index', compact('data','services','packs','type','email'));
 	}
   function getunitscheckins($parameter) {
-       $units = DB::table('units')->get();
+       $units = DB::table('units')->where('epass','yes')->get();
        $html = "";
        $html.= '<table class="table" style="margin-top:20px;">
             <thead>

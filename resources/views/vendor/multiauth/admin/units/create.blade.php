@@ -114,6 +114,10 @@ Units
               <label>Suspended</label><br />
              <input type="radio" name="suspended" class="suspended" value="yes" checked> Yes &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="suspended" class="suspended" value="no"> No
               </div>
+               <div class="col-md-6">   
+               <label>Enable E-pass</label><br />
+               <input type="radio" name="epass" class="epass" value="yes"> Enable &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="epass" value="no" class="epass" checked="checked"> Disable
+              </div>
                  <div class="col-md-6">   
           <label>Food Card</label><br />
                 <input type="radio" name="food_card" class="food_card" value="yes"> Enable &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="food_card" value="no" class="food_card" checked="checked"> Disable

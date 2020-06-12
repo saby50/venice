@@ -52,7 +52,11 @@ class ApiController extends Controller
       return $db;
     }
     function get_units() {
-         $units = DB::table('units')->where('suspended','no')->orderBy('id','desc')->get();
+         $units = DB::table('units')
+         ->where('suspended','no')
+         ->where('unit_name','!=','Mall')
+         ->orderBy('id','desc')
+         ->get();
          return $units;
     }
 

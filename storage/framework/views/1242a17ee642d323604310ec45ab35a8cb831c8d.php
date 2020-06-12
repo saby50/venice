@@ -43,6 +43,7 @@ $from_time = "";
 $to_time = "";
 $enable_food_order = "";
 $food_card = "no";
+$epass = "no";
 foreach ($data as $key => $value) {
   $unit_name = $value->unit_name;
   $unit_email = $value->unit_email;
@@ -56,6 +57,7 @@ foreach ($data as $key => $value) {
   $prep_time = $value->prep_time;
   $from_time = $value->from_time;
   $to_time = $value->to_time;
+  $epass = $value->epass;
   $enable_food_order = $value->enable_food_order;
   $food_card = $value->food_card;
 }
@@ -148,6 +150,14 @@ $units = Helper::get_category($unit_category_id);
                      <input type="radio" name="suspended" class="suspended" value="yes"> Yes &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="suspended" class="suspended" value="no" checked> No
 
                    <?php endif; ?>
+              </div>
+             <div class="col-md-6">   
+               <label>Enable E-pass</label><br />
+               <?php if($epass=="yes"): ?>
+                 <input type="radio" name="epass" class="epass" value="yes" checked="checked"> Enable &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="epass" value="no" class="epass"> Disable
+                <?php else: ?>
+                    <input type="radio" name="epass" class="epass" value="yes"> Enable &nbsp;&nbsp;&nbsp;&nbsp;  <input type="radio" name="epass" value="no" class="epass" checked="checked"> Disable
+                <?php endif; ?>
               </div>
                 <div class="col-md-6">   
           <label>Food Card</label><br />

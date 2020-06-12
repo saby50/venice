@@ -12,27 +12,30 @@ use Hash;
 class ReportController extends Controller
 {
 
-public function __construct()
-    {
+  public function __construct()
+  {
         $this->middleware('auth:admin');
         $this->middleware('role:super', ['only'=>'show']);
-    }
-      function downloadreports($datetype) {
-     
+  }
 
-    }
-    function unit_revenue($datetype,$unit_id,$custom) {
+  function unit_revenue($datetype,$unit_id,$custom) {
        $filters = DB::table('filter_types')->where('page_name','unit_revenue')->get();
        $units = DB::table('units')->get();
        $type="web";
       return view('vendor.multiauth.admin.reports.unit_revenue', compact('datetype','filters','type','units','unit_id','custom'));
   }
+
   function checkins($parameter) {
     $type= "web";
-    $filters = DB::table('filter_types')->where('page_name','bookings')->where('filter_value','!=','custom')->get();
-    return view('vendor.multiauth.admin.reports.checkins', compact('type','filters','parameter'));
 
+    $filters = DB::table('filter_types')
+    ->where('page_name','bookings')
+    ->where('filter_value','!=','custom')
+    ->get();
+    
+    return view('vendor.multiauth.admin.reports.checkins', compact('type','filters','parameter'));
   }
+
 	function index($datatype,$date_type) {
 		$type = "web";
 		$data = array();
@@ -78,18 +81,12 @@ public function __construct()
        	$amount = $value->price + $value->tax;
        
 
-      	 if ($v->id==$service_id) {
+      if ($v->id==$service_id) {
    	 		$data[$order_id]['services'][] = array('price' =>  $amount,'type'=>'service','service_id' => $value->service_id);
    	     }else {
    	     	
    	     }
-
-       
-
-
        } 
-      
-   
     }
   
     foreach ($db2 as $key => $value) {
