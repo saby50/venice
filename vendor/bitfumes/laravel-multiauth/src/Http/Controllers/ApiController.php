@@ -16,7 +16,8 @@ use App\User;
 use App\Mail\UnitDailyReporting;
 class ApiController extends Controller
 {
-    function get_app_managers_access($email,$type) {
+  
+  function get_app_managers_access($email,$type) {
 		$data = Helper::get_todays_bookings($email,$type);
 
 		$services = DB::table('services')->get();
@@ -31,15 +32,14 @@ class ApiController extends Controller
               <tr>
                 <th>Unit Name</th>
                 <th>No of checkins</th>
-                
               </tr>
             </thead>
             <tbody>';
-           
+
             foreach($units as $key => $value) { 
                $count = Helper::get_checkin_count($value->id,$parameter);
             if ($count != 0) {
-              $count = "<a href='".URL::to('checkin/users/'.$value->id)."'>".$count."</a>";
+              $count = "<a href='".URL::to('admin/checkin/users/'.$value->id)."'>".$count."</a>";
             }
               $html.=  '<tr>
                 <td>'.$value->unit_name.'</td>

@@ -359,13 +359,13 @@
      Route::get('lead_claim/{lead_id}','LeadsController@lead_claim');
      Route::get('get_lead_data/{lead_id}','LeadsController@get_lead_data');
 
-     Route::get('food_card/topup','FoodcardController@food_card_topup');
-      Route::get('food_card/sent_otp/{phone}/{order_id}/{status}','FoodcardController@sent_otp');
-     Route::get('food_card/revenue/{parameter}','FoodcardController@revenue');
-      Route::get('food_card/revenue/custom/{parameter}','FoodcardController@custom');
-     Route::get('food_card/refund/{parameter}','FoodcardController@food_card_refund');
-     Route::post('food_card_refund','FoodcardController@food_card_refund_process');
-     Route::post('fc_refund','FoodcardController@fc_refund');
+    Route::get('food_card/topup','FoodcardController@food_card_topup');
+    Route::get('food_card/sent_otp/{phone}/{order_id}/{status}','FoodcardController@sent_otp');
+    Route::get('food_card/revenue/{parameter}','FoodcardController@revenue');
+    Route::get('food_card/revenue/custom/{parameter}','FoodcardController@custom');
+    Route::get('food_card/refund/{parameter}','FoodcardController@food_card_refund');
+    Route::post('food_card_refund','FoodcardController@food_card_refund_process');
+    Route::post('fc_refund','FoodcardController@fc_refund');
     Route::post('food_card_topup/add','FoodcardController@add');
 
     // Roles
@@ -380,8 +380,8 @@
     Route::get('get_addon/{addonid}','UnitsController@get_addon');
     Route::get('edit-menu-item/{unit_id}','MenuController@edititem');
     Route::get('delete-menu-item/{unit_id}','MenuController@deleteitem');
-     Route::get('delete-menu-addon/{addon_id}','MenuController@deleteaddons');
-     Route::get('removeaddon/{addon_id}','MenuController@removeaddon');
+    Route::get('delete-menu-addon/{addon_id}','MenuController@deleteaddons');
+    Route::get('removeaddon/{addon_id}','MenuController@removeaddon');
     Route::post('addmenuitem','MenuController@addmenuitem');
     Route::post('updatemenuitem','MenuController@updatemenuitem');
     Route::post('menu/addons_edit','MenuController@addons_edit');
