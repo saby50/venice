@@ -50,6 +50,10 @@ class ReportController extends Controller
             ->where('unit_id', $unit_id)
             ->whereMonth('created_at', $month)
             ->get();
+    }else {
+      $data = DB::table('user_checkins')
+            ->where('unit_id', $unit_id)
+            ->get();
     }
     
 
