@@ -38,7 +38,7 @@ class ApiController extends Controller
             foreach($units as $key => $value) { 
                $count = Helper::get_checkin_count($value->id,$parameter);
             if ($count != 0) {
-              $count = "<a href='checkin/users/".$value->id."'>".$count."</a>";
+              $count = "<a href='".URL::to('checkin/users/'.$value->id)."'>".$count."</a>";
             }
               $html.=  '<tr>
                 <td>'.$value->unit_name.'</td>
@@ -54,7 +54,36 @@ class ApiController extends Controller
   }
 
 
+function getuserscheckins() {
+       $units = DB::table('user_checkins')->where('epass','yes')->get();
+       $html = "";
+       $html.= '<table class="table" style="margin-top:20px;">
+            <thead>
+              <tr>
+                <th>Unit Name</th>
+                <th>No of checkins</th>
+                
+              </tr>
+            </thead>
+            <tbody>';
+           
+            foreach($units as $key => $value) { 
+               $count = Helper::get_checkin_count($value->id,$parameter);
+            if ($count != 0) {
+              $count = "<a href='admin/checkin/users/".$value->id."'>".$count."</a>";
+            }
+              $html.=  '<tr>
+                <td>'.$value->unit_name.'</td>
 
+                <td>'.$count.'</td>
+              </tr>';
+            }
+           
+        $html.= '</tbody>
+          </table>';
+
+          return $html;
+  }
   function unit_daily_reporting() {
 
     $units = DB::table('units')->get();
