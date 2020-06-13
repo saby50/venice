@@ -132,7 +132,7 @@ User Checkins
 	  	$("#mall").html(data);
 	  });
 	}
-
+     loadmall();
 	 setInterval(function(){
        loadmall() // this will run after every 5 seconds
       }, 5000);
