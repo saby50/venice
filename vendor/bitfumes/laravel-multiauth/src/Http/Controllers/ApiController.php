@@ -118,6 +118,7 @@ class ApiController extends Controller
   function usercheckin(Request $request) {
     $userid = $request['userid'];
     $email = $request['email'];
+    $parameter = $request['parameter'];
 
     $db = DB::table('units')->where('unit_email', $email)->get();
     $unit_id = 0;
@@ -137,13 +138,26 @@ class ApiController extends Controller
         'created_at' => $date, 'updated_at' => $date]);
     }
     
-    $users = DB::table('user_checkins')
+    if ($parameter=="all") {
+       $users = DB::table('user_checkins')
     ->join('users', 'users.id','=','user_checkins.user_id')
     ->select(DB::raw('users.*'),
       DB::raw('user_checkins.updated_at as checkindate'))
     ->where('user_checkins.unit_id',$unit_id)
     ->groupBy('user_checkins.user_id')
     ->get();
+    
+    }else {
+       $users = DB::table('user_checkins')
+    ->join('users', 'users.id','=','user_checkins.user_id')
+    ->select(DB::raw('users.*'),
+      DB::raw('user_checkins.updated_at as checkindate'))
+    ->where('user_checkins.unit_id',$unit_id)
+    ->groupBy('user_checkins.user_id')
+    ->whereDate('user_checkins.created_at', Carbon::today())
+    ->get();
+    }
+   
     $unit = DB::table('units')->where('id', $unit_id)->get();
     $unit_name = "";
     foreach ($unit as $key => $value) {
