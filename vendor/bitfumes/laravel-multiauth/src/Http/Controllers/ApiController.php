@@ -329,12 +329,13 @@ function getuserscheckins() {
         foreach ($checkunit as $key => $value) {
         	$suspend = $value->suspended;
           $enable_food_order = $value->enable_food_order;
+          $epass = $value->epass;
         }
         if ($suspend=="yes") {
         	$data = array();
         }
 
-        $finaldata = array('unit_id' => $units[0]['unit_id'],'unit_name' => $units[0]['unit_name'],'amount' => $amount,'net_amount' => $net_amount,'refund_amount' => $refund_amount, 'data' => $data,'refund_status' => $refund_status,'suspended' => $suspend,'enable_food_order' => $enable_food_order);
+        $finaldata = array('unit_id' => $units[0]['unit_id'],'unit_name' => $units[0]['unit_name'],'amount' => $amount,'net_amount' => $net_amount,'refund_amount' => $refund_amount, 'data' => $data,'refund_status' => $refund_status,'suspended' => $suspend,'enable_food_order' => $enable_food_order,'epass' => $epass);
         return array('result' => $finaldata);
 	}
   function get_food_data(Request $request) {
