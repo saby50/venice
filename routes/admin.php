@@ -392,6 +392,7 @@
     Route::get('/checkins/{parameter}', 'ReportController@checkins');
     Route::get('/checkin/users/{userid}/{parameter}', 'ReportController@checkinuser');
     Route::post('/api/usercheckin', 'ApiController@usercheckin');
+    Route::get('/api/getmallcheckins/{parameter}', 'ApiController@getmallcheckins');
     Route::fallback(function () {
         return abort(404);
     });

@@ -21,6 +21,43 @@ class Helper
     }
     return $data;
   }
+   public static function getmallcheckins($parameter) {
+    $getunit = DB::table('units')->where('unit_name','Mall')->get();
+    $unit_id = 0;
+    foreach ($getunit as $key => $value) {
+      $unit_id = $value->id;
+    }
+    if ($parameter=="all") {
+       $db = DB::table('user_checkins')
+         ->where('unit_id', $unit_id)
+         ->count();
+    }elseif($parameter=="todays") {
+       $db = DB::table('user_checkins')
+         ->where('unit_id', $unit_id)
+         ->whereDate('user_checkins.created_at', Carbon\Carbon::today())
+         ->count();
+    }elseif($parameter=="monthly") {
+      //$month = new Carbon\Carbon('yesterday');
+      $db = DB::table('user_checkins')
+         ->where('unit_id', $unit_id)
+         ->whereMonth('user_checkins.created_at', Carbon\Carbon::now()->month)
+         ->count();
+    }elseif($parameter=="yesterday") {
+       $month = new Carbon\Carbon('yesterday');
+       $db = DB::table('user_checkins')
+         ->where('unit_id', $unit_id)
+         ->whereDate('user_checkins.created_at', $month)
+         ->count();
+    }elseif($parameter=="lastmonth") {
+      $month = new Carbon\Carbon('last month');
+       $db = DB::table('user_checkins')
+         ->where('unit_id', $unit_id)
+         ->whereMonth('user_checkins.created_at', $month)
+         ->count();
+    }
+   
+    return $db;
+  }
   public static function get_user_info($user_id) {
      $finduser = App\User::where('id', $user_id)->get();
      return $finduser;

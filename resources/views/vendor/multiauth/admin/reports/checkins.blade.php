@@ -28,7 +28,7 @@ Reports
                      	echo date('d-m-Y', strtotime('-1 Day'));
                      }
 
-					?></h3>
+					?> | Mall: <span id="mall"></span></h3>
 				</div>
 				
              <div class="col-md-4 column">
@@ -126,6 +126,16 @@ Reports
         var url = "<?= URL::to('admin/checkins/') ?>/"+data;
         window.location = url;
 	 });
+      function loadmall() {
+	 var url2 = "<?= URL::to('/admin/api/getmallcheckins/'.$parameter) ?>";
+        $.get(url2, function(data) {
+	  	$("#mall").html(data);
+	  });
+	}
+
+	 setInterval(function(){
+       loadmall() // this will run after every 5 seconds
+      }, 5000);
      
 	});
 	

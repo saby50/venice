@@ -25,7 +25,7 @@ class ApiController extends Controller
 		return view('vendor.multiauth.admin.bookings.index', compact('data','services','packs','type','email'));
 	}
   function getunitscheckins($parameter) {
-       $units = DB::table('units')->where('epass','yes')->get();
+       $units = DB::table('units')->where('epass','yes')->where('unit_name','!=','Mall')->get();
        $html = "";
        $html.= '<table class="table" style="margin-top:20px;">
             <thead>
@@ -55,35 +55,9 @@ class ApiController extends Controller
   }
 
 
-function getuserscheckins() {
-       $units = DB::table('user_checkins')->where('epass','yes')->get();
-       $html = "";
-       $html.= '<table class="table" style="margin-top:20px;">
-            <thead>
-              <tr>
-                <th>Unit Name</th>
-                <th>No of checkins</th>
-                
-              </tr>
-            </thead>
-            <tbody>';
-           
-            foreach($units as $key => $value) { 
-               $count = Helper::get_checkin_count($value->id,$parameter);
-            if ($count != 0) {
-              $count = "<a href='admin/checkin/users/".$value->id."'>".$count."</a>";
-            }
-              $html.=  '<tr>
-                <td>'.$value->unit_name.'</td>
-
-                <td>'.$count.'</td>
-              </tr>';
-            }
-           
-        $html.= '</tbody>
-          </table>';
-
-          return $html;
+  function getmallcheckins($parameter) {
+      $db = Helper::getmallcheckins($parameter);
+      return $db;
   }
   function unit_daily_reporting() {
 
