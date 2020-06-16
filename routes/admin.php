@@ -390,6 +390,7 @@
     Route::post('menu/addons_create', 'MenuController@addons_create');
     Route::get('/menu/load_featured_item/{id}', 'MenuController@load_featured_item');
     Route::get('/checkins/{parameter}', 'ReportController@checkins');
+    Route::get('/slotbookings/{parameter}', 'ReportController@slotbookings');
     Route::get('/checkin/users/{userid}/{parameter}', 'ReportController@checkinuser');
     Route::post('/api/usercheckin', 'ApiController@usercheckin');
     Route::get('/api/getmallcheckins/{parameter}', 'ApiController@getmallcheckins');

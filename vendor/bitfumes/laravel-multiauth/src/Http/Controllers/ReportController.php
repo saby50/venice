@@ -24,6 +24,21 @@ class ReportController extends Controller
        $type="web";
       return view('vendor.multiauth.admin.reports.unit_revenue', compact('datetype','filters','type','units','unit_id','custom'));
   }
+  function slotbookings($parameter) {
+    if ($parameter=="todays") {
+       $data = DB::table('book_slot')->whereDate('created_at', Carbon::today())->get();
+    }else {
+      $data = DB::table('book_slot')->get();
+    }
+      $type= "web";
+
+    $filters = DB::table('filter_types')
+    ->where('page_name','bookings')
+    ->where('filter_value','!=','custom')
+    ->get();
+    return view('vendor.multiauth.admin.reports.slotbooking', compact('type','filters','parameter','data'));
+
+  }
   function checkinuser($unit_id,$parameter) {
     $type= "web";
     if ($parameter=="todays") {

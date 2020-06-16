@@ -123,7 +123,8 @@ $food_check = Helper::get_unit_by_email_food(Auth::user()->email);
                <li><a href="<?= URL::to('admin/units/reports/daily/'.Helper::get_units().'/'.date('m-Y')) ?>">Unit Revenue</a></li>
                <li><a href="<?php echo e(URL::to('admin/feedbacks/all/all')); ?>">Feedback</a></li>
                <li><a href="<?php echo e(URL::to('admin/gondolier/reports/todays')); ?>">Gondolier</a></li>     
-               <li><a href="<?php echo e(URL::to('admin/checkins/todays')); ?>">User checkins</a></li>            
+               <li><a href="<?php echo e(URL::to('admin/checkins/todays')); ?>">User checkins</a></li>
+               <li><a href="<?php echo e(URL::to('admin/slotbookings/todays')); ?>">Slot Bookings</a></li>            
             </ul></li>
              
           <?php endif; ?> 
