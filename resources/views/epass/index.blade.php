@@ -8,7 +8,7 @@ e-Pass
 <div class="recyclerview firstbox">
 
 	<div class="row">
-		<div class="row" style="width: 100%">
+		<div class="row" style="width: 100%;margin: 0 auto;">
          @if (session('status'))
 				<div class="widget no-color">
 						<div class="alert alert-success">

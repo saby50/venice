@@ -26,17 +26,17 @@ class ReportController extends Controller
   }
   function slotbookings($parameter) {
     if ($parameter=="todays") {
-       $data = DB::table('book_slot')->whereDate('date', Carbon::today())->get();
+       $data = DB::table('book_slot')->whereDate('date', Carbon::today())->orderBy('created_at')->get();
     }elseif($parameter=="monthly") {
        $now = Carbon::now();
        $month = $now->month;
-      $data = DB::table('book_slot')->whereMonth('date', $month)->get();
+      $data = DB::table('book_slot')->whereMonth('date', $month)->orderBy('created_at')->get();
     }elseif($parameter=="lastmonth") {
        $month = new Carbon('last month');
-     $data = DB::table('book_slot')->whereMonth('date', $month)->get();
+     $data = DB::table('book_slot')->whereMonth('date', $month)->orderBy('created_at')->get();
     }elseif($parameter=="yesterday") {
       $month = new Carbon('yesterday');
-     $data = DB::table('book_slot')->whereDate('date', $month)->get();
+     $data = DB::table('book_slot')->whereDate('date', $month)->orderBy('created_at')->get();
     }else {
       $data = DB::table('book_slot')->get();
     }
