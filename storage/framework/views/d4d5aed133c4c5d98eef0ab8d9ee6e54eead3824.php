@@ -97,8 +97,8 @@ User Checkins
 						 	<?php foreach($userinfo as $k => $v): ?>
 								<tr>
 									<td><?= $v->name ?><br /><?= $v->email ?><br /><?= $v->phone ?></td>
-									<td><?= $value->date ?></td>
-									<td><?= $value->time ?></td>
+									<td><?= date('d-m-Y', strtotime($value->date)) ?></td>
+									<td><?= date('h:i', strtotime($value->time)) ?></td>
 									<td><?= $value->created_at ?></td>
 								</tr>
 								<?php endforeach; ?>

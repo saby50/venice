@@ -4,12 +4,8 @@ e-Pass
 
 <?php $__env->startSection('content'); ?>
 <div class="recyclerview firstbox">
+
 	<div class="row">
-		<h4 style="text-align: center;width: 100%;">Scan e-Pass</h4>
-		<div class="qrcode"><?= QrCode::size(300)->generate(Auth::user()->id); ?>
-			<center><strong>Name:</strong> <?= Auth::user()->name ?><br /> <strong>Phone:</strong> <?= Auth::user()->phone ?></center>
-		</div>
-		<h4 style="margin-top: 40px;text-align: center;width: 100%;">Book Your Slot</h4>
 		<div class="row">
          <?php if(session('status')): ?>
 				<div class="widget no-color">
@@ -23,6 +19,12 @@ e-Pass
 				</div>
 			<?php endif; ?>
 		</div>	
+		<h4 style="text-align: center;width: 100%;">Scan e-Pass</h4>
+		<div class="qrcode"><?= QrCode::size(300)->generate(Auth::user()->id); ?>
+			<center><strong>Name:</strong> <?= Auth::user()->name ?><br /> <strong>Phone:</strong> <?= Auth::user()->phone ?></center>
+		</div>
+		<h4 style="margin-top: 40px;text-align: center;width: 100%;">Book Your Slot</h4>
+		
 		<div class="slot-box">
 	       
 			<form method="post" action="<?= URL::to('book_slot') ?>">

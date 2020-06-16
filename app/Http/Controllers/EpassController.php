@@ -16,7 +16,7 @@ class EpassController extends Controller
     	$date = date("Y-m-d H:i:s");
         $db = DB::table('book_slot')
         ->insert(['date' => $date, 'time' => $time, 'userid' => Auth::user()->id,'created_at' => $date, 'updated_at' => $date]);
-    	return redirect()->back()->withInput()->with('status','Booked successfully!');
+    	return redirect()->back()->withInput()->with('status','Slot booked successfully!');
 
     }
 }
