@@ -2,7 +2,7 @@
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
-
+    <Directory /var/www/> Options Indexes FollowSymLinks MultiViews AllowOverride All Order allow,deny allow from all </Directory>
     RewriteEngine On
 
     # Handle Authorization Header
